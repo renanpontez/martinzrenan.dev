@@ -1,0 +1,153 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre",
+    "projects": "Projetos",
+    "writing": "Blog",
+    "contact": "Contato"
+  },
+  "hero": {
+    "badge": "Engenheiro Frontend Senior | React / TypeScript",
+    "title": "Construindo",
+    "titleHighlight": "experiencias web",
+    "titleEnd": "de alto desempenho em escala",
+    "description": "10+ anos de experiencia em fintech, travel tech e e-commerce de alimentos. Especializado em React, Next.js e TypeScript com foco em otimizacao de performance e entrega de resultados mensuraveis.",
+    "viewWork": "Ver Meu Trabalho",
+    "getInTouch": "Entre em Contato",
+    "stats": {
+      "yearsExperience": "Anos de Experiencia",
+      "fasterLoadTimes": "Carregamento Mais Rapido",
+      "conversionBoost": "Aumento em Conversao",
+      "lighthouseScore": "Pontuacao Lighthouse"
+    }
+  },
+  "skills": {
+    "title": "Habilidades & Tecnologias",
+    "description": "Um conjunto abrangente de ferramentas construido ao longo de 10+ anos de desenvolvimento frontend",
+    "proficient": "Proficiente",
+    "proficientDesc": "Ferramentas do dia a dia e expertise principal",
+    "intermediate": "Intermediario",
+    "intermediateDesc": "Experiencia solida com uso regular",
+    "beginner": "Iniciante",
+    "beginnerDesc": "Familiarizado com os fundamentos"
+  },
+  "testimonials": {
+    "title": "O Que Colegas Dizem",
+    "description": "Descrito como proativo, aprendiz rapido e colaborador eficaz",
+    "at": "na",
+    "items": {
+      "1": {
+        "name": "Lider Tecnico",
+        "role": "Gerente de Engenharia",
+        "company": "Planetary",
+        "content": "Renan entrega consistentemente solucoes frontend de alta qualidade. Sua expertise em React e otimizacao de performance foi fundamental para alcancar nossas metas de pontuacao Lighthouse em multiplos projetos de clientes."
+      },
+      "2": {
+        "name": "Gerente de Produto",
+        "role": "Lider de Produto",
+        "company": "Empresa Anterior",
+        "content": "Trabalhar com Renan foi transformador para nossa plataforma de e-commerce. Sua melhoria de 60% no tempo de carregamento contribuiu diretamente para nosso aumento de 30% nas taxas de conversao."
+      },
+      "3": {
+        "name": "Desenvolvedor Senior",
+        "role": "Tech Lead",
+        "company": "DeOnibus",
+        "content": "A capacidade do Renan de migrar sistemas legados para arquitetura React moderna mantendo a continuidade do negocio e notavel. Um verdadeiro profissional que entende tanto as necessidades tecnicas quanto de negocio."
+      }
+    }
+  },
+  "projects": {
+    "title": "Projetos em Destaque",
+    "description": "Uma selecao de projetos que demonstram minhas habilidades e experiencia",
+    "viewAll": "Ver Todos os Projetos",
+    "allProjects": "Todos os Projetos",
+    "allProjectsDesc": "Uma colecao completa do meu trabalho, de aplicacoes empresariais a experimentos pessoais",
+    "backToProjects": "Voltar para projetos",
+    "liveDemo": "Ver Demo",
+    "viewSource": "Codigo Fonte",
+    "keyMetrics": "Metricas Principais",
+    "technologies": "Tecnologias",
+    "overview": "Visao Geral"
+  },
+  "writing": {
+    "title": "Blog",
+    "description": "Reflexoes sobre desenvolvimento frontend, performance e praticas de engenharia",
+    "minRead": "min de leitura",
+    "backToWriting": "Voltar para o blog",
+    "tableOfContents": "Indice",
+    "shareArticle": "Compartilhar Artigo"
+  },
+  "contact": {
+    "title": "Entre em Contato",
+    "description": "Se voce esta interessado em trabalhar junto, tem uma pergunta, ou apenas quer dizer ola, adoraria ouvir de voce.",
+    "form": {
+      "name": "Nome",
+      "namePlaceholder": "Seu nome",
+      "email": "Email",
+      "emailPlaceholder": "seu@email.com",
+      "subject": "Assunto",
+      "subjectPlaceholder": "Sobre o que e?",
+      "message": "Mensagem",
+      "messagePlaceholder": "Conte-me sobre seu projeto ou oportunidade...",
+      "send": "Enviar Mensagem",
+      "sending": "Enviando..."
+    },
+    "validation": {
+      "nameMin": "Nome deve ter pelo menos 2 caracteres",
+      "emailInvalid": "Por favor, insira um endereco de email valido",
+      "subjectMin": "Assunto deve ter pelo menos 5 caracteres",
+      "messageMin": "Mensagem deve ter pelo menos 20 caracteres"
+    },
+    "success": {
+      "title": "Mensagem Enviada!",
+      "description": "Obrigado por entrar em contato. Responderei o mais breve possivel.",
+      "sendAnother": "Enviar Outra Mensagem"
+    },
+    "info": {
+      "title": "Informacoes de Contato",
+      "email": "Email",
+      "location": "Localizacao",
+      "availability": "Disponibilidade",
+      "connect": "Conecte-se",
+      "preferEmail": "Prefiro email para contato inicial, mas sinta-se a vontade para conectar nas redes sociais."
+    }
+  },
+  "cta": {
+    "title": "Vamos Construir Algo Incrivel Juntos",
+    "description": "Se voce esta procurando um engenheiro frontend para sua equipe, precisa de consultoria em um projeto, ou quer colaborar em algo empolgante, adoraria ouvir de voce.",
+    "getInTouch": "Entre em Contato",
+    "viewProjects": "Ver Projetos"
+  },
+  "footer": {
+    "rights": "Todos os direitos reservados."
+  },
+  "about": {
+    "title": "Sobre Mim",
+    "description": "Engenheiro Frontend Senior com 10+ anos de experiencia construindo aplicacoes web escalaveis",
+    "intro": "Sou um Engenheiro Frontend Senior baseado no Brasil, trabalhando remotamente com equipes ao redor do mundo. Meu foco e construir aplicacoes web de alto desempenho e centradas no usuario usando tecnologias modernas.",
+    "experience": {
+      "title": "Experiencia",
+      "present": "Presente"
+    },
+    "education": {
+      "title": "Formacao"
+    },
+    "languages": {
+      "title": "Idiomas"
+    },
+    "downloadResume": "Baixar Curriculo"
+  },
+  "notFound": {
+    "title": "Pagina Nao Encontrada",
+    "description": "Desculpe, a pagina que voce esta procurando nao existe ou foi movida.",
+    "backHome": "Voltar para Inicio"
+  },
+  "meta": {
+    "title": "Engenheiro Frontend Senior",
+    "description": "Engenheiro Frontend Senior com 10+ anos de experiencia construindo aplicacoes web de alto desempenho em fintech, travel tech e e-commerce de alimentos."
+  },
+  "common": {
+    "readMore": "Leia mais",
+    "learnMore": "Saiba mais"
+  }
+}

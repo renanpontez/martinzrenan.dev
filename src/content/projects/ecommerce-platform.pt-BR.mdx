@@ -1,0 +1,87 @@
+---
+title: "Redesign de Plataforma E-Commerce"
+description: "Um redesign completo do frontend de uma plataforma de e-commerce de grande escala, melhorando performance, acessibilidade e experiencia do usuario."
+excerpt: "Liderei o redesign do frontend de uma grande plataforma de e-commerce servindo milhoes de usuarios, resultando em melhorias significativas em performance e taxas de conversao."
+coverImage: ""
+technologies:
+  - React
+  - Next.js
+  - TypeScript
+  - Tailwind CSS
+  - Redux Toolkit
+  - React Query
+role: "Lead Frontend Engineer"
+duration: "8 meses"
+company: "TechCorp"
+liveUrl: ""
+githubUrl: ""
+featured: true
+metrics:
+  - label: "Pontuacao Performance"
+    value: "95+"
+    improvement: "+40 pontos"
+  - label: "Taxa de Conversao"
+    value: "+23%"
+    improvement: "Ano a ano"
+  - label: "Tempo de Carregamento"
+    value: "1.2s"
+    improvement: "-60% reducao"
+publishedAt: "2024-06-15"
+---
+
+## O Desafio
+
+A plataforma de e-commerce existente foi construida com tecnologia legada que resultava em carregamentos lentos, experiencia mobile ruim e taxas de conversao em declinio. O negocio precisava de um frontend moderno e performatico que pudesse escalar com o trafego crescente.
+
+## Meu Papel
+
+Como Lead Frontend Engineer, fui responsavel por:
+
+- Arquitetar o novo frontend usando Next.js e TypeScript
+- Liderar uma equipe de 4 desenvolvedores frontend
+- Estabelecer padroes de codigo e processos de revisao
+- Implementar o design system
+- Otimizar performance para Core Web Vitals
+
+## Abordagem Tecnica
+
+### Decisoes de Arquitetura
+
+Escolhemos Next.js por suas excelentes capacidades de SSR e recursos de otimizacao integrados. O app router nos permitiu aproveitar React Server Components para melhor performance.
+
+Decisoes arquiteturais chave incluiram:
+
+- **Server Components por padrao** - Reduziu significativamente o JavaScript do cliente
+- **Streaming SSR** - Melhorou o Time to First Byte (TTFB)
+- **Edge middleware** - Tratou personalizacao e testes A/B na edge
+- **ISR** - Equilibrio entre performance estatica e conteudo dinamico
+
+### Gerenciamento de Estado
+
+Implementamos uma abordagem hibrida:
+
+- **React Query** para estado do servidor (produtos, carrinho, dados do usuario)
+- **Redux Toolkit** para estado de UI complexo (filtros, modais, fluxo de checkout)
+- **Estado da URL** para filtros e paginacao compartilhaveis
+
+### Otimizacoes de Performance
+
+- Implementamos otimizacao de imagens com conversao automatica para WebP
+- Code splitting e lazy loading para conteudo abaixo da dobra
+- Prefetching para caminhos de navegacao provaveis
+- Service worker para suporte offline e cache
+
+## Aprendizados Chave
+
+1. **Migracao incremental funciona** - Migramos pagina por pagina, o que reduziu o risco
+2. **Meça tudo** - Metricas de usuarios reais foram essenciais para priorizacao
+3. **Acessibilidade nao e opcional** - Detectamos problemas significativos atraves de testes automatizados
+
+## Resultados
+
+O redesign resultou em impacto mensuravel no negocio:
+
+- **95+ pontuacao Lighthouse Performance** (subiu de 55)
+- **23% de aumento na taxa de conversao**
+- **60% de reducao no tempo de carregamento**
+- **40% de reducao na taxa de rejeicao**

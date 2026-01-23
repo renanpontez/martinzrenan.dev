@@ -1,0 +1,90 @@
+---
+title: "Entendendo React Server Components"
+description: "Um mergulho profundo em React Server Components, como funcionam e quando usa-los em suas aplicacoes Next.js."
+excerpt: "Aprenda os fundamentos de React Server Components e como eles podem melhorar a performance da sua aplicacao."
+coverImage: ""
+tags:
+  - React
+  - Next.js
+  - Performance
+publishedAt: "2024-05-20"
+featured: true
+---
+
+React Server Components (RSC) representam uma mudanca fundamental em como construimos aplicacoes React. Vamos explorar o que sao, como funcionam e quando voce deve usa-los.
+
+## O Que Sao Server Components?
+
+Server Components sao componentes React que renderizam exclusivamente no servidor. Diferente de componentes React tradicionais que rodam no navegador, Server Components nunca enviam JavaScript para o cliente.
+
+Isso tem varias implicacoes importantes:
+
+- **Zero impacto no bundle** - Server Components nao aumentam seu bundle JavaScript
+- **Acesso direto ao backend** - Voce pode consultar bancos de dados diretamente sem uma camada de API
+- **Melhor seguranca** - Dados sensiveis e logica nunca chegam ao cliente
+
+## Server vs Client Components
+
+No Next.js 13+ com o App Router, todos os componentes sao Server Components por padrao. Para criar um Client Component, voce adiciona a diretiva `"use client"` no topo do arquivo:
+
+```tsx
+"use client"
+
+import { useState } from "react"
+
+export function Counter() {
+  const [count, setCount] = useState(0)
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      Contagem: {count}
+    </button>
+  )
+}
+```
+
+## Quando Usar Cada Um
+
+**Use Server Components quando:**
+
+- Buscando dados de um banco de dados ou API
+- Renderizando conteudo estatico
+- Usando dependencias exclusivas do servidor
+- Mantendo logica sensivel no servidor
+
+**Use Client Components quando:**
+
+- Usando hooks do React (useState, useEffect, etc.)
+- Adicionando event listeners (onClick, onChange, etc.)
+- Usando APIs exclusivas do navegador
+- Precisando de interatividade
+
+## O Padrao de Composicao
+
+Um padrao comum e manter a busca de dados em Server Components e passar dados para Client Components para interatividade:
+
+```tsx
+// Server Component
+async function ProductPage({ id }) {
+  const product = await fetchProduct(id)
+
+  return (
+    <div>
+      <h1>{product.name}</h1>
+      <AddToCartButton product={product} /> {/* Client Component */}
+    </div>
+  )
+}
+```
+
+## Beneficios de Performance
+
+Server Components podem melhorar significativamente a performance:
+
+1. **Bundles menores** - Menos JavaScript para baixar e parsear
+2. **Busca de dados mais rapida** - Servidor esta mais perto do banco de dados
+3. **Streaming** - Conteudo pode ser enviado progressivamente
+4. **Cache** - Conteudo renderizado no servidor e facilmente cacheavel
+
+## Conclusao
+
+React Server Components sao uma ferramenta poderosa para construir aplicacoes React performaticas. Ao entender quando usar Server vs Client Components, voce pode otimizar sua aplicacao tanto para performance quanto para experiencia do usuario.

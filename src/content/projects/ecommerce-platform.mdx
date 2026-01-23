@@ -1,0 +1,87 @@
+---
+title: "E-Commerce Platform Redesign"
+description: "A complete frontend redesign of a large-scale e-commerce platform, improving performance, accessibility, and user experience."
+excerpt: "Led the frontend redesign of a major e-commerce platform serving millions of users, resulting in significant improvements in performance and conversion rates."
+coverImage: ""
+technologies:
+  - React
+  - Next.js
+  - TypeScript
+  - Tailwind CSS
+  - Redux Toolkit
+  - React Query
+role: "Lead Frontend Engineer"
+duration: "8 months"
+company: "TechCorp"
+liveUrl: ""
+githubUrl: ""
+featured: true
+metrics:
+  - label: "Performance Score"
+    value: "95+"
+    improvement: "+40 points"
+  - label: "Conversion Rate"
+    value: "+23%"
+    improvement: "Year over year"
+  - label: "Page Load Time"
+    value: "1.2s"
+    improvement: "-60% reduction"
+publishedAt: "2024-06-15"
+---
+
+## The Challenge
+
+The existing e-commerce platform was built on legacy technology that resulted in slow page loads, poor mobile experience, and declining conversion rates. The business needed a modern, performant frontend that could scale with growing traffic.
+
+## My Role
+
+As the Lead Frontend Engineer, I was responsible for:
+
+- Architecting the new frontend using Next.js and TypeScript
+- Leading a team of 4 frontend developers
+- Establishing coding standards and review processes
+- Implementing the design system
+- Optimizing performance for Core Web Vitals
+
+## Technical Approach
+
+### Architecture Decisions
+
+We chose Next.js for its excellent SSR capabilities and built-in optimization features. The app router allowed us to leverage React Server Components for improved performance.
+
+Key architectural decisions included:
+
+- **Server Components by default** - Reduced client-side JavaScript significantly
+- **Streaming SSR** - Improved Time to First Byte (TTFB)
+- **Edge middleware** - Handled personalization and A/B testing at the edge
+- **ISR** - Balanced between static performance and dynamic content
+
+### State Management
+
+We implemented a hybrid approach:
+
+- **React Query** for server state (products, cart, user data)
+- **Redux Toolkit** for complex UI state (filters, modals, checkout flow)
+- **URL state** for shareable filters and pagination
+
+### Performance Optimizations
+
+- Implemented image optimization with automatic WebP conversion
+- Code splitting and lazy loading for below-the-fold content
+- Prefetching for likely navigation paths
+- Service worker for offline support and caching
+
+## Key Learnings
+
+1. **Incremental migration works** - We migrated page by page, which reduced risk
+2. **Measure everything** - Real user metrics were essential for prioritization
+3. **Accessibility is not optional** - We caught significant issues through automated testing
+
+## Results
+
+The redesign resulted in measurable business impact:
+
+- **95+ Lighthouse Performance score** (up from 55)
+- **23% increase in conversion rate**
+- **60% reduction in page load time**
+- **40% reduction in bounce rate**
