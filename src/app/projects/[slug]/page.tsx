@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Calendar, ExternalLink, Github, User } from "lucide-react";
-import { MDXRemote } from "next-mdx-remote/rsc";
+import { evaluate } from "@mdx-js/mdx";
+import * as runtime from "react/jsx-runtime";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -155,7 +156,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
         {/* Content */}
         <article className="prose prose-neutral dark:prose-invert mx-auto mt-12 max-w-3xl">
-          <MDXRemote source={content} components={mdxComponents} />
+          {await evaluate(content, { ...runtime }).then(({ default: MDXContent }) => (
+            <MDXContent components={mdxComponents} />
+          ))}
         </article>
       </Container>
     </div>

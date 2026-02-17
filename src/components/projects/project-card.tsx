@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Bus, Sparkles, BarChart3, UtensilsCrossed } from "lucide-react";
+import { ArrowRight, Bus, Globe, Sparkles, BarChart3, UtensilsCrossed } from "lucide-react";
 import Link from "next/link";
 import type { Project } from "@/types";
 
@@ -12,6 +12,7 @@ interface ProjectCardProps {
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   bus: Bus,
+  globe: Globe,
   sparkles: Sparkles,
   "bar-chart-3": BarChart3,
   utensils: UtensilsCrossed,

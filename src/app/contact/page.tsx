@@ -65,13 +65,10 @@ export default function ContactPage() {
         </div>
 
         <div className="mt-16 grid gap-16 lg:grid-cols-2">
-          {/* Contact Form */}
+          {/* Contact */}
           <div>
             <h2 className="text-xl font-semibold">Send a Message</h2>
-            <p className="mt-2 text-muted-foreground">
-              I&apos;ll get back to you as soon as possible.
-            </p>
-            <div className="mt-8">
+            <div className="mt-6">
               <ContactForm />
             </div>
           </div>

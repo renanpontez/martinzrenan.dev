@@ -5,6 +5,7 @@ import { ArrowRight, Mail } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
+import { siteConfig } from "@/lib/site-config";
 
 export function ContactCTA() {
   return (
@@ -25,10 +26,10 @@ export function ContactCTA() {
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button asChild size="lg" variant="secondary" className="gap-2">
-              <Link href="/contact">
+              <a href={`mailto:${siteConfig.email}`}>
                 <Mail className="h-4 w-4" />
                 Get in Touch
-              </Link>
+              </a>
             </Button>
             <Button
               asChild

@@ -1,10 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Bus, Sparkles, BarChart3, UtensilsCrossed } from "lucide-react";
+import { ArrowRight, Bus, Globe, Sparkles, BarChart3, UtensilsCrossed } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Container } from "@/components/layout/container";
 import type { Project } from "@/types";
 
@@ -14,6 +13,7 @@ interface FeaturedProjectsProps {
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   bus: Bus,
+  globe: Globe,
   sparkles: Sparkles,
   "bar-chart-3": BarChart3,
   utensils: UtensilsCrossed,
