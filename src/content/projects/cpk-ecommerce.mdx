@@ -1,0 +1,88 @@
+---
+title: "California Pizza Kitchen | Food E-Commerce"
+description: "Led frontend performance optimization, accessibility improvements, and catering funnel redesign for CPK's high-traffic e-commerce platform serving 400k+ monthly users."
+excerpt: "Optimized a high-traffic food e-commerce platform serving 400k+ monthly users, reducing page load by 25%, increasing catering revenue by 10%, and boosting accessibility from 40 to 90."
+coverImage: ""
+icon: "utensils"
+technologies:
+  - React
+  - Next.js
+  - TypeScript
+  - Sass
+  - Sanity CMS
+  - REST APIs
+role: "Senior Frontend Engineer"
+duration: "2+ years"
+company: "Planetary"
+liveUrl: "https://cpk.com"
+githubUrl: ""
+featured: true
+metrics:
+  - label: "Page Load"
+    value: "-25%"
+    improvement: "4.4s → 3.3s"
+  - label: "Catering Revenue"
+    value: "+10%"
+    improvement: "5% → 5.52%"
+  - label: "Accessibility"
+    value: "90+"
+    improvement: "From 40 → 90 Lighthouse"
+publishedAt: "2024-09-01"
+---
+
+## The Challenge
+
+California Pizza Kitchen is a major restaurant chain with a high-traffic e-commerce platform serving 400k+ monthly users for online ordering and catering. The platform built with Next.js, Sass, and multiple REST API integrations was suffering from slow page loads (~4.4s) and a poor Lighthouse accessibility score of just 40, potentially violating WCAG guidelines. The catering funnel also had conversion issues with users dropping off at the location selection step.
+
+## My Role
+
+As the Senior Frontend Engineer at Planetary, I was responsible for:
+
+- Optimizing UI and page architecture for performance across the platform
+- Implementing accessibility best practices across 100+ pages
+- Redesigning the catering e-commerce funnel with location-based features
+- Mentoring junior developers with structured code reviews and component templates
+
+## Technical Approach
+
+### Performance Optimization
+
+I focused on the core rendering bottlenecks in the Next.js app:
+
+- **Component refactoring** - Reduced unnecessary re-renders and optimized critical rendering paths
+- **Image optimization** - Implemented responsive images, lazy loading, and modern formats
+- **Code splitting** - Strategic prefetching for likely navigation paths
+- **Page architecture** - Restructured how pages loaded data and rendered content
+
+These changes cut page load from ~4.4s to ~3.3s, a 25% improvement across the platform.
+
+### Accessibility Overhaul
+
+I systematically improved accessibility across 100+ pages, boosting the Lighthouse score from 40 to 90:
+
+- **Semantic HTML** - Replaced div-heavy markup with proper heading hierarchy, landmarks, and ARIA labels
+- **Color contrast** - Audited and fixed insufficient contrast ratios across the design system
+- **Keyboard navigation** - Ensured all interactive elements were reachable and operable via keyboard
+- **Screen reader support** - Added descriptive alt text, live regions for dynamic content, and proper form labeling
+
+### Catering Funnel Redesign
+
+The catering ordering flow was losing users at the location selection step. I redesigned it with:
+
+- **Smart location-based features** - Auto-detected user location and surfaced nearest stores
+- **Improved internal linking** - Better navigation between menu, catering, and checkout
+- **Streamlined UX** - Reduced steps to complete a catering order
+
+This drove a 10% increase in catering revenue (from ~5% to ~5.52%).
+
+## Key Learnings
+
+1. **Accessibility is systematic work** - Component-level fixes applied consistently across the design system beat page-by-page patching
+2. **Small UX improvements compound** - The catering funnel changes individually seemed minor but collectively drove meaningful revenue growth
+3. **Performance optimization requires profiling first** - Identifying the actual bottlenecks (rendering, not network) saved weeks of misdirected effort
+
+## Results
+
+- **25% reduction in page load time** - from ~4.4s to ~3.3s serving 400k+ monthly users
+- **Lighthouse accessibility 40 → 90** across 100+ pages with WCAG compliance
+- **10% increase in catering revenue** - from ~5% to ~5.52% through funnel redesign

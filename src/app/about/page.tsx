@@ -1,48 +1,40 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
-import { ArrowRight, Mail, Globe } from "lucide-react";
+import { ArrowRight, Mail, Globe, Zap, TrendingUp, Blocks, BookOpen } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  getLocalizedExperience,
-  getLocalizedEducation,
-  languages,
-} from "@/lib/site-config";
+import { experience, education, languages } from "@/lib/site-config";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("about");
+export const metadata: Metadata = {
+  title: "About Me",
+  description:
+    "Senior Frontend Engineer with 10+ years of experience building scalable web applications",
+};
 
-  return {
-    title: t("title"),
-    description: t("description"),
-  };
-}
-
-export default async function AboutPage() {
-  const t = await getTranslations("about");
-  const experience = getLocalizedExperience("en");
-  const education = getLocalizedEducation("en");
-
+export default function AboutPage() {
   const values = [
     {
       title: "Performance First",
+      icon: Zap,
       description:
         "Every millisecond matters. I focus on optimizing page load times and Core Web Vitals to deliver exceptional user experiences.",
     },
     {
       title: "Business Impact",
+      icon: TrendingUp,
       description:
         "Technical excellence should translate to business results. I measure success by conversion rates, user engagement, and ROI.",
     },
     {
       title: "Clean Architecture",
+      icon: Blocks,
       description:
         "Maintainable code is sustainable code. I build scalable systems with clear patterns and comprehensive documentation.",
     },
     {
       title: "Continuous Learning",
+      icon: BookOpen,
       description:
         "The web evolves rapidly. I stay current with best practices while sharing knowledge through mentoring and code reviews.",
     },
@@ -78,7 +70,7 @@ export default async function AboutPage() {
         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-8">
           <div className="lg:col-span-2">
             <Badge variant="secondary" className="mb-4">
-              {t("title")}
+              About Me
             </Badge>
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
               Senior Frontend Engineer
@@ -167,6 +159,9 @@ export default async function AboutPage() {
                 key={value.title}
                 className="rounded-xl border border-border/60 bg-card p-6"
               >
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  <value.icon className="h-5 w-5" />
+                </div>
                 <h3 className="text-lg font-semibold">{value.title}</h3>
                 <p className="mt-2 text-muted-foreground">{value.description}</p>
               </div>
@@ -177,7 +172,7 @@ export default async function AboutPage() {
         {/* Experience */}
         <section className="mt-24">
           <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-            {t("experience.title")}
+            Experience
           </h2>
           <p className="mt-4 max-w-2xl text-muted-foreground">
             10+ years building software across fintech, travel tech, and food
@@ -219,7 +214,7 @@ export default async function AboutPage() {
         <section className="mt-24 grid gap-16 lg:grid-cols-2">
           <div>
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-              {t("education.title")}
+              Education
             </h2>
             <div className="mt-8 space-y-6">
               {education.map((edu, index) => (
@@ -239,7 +234,7 @@ export default async function AboutPage() {
 
           <div>
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-              {t("languages.title")}
+              Languages
             </h2>
             <div className="mt-8 space-y-4">
               {languages.map((lang, index) => (

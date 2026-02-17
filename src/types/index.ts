@@ -4,6 +4,7 @@ export interface Project {
   description: string;
   excerpt: string;
   coverImage: string;
+  icon?: string;
   technologies: string[];
   role: string;
   duration: string;

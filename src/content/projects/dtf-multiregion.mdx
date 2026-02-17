@@ -1,0 +1,91 @@
+---
+title: "Din Tai Fung | Multi-Region Website"
+description: "Architected a multi-language, multi-region website across the US, Canada, and Europe with geo-redirects, ISR caching, and Sanity CMS integration."
+excerpt: "Built a multi-language, multi-region restaurant website with geo-redirects and ISR caching, cutting infrastructure costs by 35% and boosting Lighthouse from 60 to 90+."
+coverImage: ""
+icon: "globe"
+technologies:
+  - React
+  - Next.js
+  - TypeScript
+  - Sanity CMS
+  - ISR
+  - GROQ
+role: "Senior Frontend Engineer"
+duration: "6 months"
+company: "Planetary"
+liveUrl: "https://dtf.com"
+githubUrl: ""
+featured: true
+metrics:
+  - label: "Infra Costs"
+    value: "-35%"
+    improvement: "ISR + webhook revalidation"
+  - label: "Lighthouse"
+    value: "90+"
+    improvement: "From 60 → 90+"
+  - label: "Regions"
+    value: "3"
+    improvement: "US, Canada, Europe"
+publishedAt: "2024-11-01"
+---
+
+## The Challenge
+
+Din Tai Fung, a high-ticket restaurant brand, needed a complete multi-language, multi-region website launched across the US, Canada, and Europe to align with a seasonal campaign. The site required geo-redirects to route users to the correct regional version, localized content managed through a CMS, and top performance to handle traffic spikes during the campaign. The backend team was in a different time zone with limited availability, which meant architectural decisions had to be made with incomplete information.
+
+## My Role
+
+As the Senior Frontend Engineer at Planetary, I took ownership of the entire frontend architecture:
+
+- Architecting the geo-redirect system for multi-region routing
+- Building localized features with React, Next.js, and Sanity CMS
+- Implementing ISR caching with webhook-based revalidation
+- Leading the Sanity CMS multilingual data migration
+- Coordinating with a team of developers, delegating component work and running daily code reviews
+
+## Technical Approach
+
+### Multi-Region Architecture
+
+Each region (US, Canada, Europe) needed its own localized content while sharing the same codebase:
+
+- **Geo-redirect system** - Detected user location and routed to the correct regional version automatically
+- **Localized features** - Region-specific menus, store locations, and content served dynamically
+- **Shared component library** - One codebase powering all regions with locale-aware rendering
+
+### ISR Caching Strategy
+
+I designed the caching architecture with limited backend documentation, building in flexibility:
+
+- **ISR with webhook revalidation** - Pages statically generated at build time, then revalidated on-demand via Sanity webhooks when content changed
+- **Fallback system** - Time-based revalidation as backup if webhooks failed or were delayed
+- **Feature flags** - Webhook integration could be toggled without redeployment
+
+This cut infrastructure costs by 35% while boosting the Lighthouse score from 60 to 90+.
+
+### CMS Data Migration
+
+Owned the Sanity CMS multilingual migration for the i18n rollout:
+
+- Migrated thousands of documents using GROQ queries and TypeScript migration scripts
+- Achieved 100% content integrity post-deployment
+- Enabled seamless content management across all three regions
+
+### Delivery Under Pressure
+
+The project had an aggressive timeline tied to a seasonal campaign. I broke it into parallel work streams - handling core architecture and geo-location logic while delegating component development to junior developers with daily code reviews to maintain quality.
+
+## Key Learnings
+
+1. **Design for incomplete information** - The flexible ISR architecture required only minor adjustments when full backend documentation arrived weeks later
+2. **Parallel work streams accelerate delivery** - Delegating effectively while owning the critical path kept the project on schedule
+3. **ISR + webhooks is ideal for CMS-driven sites** - Static performance with real-time content updates is the best of both worlds
+
+## Results
+
+- **35% reduction in infrastructure costs** - via ISR caching and webhook-based revalidation
+- **Lighthouse score 60 → 90+** across all regional sites
+- **3 regions launched on time** - US, Canada, and Europe for the seasonal campaign
+- **100% content integrity** in multilingual CMS migration of thousands of documents
+- **Flexible architecture** - Only minor adjustments needed when full backend specs arrived

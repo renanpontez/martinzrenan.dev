@@ -1,87 +1,89 @@
 ---
-title: "E-Commerce Platform Redesign"
-description: "A complete frontend redesign of a large-scale e-commerce platform, improving performance, accessibility, and user experience."
-excerpt: "Led the frontend redesign of a major e-commerce platform serving millions of users, resulting in significant improvements in performance and conversion rates."
+title: "DeOnibus E-Commerce Migration"
+description: "Led the migration of a multi-tenant bus ticketing platform from legacy JavaScript to React with SSR, serving 100+ white-label domains and millions of annual orders."
+excerpt: "Migrated a high-traffic travel tech e-commerce platform from legacy JS to React with SSR, reducing page load time by 60% and increasing conversion rates by 30%."
 coverImage: ""
+icon: "bus"
 technologies:
   - React
-  - Next.js
+  - JavaScript
+  - Node.js
   - TypeScript
-  - Tailwind CSS
-  - Redux Toolkit
-  - React Query
-role: "Lead Frontend Engineer"
-duration: "8 months"
-company: "TechCorp"
+  - SCSS
+  - Redis
+  - Webpack
+  - Styled Components
+role: "Frontend Engineer"
+duration: "3+ years"
+company: "DeOnibus"
 liveUrl: ""
 githubUrl: ""
 featured: true
 metrics:
-  - label: "Performance Score"
-    value: "95+"
-    improvement: "+40 points"
-  - label: "Conversion Rate"
-    value: "+23%"
-    improvement: "Year over year"
   - label: "Page Load Time"
-    value: "1.2s"
-    improvement: "-60% reduction"
+    value: "-60%"
+    improvement: "From 10s to 4s"
+  - label: "Conversion Rate"
+    value: "+30%"
+    improvement: "From ~2% to ~2.6%"
+  - label: "Lost Orders Recovered"
+    value: "~500"
+    improvement: "5% recovery via retry bot"
 publishedAt: "2024-06-15"
 ---
 
 ## The Challenge
 
-The existing e-commerce platform was built on legacy technology that resulted in slow page loads, poor mobile experience, and declining conversion rates. The business needed a modern, performant frontend that could scale with growing traffic.
+DeOnibus was a travel tech e-commerce platform for bus tickets, operating as a multi-tenant system serving 100+ white-label domains for different bus companies across Brazil, processing millions of annual orders with real-time inventory management. The legacy JavaScript frontend had severe performance problems—page load times of around 10 seconds—and the codebase was extremely difficult to maintain with 80 separate CSS files with conflicting styles. Adding new features was becoming nearly impossible, and the slow performance was directly hurting conversion rates and driving users away.
 
 ## My Role
 
-As the Lead Frontend Engineer, I was responsible for:
+As the Frontend Engineer leading this migration, I was responsible for:
 
-- Architecting the new frontend using Next.js and TypeScript
-- Leading a team of 4 frontend developers
-- Establishing coding standards and review processes
-- Implementing the design system
-- Optimizing performance for Core Web Vitals
+- Architecting the gradual migration strategy from legacy JS to React
+- Implementing Server-Side Rendering for improved performance and SEO
+- Designing the new component-based CSS architecture
+- Building caching strategies with Redis for high-traffic volume
+- Maintaining feature parity across 100+ active white-label domains
+- Ensuring zero-downtime deployments throughout the migration
 
 ## Technical Approach
 
-### Architecture Decisions
+### Gradual Migration Strategy
 
-We chose Next.js for its excellent SSR capabilities and built-in optimization features. The app router allowed us to leverage React Server Components for improved performance.
+A "big bang" migration was not an option—we couldn't afford downtime with millions of annual orders. I architected a page-by-page migration strategy using React with Webpack, SSR, lazy loading, and Context API.
 
 Key architectural decisions included:
 
-- **Server Components by default** - Reduced client-side JavaScript significantly
-- **Streaming SSR** - Improved Time to First Byte (TTFB)
-- **Edge middleware** - Handled personalization and A/B testing at the edge
-- **ISR** - Balanced between static performance and dynamic content
+- **Server-Side Rendering** - Improved initial page load performance and SEO across all white-label domains
+- **Strategic lazy loading** - Prioritized critical rendering paths to get content visible faster
+- **Redis caching** - Handled high traffic volume efficiently with smart caching layers
+- **Context API** - Managed state across the multi-tenant architecture
 
-### State Management
+### CSS Consolidation
 
-We implemented a hybrid approach:
+The legacy system had 80 separate CSS files with conflicting styles. I consolidated them into structured SCSS files following a component-based architecture, reducing the count by 69% to just 25 files. I also introduced Styled Components for new components and Lottie animations to improve the UI.
 
-- **React Query** for server state (products, cart, user data)
-- **Redux Toolkit** for complex UI state (filters, modals, checkout flow)
-- **URL state** for shareable filters and pagination
+### Payment Recovery System
 
-### Performance Optimizations
+During the migration, we identified that approximately 5% of orders were being lost to failed payment attempts—about 500 lost orders translating to significant revenue loss. I collaborated with the backend team to build a Node.js REST API and TypeScript bot for automatic payment retries, recovering those lost orders.
 
-- Implemented image optimization with automatic WebP conversion
-- Code splitting and lazy loading for below-the-fold content
-- Prefetching for likely navigation paths
-- Service worker for offline support and caching
+### Fraud Prevention
+
+I optimized the payment validation flow and Adyen integration, which decreased fraud attempts by 14%—approximately 2,800 fewer fraud attempts per year.
 
 ## Key Learnings
 
-1. **Incremental migration works** - We migrated page by page, which reduced risk
-2. **Measure everything** - Real user metrics were essential for prioritization
-3. **Accessibility is not optional** - We caught significant issues through automated testing
+1. **Gradual migration reduces risk** - Migrating page by page while maintaining feature parity kept the business running
+2. **Performance drives revenue** - The direct correlation between page speed and conversion rate was dramatic
+3. **Technical debt compounds** - Investing in the foundation paid off exponentially as new features became faster to build
 
 ## Results
 
-The redesign resulted in measurable business impact:
+The migration delivered measurable business impact across all 100+ white-label clients:
 
-- **95+ Lighthouse Performance score** (up from 55)
-- **23% increase in conversion rate**
-- **60% reduction in page load time**
-- **40% reduction in bounce rate**
+- **60% reduction in page load time** — from 10 seconds to 4 seconds
+- **30% increase in conversion rate** — from ~2% to ~2.6%, translating to significant revenue growth
+- **~500 lost orders recovered** via the automatic payment retry system
+- **14% decrease in fraud attempts** — ~2,800 fewer per year through optimized payment validation
+- **69% reduction in CSS files** — from 80 to 25, dramatically improving maintainability

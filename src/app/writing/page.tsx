@@ -1,21 +1,16 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/container";
 import { PostCard } from "@/components/blog/post-card";
 import { Badge } from "@/components/ui/badge";
 import { getPosts } from "@/lib/content";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("writing");
-
-  return {
-    title: t("title"),
-    description: t("description"),
-  };
-}
+export const metadata: Metadata = {
+  title: "Writing",
+  description:
+    "Thoughts on frontend development, performance, and engineering practices",
+};
 
 export default async function WritingPage() {
-  const t = await getTranslations("writing");
   const posts = await getPosts("en");
 
   return (
@@ -26,9 +21,12 @@ export default async function WritingPage() {
             Blog
           </Badge>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            {t("title")}
+            Writing
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground">{t("description")}</p>
+          <p className="mt-4 text-lg text-muted-foreground">
+            Thoughts on frontend development, performance, and engineering
+            practices
+          </p>
         </div>
 
         <div className="mt-16">

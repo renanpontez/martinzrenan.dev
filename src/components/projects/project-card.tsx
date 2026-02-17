@@ -1,10 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
-import Image from "next/image";
+import { ArrowRight, Bus, Sparkles, BarChart3, UtensilsCrossed } from "lucide-react";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import type { Project } from "@/types";
 
 interface ProjectCardProps {
@@ -12,93 +10,70 @@ interface ProjectCardProps {
   index?: number;
 }
 
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  bus: Bus,
+  sparkles: Sparkles,
+  "bar-chart-3": BarChart3,
+  utensils: UtensilsCrossed,
+};
+
 export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
+  const Icon = project.icon ? iconMap[project.icon] : null;
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
-      className="group relative overflow-hidden rounded-xl border border-border/60 bg-card"
+      transition={{ delay: index * 0.1, duration: 0.4 }}
+      className="group"
     >
-      <Link href={`/projects/${project.slug}`} className="block">
-        <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-          {project.coverImage ? (
-            <Image
-              src={project.coverImage}
-              alt={project.title}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-          ) : (
-            <div className="flex h-full items-center justify-center bg-gradient-to-br from-muted to-muted/50">
-              <span className="text-4xl font-bold text-muted-foreground/20">
-                {project.title[0]}
-              </span>
+      <Link
+        href={`/projects/${project.slug}`}
+        className="block rounded-xl border border-border/60 bg-card p-5 transition-colors hover:border-border hover:bg-muted/50"
+      >
+        {/* Row 1: Icon + Title + Arrow */}
+        <div className="flex items-center gap-4">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            {Icon ? (
+              <Icon className="h-5 w-5" />
+            ) : (
+              <span className="text-base font-bold">{project.title[0]}</span>
+            )}
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-3">
+              <h3 className="truncate font-semibold group-hover:text-primary">
+                {project.title}
+              </h3>
+              {project.company && (
+                <span className="hidden shrink-0 text-sm text-muted-foreground sm:inline">
+                  {project.company}
+                </span>
+              )}
             </div>
-          )}
+            <p className="mt-0.5 line-clamp-1 text-sm text-muted-foreground">
+              {project.excerpt}
+            </p>
+          </div>
+
+          <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
         </div>
 
-        <div className="p-6">
-          <div className="flex flex-wrap gap-2">
-            {project.technologies.slice(0, 4).map((tech) => (
-              <Badge key={tech} variant="secondary" className="text-xs">
-                {tech}
-              </Badge>
+        {/* Row 2: Metrics */}
+        {project.metrics && project.metrics.length > 0 && (
+          <div className="mt-4 flex gap-6 border-t border-border/40 pt-4">
+            {project.metrics.slice(0, 3).map((metric, i) => (
+              <div key={i} className="text-sm">
+                <span className="font-semibold text-primary">
+                  {metric.value}
+                </span>{" "}
+                <span className="text-muted-foreground">{metric.label}</span>
+              </div>
             ))}
-            {project.technologies.length > 4 && (
-              <Badge variant="outline" className="text-xs">
-                +{project.technologies.length - 4}
-              </Badge>
-            )}
           </div>
-
-          <h3 className="mt-4 text-xl font-semibold transition-colors group-hover:text-primary">
-            {project.title}
-          </h3>
-
-          <p className="mt-2 line-clamp-2 text-muted-foreground">
-            {project.excerpt}
-          </p>
-
-          <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
-            <span>{project.role}</span>
-            {project.company && (
-              <>
-                <span>•</span>
-                <span>{project.company}</span>
-              </>
-            )}
-          </div>
-        </div>
+        )}
       </Link>
-
-      <div className="absolute right-4 top-4 flex gap-2 opacity-0 transition-opacity group-hover:opacity-100">
-        {project.liveUrl && (
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full bg-background/90 p-2 backdrop-blur-sm transition-colors hover:bg-background"
-            onClick={(e) => e.stopPropagation()}
-            aria-label="View live site"
-          >
-            <ExternalLink className="h-4 w-4" />
-          </a>
-        )}
-        {project.githubUrl && (
-          <a
-            href={project.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full bg-background/90 p-2 backdrop-blur-sm transition-colors hover:bg-background"
-            onClick={(e) => e.stopPropagation()}
-            aria-label="View source code"
-          >
-            <Github className="h-4 w-4" />
-          </a>
-        )}
-      </div>
     </motion.article>
   );
 }

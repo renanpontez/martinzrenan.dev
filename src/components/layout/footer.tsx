@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useTranslations } from "next-intl";
 import { Github, Linkedin } from "lucide-react";
 import { Container } from "./container";
 import { siteConfig } from "@/lib/site-config";
@@ -19,18 +18,15 @@ const socialLinks = [
   },
 ];
 
+const footerLinks = [
+  { name: "Home", href: "/" as const },
+  { name: "About", href: "/about" as const },
+  { name: "Projects", href: "/projects" as const },
+  { name: "Writing", href: "/writing" as const },
+  { name: "Contact", href: "/contact" as const },
+];
+
 export function Footer() {
-  const t = useTranslations("nav");
-  const tFooter = useTranslations("footer");
-
-  const footerLinks = [
-    { name: t("home"), href: "/" as const },
-    { name: t("about"), href: "/about" as const },
-    { name: t("projects"), href: "/projects" as const },
-    { name: t("writing"), href: "/writing" as const },
-    { name: t("contact"), href: "/contact" as const },
-  ];
-
   return (
     <footer className="border-t border-border/40 bg-muted/30">
       <Container className="py-12">
@@ -77,7 +73,7 @@ export function Footer() {
 
         <div className="mt-8 border-t border-border/40 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} {siteConfig.name}. {tFooter("rights")}
+            © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
           </p>
         </div>
       </Container>

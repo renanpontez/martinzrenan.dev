@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -56,8 +55,6 @@ export async function generateMetadata({
 
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params;
-
-  const t = await getTranslations("writing");
   const result = await getPostBySlug(slug, "en");
 
   if (!result) {
@@ -76,7 +73,7 @@ export default async function PostPage({ params }: PostPageProps) {
           <Button asChild variant="ghost" className="mb-8 -ml-4 gap-2">
             <Link href="/writing">
               <ArrowLeft className="h-4 w-4" />
-              {t("backToWriting")}
+              Back to writing
             </Link>
           </Button>
 
@@ -110,7 +107,7 @@ export default async function PostPage({ params }: PostPageProps) {
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4" />
-                {post.readingTime} {t("minRead")}
+                {post.readingTime} min read
               </div>
             </div>
           </header>

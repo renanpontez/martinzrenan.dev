@@ -1,56 +1,32 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { Container } from "@/components/layout/container";
-import { Badge } from "@/components/ui/badge";
 import { skills } from "@/lib/site-config";
+import { cn } from "@/lib/utils";
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
+const categories = [
+  {
+    name: "Expert",
+    color: "bg-green-500",
+    // description: "Daily drivers",
+    items: skills.expert,
   },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-    },
+  {
+    name: "Intermediate",
+    color: "bg-yellow-500",
+    // description: "Shipped to production",
+    items: skills.production,
   },
-};
+  {
+    name: "Exploring",
+    color: "bg-blue-500",
+    // description: "Building expertise",
+    items: skills.exploring,
+  },
+];
 
 export function Skills() {
-  const t = useTranslations("skills");
-
-  const skillCategories = [
-    {
-      name: t("proficient"),
-      description: t("proficientDesc"),
-      skills: skills.proficient,
-      variant: "default" as const,
-    },
-    {
-      name: t("intermediate"),
-      description: t("intermediateDesc"),
-      skills: skills.intermediate,
-      variant: "secondary" as const,
-    },
-    {
-      name: t("beginner"),
-      description: t("beginnerDesc"),
-      skills: skills.beginner,
-      variant: "outline" as const,
-    },
-  ];
-
   return (
     <section className="border-t border-border/40 py-24 sm:py-32">
       <Container>
@@ -59,43 +35,54 @@ export function Skills() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mx-auto max-w-2xl text-center"
         >
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            {t("title")}
+            Skills & Technologies
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">{t("description")}</p>
         </motion.div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mx-auto mt-16 max-w-4xl space-y-8"
-        >
-          {skillCategories.map((category) => (
+        <div className="mt-12 space-y-10">
+          {categories.map((category) => (
             <motion.div
               key={category.name}
-              variants={itemVariants}
-              className="rounded-xl border border-border/60 bg-card p-6"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
             >
-              <div className="mb-4">
-                <h3 className="text-lg font-semibold">{category.name}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {category.description}
-                </p>
+              <div className="mb-4 flex items-baseline gap-3">
+                <span className={cn("inline-block h-2.5 w-2.5 rounded-full", category.color)}/>
+                  <h3 className="text-lg font-semibold">{category.name}</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {category.skills.map((skill) => (
-                  <Badge key={skill} variant={category.variant}>
+                {category.items.map((skill) => (
+                  <span
+                    key={skill}
+                    className="rounded-lg border border-border/60 px-4 py-2 text-xs text-black transition-colors bg-white"
+                  >
                     {skill}
-                  </Badge>
+                  </span>
                 ))}
               </div>
             </motion.div>
           ))}
-        </motion.div>
+
+          {/* Practices & Methodologies */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="rounded-xl border-l-2 border-primary bg-muted/30 px-6 py-5"
+          >
+            <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-primary">
+              More Keywords
+            </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              {skills.practices.join(", ")}
+            </p>
+          </motion.div>
+        </div>
       </Container>
     </section>
   );

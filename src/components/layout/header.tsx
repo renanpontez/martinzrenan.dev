@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Menu } from "lucide-react";
@@ -13,16 +12,15 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export function Header() {
-  const t = useTranslations("nav");
   const pathname = usePathname();
   const [isOpen, setIsOpen] = React.useState(false);
 
   const navigation = [
-    { name: t("home"), href: "/" },
-    { name: t("about"), href: "/about" },
-    { name: t("projects"), href: "/projects" },
-    { name: t("writing"), href: "/writing" },
-    { name: t("contact"), href: "/contact" },
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Projects", href: "/projects" },
+    { name: "Writing", href: "/writing" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (

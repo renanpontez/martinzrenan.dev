@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { Calendar, Clock } from "lucide-react";
 import Image from "next/image";
@@ -14,8 +13,6 @@ interface PostCardProps {
 }
 
 export function PostCard({ post, index = 0 }: PostCardProps) {
-  const t = useTranslations("writing");
-
   return (
     <motion.article
       initial={{ opacity: 0, y: 20 }}
@@ -60,7 +57,7 @@ export function PostCard({ post, index = 0 }: PostCardProps) {
           </div>
           <div className="flex items-center gap-1.5">
             <Clock className="h-4 w-4" />
-            {post.readingTime} {t("minRead")}
+            {post.readingTime} min read
           </div>
         </div>
       </Link>

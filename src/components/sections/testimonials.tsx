@@ -1,6 +1,5 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
 import { Container } from "@/components/layout/container";
@@ -27,33 +26,34 @@ const itemVariants = {
   },
 };
 
+const testimonials = [
+  {
+    id: "1",
+    name: "Paulo Henrique",
+    role: "Software Developer",
+    company: "DeÔnibus",
+    content:
+      "Renan is one of the most valuable people I've ever worked with, his knowledge in software development is vast and extensive. He is a reference for me in Front-end development. He consistently provides valuable inputs and ideas that improve team results.",
+  },
+  {
+    id: "2",
+    name: "Wolp Farias",
+    role: "Colleague",
+    company: "Agility",
+    content:
+      "Do I recommend Renan? Of course! Focused on individual and collective goals, dedicated to always delivering the best results. There is no unreachable challenge or difficulty that Renan cannot see as a great opportunity. Working with him was a pleasure.",
+  },
+  {
+    id: "3",
+    name: "Yago Sampaio",
+    role: "IT Business Analyst II",
+    company: "Mobills Labs",
+    content:
+      "I recommend Renan for his integrity, dedication, and leadership ability. He was fundamental to my professional and personal growth — one of the people who most inspired me. His long-term vision and relentless drive to solve any challenge stand out the most.",
+  },
+];
+
 export function Testimonials() {
-  const t = useTranslations("testimonials");
-
-  const testimonials = [
-    {
-      id: "1",
-      name: t("items.1.name"),
-      role: t("items.1.role"),
-      company: t("items.1.company"),
-      content: t("items.1.content"),
-    },
-    {
-      id: "2",
-      name: t("items.2.name"),
-      role: t("items.2.role"),
-      company: t("items.2.company"),
-      content: t("items.2.content"),
-    },
-    {
-      id: "3",
-      name: t("items.3.name"),
-      role: t("items.3.role"),
-      company: t("items.3.company"),
-      content: t("items.3.content"),
-    },
-  ];
-
   return (
     <section className="border-t border-border/40 bg-muted/30 py-24 sm:py-32">
       <Container>
@@ -65,9 +65,11 @@ export function Testimonials() {
           className="mx-auto max-w-2xl text-center"
         >
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            {t("title")}
+            What Colleagues Say
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">{t("description")}</p>
+          <p className="mt-4 text-lg text-muted-foreground">
+            Described as proactive, a fast learner, and effective collaborator
+          </p>
         </motion.div>
 
         <motion.div
@@ -81,13 +83,13 @@ export function Testimonials() {
             <motion.figure
               key={testimonial.id}
               variants={itemVariants}
-              className="relative rounded-xl border border-border/60 bg-card p-6"
+              className="relative flex flex-col rounded-xl border border-border/60 bg-card p-6"
             >
               <Quote className="absolute right-6 top-6 h-8 w-8 text-muted-foreground/20" />
               <blockquote className="text-muted-foreground">
                 &ldquo;{testimonial.content}&rdquo;
               </blockquote>
-              <figcaption className="mt-6 flex items-center gap-4">
+              <figcaption className="mt-auto flex items-center gap-4 pt-6">
                 <Avatar>
                   <AvatarFallback>
                     {testimonial.name
@@ -99,7 +101,7 @@ export function Testimonials() {
                 <div>
                   <p className="font-semibold">{testimonial.name}</p>
                   <p className="text-sm text-muted-foreground">
-                    {testimonial.role} {t("at")} {testimonial.company}
+                    {testimonial.role} at {testimonial.company}
                   </p>
                 </div>
               </figcaption>

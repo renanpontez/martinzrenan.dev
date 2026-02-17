@@ -1,87 +1,93 @@
 ---
-title: "Analytics Dashboard"
-description: "A real-time analytics dashboard for monitoring business metrics and KPIs with interactive data visualizations."
-excerpt: "Built a performant analytics dashboard with real-time data updates, complex filtering, and exportable reports."
+title: "RD Station | Growth Experiments"
+description: "Deployed 30+ product growth experiments on a marketing automation SaaS platform, increasing plan conversion by 7% and boosting user engagement by 66%."
+excerpt: "Led frontend development of 30+ growth experiments on a SaaS platform, driving measurable improvements in conversion, upsell, and user engagement."
 coverImage: ""
+icon: "bar-chart-3"
 technologies:
   - React
+  - Ruby on Rails
   - TypeScript
-  - D3.js
-  - React Query
-  - WebSockets
-  - Zustand
+  - SCSS
+  - A/B Testing
 role: "Senior Frontend Engineer"
-duration: "4 months"
-company: "InnovateCo"
+duration: "6 months"
+company: "Agility Creative"
 liveUrl: ""
 githubUrl: ""
 featured: true
 metrics:
-  - label: "Data Points"
-    value: "10M+"
-    improvement: "Per day"
-  - label: "Update Latency"
-    value: "under 100ms"
-    improvement: "Real-time"
-  - label: "User Satisfaction"
-    value: "4.8/5"
-    improvement: "Survey score"
+  - label: "Plan Conversion"
+    value: "+7%"
+    improvement: "2.90% → 3.19%"
+  - label: "Upsell Rate"
+    value: "+12%"
+    improvement: "2% → 2.24%"
+  - label: "Engagement"
+    value: "+66%"
+    improvement: "150 → 250 actions/mo"
 publishedAt: "2024-01-10"
 ---
 
 ## The Challenge
 
-The business team needed a way to monitor key metrics in real-time without relying on slow, manually-generated reports. They needed interactive visualizations that could handle large datasets efficiently.
+RD Station Marketing is one of Brazil's leading marketing automation SaaS platforms. The product team had an ambitious backlog of 30+ growth experiments focused on retention, engagement, and conversion—but they wanted results within weeks, not months. The challenge was prioritizing the highest-impact experiments, executing them quickly in a React and Ruby on Rails stack, and measuring results rigorously.
 
 ## My Role
 
-As Senior Frontend Engineer, I:
+As Senior Frontend Engineer, I was responsible for:
 
-- Designed the frontend architecture
-- Implemented complex data visualizations
-- Optimized rendering performance
-- Integrated real-time data streams
+- Frontend implementation of growth experiments across the platform
+- Collaborating with product and growth teams to prioritize experiments by impact
+- Building and deploying A/B tests with proper measurement
+- Redesigning the pricing page to optimize plan conversion and upsell
+- Rebuilding the onboarding flow to boost paid user engagement
 
 ## Technical Approach
 
-### Data Visualization
+### Prioritization Framework
 
-We used D3.js for custom visualizations:
+With 30+ experiments on the backlog, I worked with the product manager and growth team to stack-rank experiments using an impact-vs-effort framework. We identified the top three highest-impact opportunities:
 
-- Time series charts with zoom and pan
-- Interactive heatmaps
-- Customizable pie and bar charts
-- Geographic data maps
+1. **Pricing page redesign** — Direct impact on plan conversion and upsells
+2. **Onboarding flow rebuild** — Impact on paid user engagement and retention
+3. **Feature discovery experiments** — Driving users to underutilized features
 
-### Real-Time Updates
+### Pricing Page Experiment
 
-WebSocket integration for live data:
+The pricing page was the highest-leverage point in the conversion funnel. I redesigned it with:
 
-- Efficient diff-based updates
-- Reconnection handling
-- Optimistic UI updates
-- Fallback to polling
+- **Clear value differentiation** between plans
+- **Social proof and trust signals** to reduce friction
+- **Streamlined upgrade flow** to capture upsell opportunities
+- **A/B tested variations** to validate each change with data
 
-### Performance Optimizations
+### Onboarding Flow
 
-Handling millions of data points required:
+The existing onboarding was losing paid users before they experienced the product's value. I rebuilt it with React and Ruby:
 
-- Data aggregation on the server
-- Virtualized lists and tables
-- Canvas rendering for dense visualizations
-- Web Workers for heavy computations
+- **Progressive disclosure** — Guided users to key features step by step
+- **Personalized paths** — Different flows based on user goals
+- **Engagement triggers** — Strategic nudges to drive meaningful actions
 
-## Key Features
+### Experiment Velocity
 
-1. **Customizable Dashboards** - Drag-and-drop widget placement
-2. **Advanced Filtering** - Multi-dimensional data filtering
-3. **Export Capabilities** - PDF and CSV exports
-4. **Alerting** - Configurable threshold alerts
-5. **Sharing** - Shareable dashboard links
+To ship 30+ experiments efficiently, I established:
+
+- **Reusable experiment components** — Common patterns for A/B tests
+- **Feature flags** — Quick toggling without redeployment
+- **Measurement templates** — Consistent tracking across experiments
+- **Weekly prioritization reviews** — Adjusting based on learnings
+
+## Key Learnings
+
+1. **Focus on impact, not volume** — The top 3 experiments drove more value than the other 27 combined
+2. **Data beats opinions** — A/B testing resolved internal debates quickly
+3. **When workload feels impossible, prioritize ruthlessly** — Saying no to low-impact work protected quality
 
 ## Results
 
-- Processes **10M+ data points daily**
-- **Under 100ms latency** for real-time updates
-- **4.8/5 user satisfaction** score
-- **80% reduction** in time to insights
+- **7% increase in plan conversion** — from ~2.90% to ~3.19%
+- **12% increase in upsell rate** — from ~2% to ~2.24%
+- **66% boost in monthly engagement** — from 150 to 250 actions per paid user
+- **30+ experiments deployed** with proper measurement and iteration

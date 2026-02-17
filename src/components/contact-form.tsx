@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -18,26 +17,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-type ContactFormValues = {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-};
+const contactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  subject: z.string().min(5, "Subject must be at least 5 characters"),
+  message: z.string().min(20, "Message must be at least 20 characters"),
+});
+
+type ContactFormValues = z.infer<typeof contactSchema>;
 
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
 export function ContactForm() {
-  const t = useTranslations("contact");
   const [status, setStatus] = React.useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = React.useState<string>("");
-
-  const contactSchema = z.object({
-    name: z.string().min(2, t("validation.nameMin")),
-    email: z.string().email(t("validation.emailInvalid")),
-    subject: z.string().min(5, t("validation.subjectMin")),
-    message: z.string().min(20, t("validation.messageMin")),
-  });
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
@@ -82,17 +75,17 @@ export function ContactForm() {
       <div className="rounded-xl border border-green-200 bg-green-50 p-6 text-center dark:border-green-900 dark:bg-green-950">
         <CheckCircle className="mx-auto h-12 w-12 text-green-600 dark:text-green-400" />
         <h3 className="mt-4 text-lg font-semibold text-green-900 dark:text-green-100">
-          {t("success.title")}
+          Message Sent!
         </h3>
         <p className="mt-2 text-green-700 dark:text-green-300">
-          {t("success.description")}
+          Thanks for reaching out. I&apos;ll get back to you as soon as possible.
         </p>
         <Button
           variant="outline"
           className="mt-6"
           onClick={() => setStatus("idle")}
         >
-          {t("success.sendAnother")}
+          Send Another Message
         </Button>
       </div>
     );
@@ -118,9 +111,9 @@ export function ContactForm() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("form.name")}</FormLabel>
+                <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder={t("form.namePlaceholder")} {...field} />
+                  <Input placeholder="Your name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -132,11 +125,11 @@ export function ContactForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("form.email")}</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
                     type="email"
-                    placeholder={t("form.emailPlaceholder")}
+                    placeholder="your@email.com"
                     {...field}
                   />
                 </FormControl>
@@ -151,9 +144,9 @@ export function ContactForm() {
           name="subject"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t("form.subject")}</FormLabel>
+              <FormLabel>Subject</FormLabel>
               <FormControl>
-                <Input placeholder={t("form.subjectPlaceholder")} {...field} />
+                <Input placeholder="What's this about?" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -165,10 +158,10 @@ export function ContactForm() {
           name="message"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t("form.message")}</FormLabel>
+              <FormLabel>Message</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder={t("form.messagePlaceholder")}
+                  placeholder="Tell me about your project or opportunity..."
                   className="min-h-[150px] resize-none"
                   {...field}
                 />
@@ -186,10 +179,10 @@ export function ContactForm() {
           {status === "submitting" ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              {t("form.sending")}
+              Sending...
             </>
           ) : (
-            t("form.send")
+            "Send Message"
           )}
         </Button>
       </form>

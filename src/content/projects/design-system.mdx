@@ -1,95 +1,86 @@
 ---
-title: "Component Design System"
-description: "Built a comprehensive design system with 50+ components, used across multiple products and teams."
-excerpt: "Created and maintained a company-wide design system that unified the UI across 5 products and reduced development time by 40%."
+title: "MINE | AI Style Discovery Platform"
+description: "Built the frontend for a B2C fashion platform featuring an AI-powered style-discovery engine that drove 10,000 signups and ~990 orders in the first month."
+excerpt: "Developed a high-performance B2C fashion app with an AI-powered style-discovery feature, achieving 90+ Lighthouse scores and driving 10,000 signups with ~10% conversion."
 coverImage: ""
+icon: "sparkles"
 technologies:
   - React
   - TypeScript
-  - Storybook
   - Tailwind CSS
-  - Radix UI
-  - Testing Library
-role: "Frontend Engineer"
-duration: "Ongoing"
-company: "StartupXYZ"
+  - Storybook
+  - Next.js
+role: "Senior Frontend Engineer"
+duration: "5 months"
+company: "Agility Creative"
 liveUrl: ""
 githubUrl: ""
 featured: true
 metrics:
-  - label: "Components"
-    value: "50+"
-    improvement: "Fully documented"
-  - label: "Dev Time Saved"
-    value: "40%"
-    improvement: "Across teams"
-  - label: "Adoption"
-    value: "5 products"
-    improvement: "Company-wide"
+  - label: "User Signups"
+    value: "10,000"
+    improvement: "First month"
+  - label: "Conversion Rate"
+    value: "~10%"
+    improvement: "~990 orders"
+  - label: "Lighthouse Score"
+    value: "90+"
+    improvement: "Performance & SEO"
 publishedAt: "2024-03-20"
 ---
 
 ## The Challenge
 
-Multiple teams were building similar UI components independently, leading to inconsistent user experiences and duplicated effort. We needed a unified design system that could be adopted across all products.
+MINE was a B2C high-ticket fashion platform that needed a standout feature to drive user acquisition and conversions. The core differentiator was an AI-powered style-discovery engine that would recommend personalized fashion items based on user preferences. The challenge was twofold: building a performant frontend that could handle the AI engine's response times, and creating a design system that could scale across the growing product.
 
 ## My Role
 
-I was the primary engineer responsible for:
+As Senior Frontend Engineer, I was responsible for:
 
-- Building the component library from scratch
-- Creating comprehensive documentation in Storybook
-- Writing unit and accessibility tests
-- Supporting adoption across teams
+- Building the frontend application with React and TypeScript
+- Integrating the AI style-discovery engine with optimized UX
+- Creating a scalable design system with Storybook
+- Optimizing performance for SEO and organic traffic growth
+- Implementing responsive images, lazy loading, and component architecture
 
 ## Technical Approach
 
-### Foundation
+### AI Integration & Perceived Performance
 
-We built the system on top of Radix UI primitives, which provided:
+The AI API had slower-than-expected response times, which threatened the user experience. I implemented aggressive frontend optimizations to mitigate the latency:
 
-- Accessible components out of the box
-- Unstyled components that we could customize
-- Composable patterns for complex components
+- **Preloading strategies** — Anticipated user actions and prefetched AI results
+- **Skeleton loading states** — Maintained engagement during processing
+- **Caching layer** — Stored previous AI results to speed up repeat interactions
+- **Lazy loading** — Deferred non-critical content to prioritize the AI experience
 
-### Styling Strategy
+### Design System
 
-Tailwind CSS was chosen for styling because:
+I built a scalable component library using React, TypeScript, Tailwind CSS, and Storybook:
 
-- Utility-first approach aligned with our design tokens
-- Easy to customize and extend
-- Great TypeScript support with tailwind-merge
-- Small bundle size with purging
+- Consistent UI components across the platform
+- Interactive documentation for the development team
+- Reusable patterns that accelerated feature development
 
-### Documentation
+### SEO & Performance
 
-Every component includes:
+Organic traffic was critical for the business model. I focused on:
 
-- Interactive examples in Storybook
-- API documentation with TypeScript types
-- Accessibility guidelines
-- Usage do's and don'ts
+- **Technical SEO** — Proper meta tags, structured data, semantic HTML
+- **Performance** — Achieved 90+ Lighthouse scores across all pages
+- **Responsive images** — Automatic format selection and lazy loading
+- **Component refactoring** — Reduced homepage load time by 20%
 
-## Implementation Highlights
+## Key Learnings
 
-### Component Categories
-
-1. **Primitives** - Button, Input, Select, Checkbox
-2. **Layout** - Container, Grid, Stack, Divider
-3. **Navigation** - Tabs, Breadcrumb, Pagination
-4. **Feedback** - Alert, Toast, Progress, Skeleton
-5. **Data Display** - Table, Card, Avatar, Badge
-
-### Testing Strategy
-
-- Unit tests with Testing Library
-- Visual regression tests with Chromatic
-- Accessibility audits with axe-core
-- Cross-browser testing with Playwright
+1. **Perceived performance matters as much as actual performance** — Skeleton states and preloading made the AI feel instant
+2. **Design systems accelerate development** — The upfront investment in Storybook paid off quickly
+3. **SEO is a growth engine** — 22% weekly organic traffic increase compounded significantly
 
 ## Results
 
-- **40% reduction in development time** for new features
-- **Consistent UI** across 5 different products
-- **Zero accessibility violations** in automated audits
-- **High adoption rate** with positive developer feedback
+- **10,000 user signups** in the first month
+- **~10% conversion rate** — approximately 990 orders
+- **22% increase in weekly organic traffic**
+- **90+ Lighthouse score** across all pages
+- **20% reduction in homepage load time**

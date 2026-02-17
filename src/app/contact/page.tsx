@@ -1,27 +1,21 @@
 import type { Metadata } from "next";
 import { Mail, MapPin, Phone, Linkedin, Github } from "lucide-react";
-import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/container";
 import { Badge } from "@/components/ui/badge";
 import { ContactForm } from "@/components/contact-form";
 import { siteConfig } from "@/lib/site-config";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("contact");
+export const metadata: Metadata = {
+  title: "Get in Touch",
+  description:
+    "Whether you're interested in working together, have a question, or just want to say hello, I'd love to hear from you.",
+};
 
-  return {
-    title: t("title"),
-    description: t("description"),
-  };
-}
-
-export default async function ContactPage() {
-  const t = await getTranslations("contact");
-
+export default function ContactPage() {
   const contactInfo = [
     {
       icon: Mail,
-      label: t("info.email"),
+      label: "Email",
       value: siteConfig.email,
       href: `mailto:${siteConfig.email}`,
     },
@@ -33,7 +27,7 @@ export default async function ContactPage() {
     },
     {
       icon: MapPin,
-      label: t("info.location"),
+      label: "Location",
       value: `${siteConfig.location} (${siteConfig.availability})`,
       href: null,
     },
@@ -59,12 +53,15 @@ export default async function ContactPage() {
       <Container>
         <div className="mx-auto max-w-2xl lg:mx-0">
           <Badge variant="secondary" className="mb-4">
-            {t("title")}
+            Get in Touch
           </Badge>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
             Contact
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground">{t("description")}</p>
+          <p className="mt-4 text-lg text-muted-foreground">
+            Whether you&apos;re interested in working together, have a question,
+            or just want to say hello, I&apos;d love to hear from you.
+          </p>
         </div>
 
         <div className="mt-16 grid gap-16 lg:grid-cols-2">
@@ -82,7 +79,7 @@ export default async function ContactPage() {
           {/* Contact Info */}
           <div className="space-y-10">
             <div>
-              <h2 className="text-xl font-semibold">{t("info.title")}</h2>
+              <h2 className="text-xl font-semibold">Contact Information</h2>
               <p className="mt-2 text-muted-foreground">
                 Prefer to reach out directly? Here&apos;s how you can contact me.
               </p>
@@ -113,7 +110,7 @@ export default async function ContactPage() {
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold">{t("info.connect")}</h2>
+              <h2 className="text-xl font-semibold">Connect</h2>
               <p className="mt-2 text-muted-foreground">
                 Follow me on social media or check out my work.
               </p>

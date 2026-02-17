@@ -1,21 +1,16 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/container";
 import { ProjectGrid } from "@/components/projects/project-grid";
 import { Badge } from "@/components/ui/badge";
 import { getProjects } from "@/lib/content";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("projects");
-
-  return {
-    title: t("allProjects"),
-    description: t("allProjectsDesc"),
-  };
-}
+export const metadata: Metadata = {
+  title: "All Projects",
+  description:
+    "A complete collection of my work, from enterprise applications to personal experiments",
+};
 
 export default async function ProjectsPage() {
-  const t = await getTranslations("projects");
   const projects = await getProjects("en");
 
   return (
@@ -26,10 +21,11 @@ export default async function ProjectsPage() {
             Portfolio
           </Badge>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            {t("allProjects")}
+            All Projects
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            {t("allProjectsDesc")}
+            A complete collection of my work, from enterprise applications to
+            personal experiments
           </p>
         </div>
 

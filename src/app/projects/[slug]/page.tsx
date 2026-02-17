@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Calendar, ExternalLink, Github, User } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -49,8 +48,6 @@ export async function generateMetadata({
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-
-  const t = await getTranslations("projects");
   const result = await getProjectBySlug(slug, "en");
 
   if (!result) {
@@ -66,7 +63,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <Button asChild variant="ghost" className="mb-8 -ml-4 gap-2">
           <Link href="/projects">
             <ArrowLeft className="h-4 w-4" />
-            {t("backToProjects")}
+            Back to projects
           </Link>
         </Button>
 
@@ -115,7 +112,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   rel="noopener noreferrer"
                 >
                   <ExternalLink className="h-4 w-4" />
-                  {t("liveDemo")}
+                  Live Demo
                 </a>
               </Button>
             )}
@@ -127,7 +124,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   rel="noopener noreferrer"
                 >
                   <Github className="h-4 w-4" />
-                  {t("viewSource")}
+                  Source Code
                 </a>
               </Button>
             )}
@@ -151,7 +148,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         {/* Metrics */}
         {project.metrics && project.metrics.length > 0 && (
           <div className="mt-12">
-            <h2 className="mb-6 text-2xl font-semibold">{t("keyMetrics")}</h2>
+            <h2 className="mb-6 text-2xl font-semibold">Key Metrics</h2>
             <ProjectMetrics metrics={project.metrics} />
           </div>
         )}
