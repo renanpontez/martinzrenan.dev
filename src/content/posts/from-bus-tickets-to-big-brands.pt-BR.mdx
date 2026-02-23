@@ -1,0 +1,86 @@
+---
+title: "De Passagens de Onibus a Grandes Marcas: Minha Jornada como Engenheiro Frontend"
+description: "Como sai de uma startup de travel tech no nordeste do Brasil para liderar frontend para Google, Amazon e The Wall Street Journal."
+excerpt: "Um olhar sobre 10+ anos de engenharia frontend — os projetos que me formaram, as apostas que deram certo e o que aprendi pelo caminho."
+coverImage: "/photo1.png"
+tags:
+  - Carreira
+  - Frontend
+  - Engenharia
+publishedAt: "2026-02-20"
+featured: true
+---
+
+Faz mais de 10 anos que eu construo coisas para a web. Se alguem me dissesse no comeco que eu ia liderar frontend para marcas como Google, Amazon e The Wall Street Journal — de um home office no Ceara — eu provavelmente teria rido. Mas foi exatamente o que aconteceu, e o caminho nao foi uma linha reta.
+
+Essa e a historia de como eu cheguei aqui.
+
+## Os primeiros passos: Lanlink, Mobills e encontrando meu caminho
+
+Comecei como estagiario na Lanlink, escrevendo testes automatizados e tendo meu primeiro contato com desenvolvimento web. E o tipo de trabalho fundamental que nao rende historias empolgantes, mas te ensina como software realmente e construido.
+
+De la fui para a Mobills — o segundo maior app financeiro do Brasil. Esse foi meu primeiro papel real em produto. Construi diferentes features na plataforma e trabalhei em uma rede social de financas pessoais. Construir algo que milhoes de brasileiros usavam diariamente me deu uma nocao de escala cedo.
+
+Depois voltei para a Lanlink, mas dessa vez para algo diferente. Eles tinham criado uma area de inovacao focada em entregar projetos B2B para clientes. Meu primeiro projeto la foi um provedor de cloud construido sobre Azure onde usuarios podiam pagar pelo uso. Era um desafio completamente diferente — clientes enterprise, infraestrutura, cobranca por consumo. Ampliou minha perspectiva alem de apps de consumidor.
+
+Mas o grande salto veio em seguida.
+
+## DeOnibus: onde as coisas ficaram serias
+
+DeOnibus era uma plataforma de travel tech para passagens de onibus no Brasil. Nao e o produto mais glamouroso, mas incrivelmente desafiador. Processavamos milhoes de pedidos por ano em mais de 100 dominios white-label. Nao e erro de digitacao — mais de cem lojas diferentes, cada uma com sua marca, todas rodando na mesma base de codigo.
+
+Quando entrei, o frontend era um app JavaScript legado que levava 10 segundos para carregar. Dez segundos. Em e-commerce, isso e uma eternidade. Usuarios abandonavam a pagina, conversao era baixa, e a base de codigo era um labirinto de mais de 80 arquivos CSS sem estrutura clara.
+
+Passei anos no que se tornou o maior desafio tecnico da minha carreira: uma migracao gradual para React com SSR, Webpack, lazy loading, Context API e cache Redis. O detalhe? Nao podiamos quebrar nenhum dos 100+ dominios white-label no processo. Zero downtime. Nenhuma reescrita big bang. Apenas uma migracao firme e metodica enquanto o negocio continuava rodando.
+
+O resultado foi uma **reducao de 60% no tempo de carregamento** (de 10s para 4s) e um **aumento de 30% na taxa de conversao** em uma plataforma com milhoes de pedidos anuais. Esses numeros mudaram a trajetoria da empresa — e da minha carreira.
+
+Tambem tive meu primeiro contato com backend ali, colaborando em um bot de retentativa de pagamento em Node.js que recuperou ~5% dos pedidos perdidos. E reduzi tentativas de fraude em 14% otimizando fluxos de validacao de pagamento. Nao era so sobre fazer as coisas ficarem bonitas — era sobre fazer o negocio funcionar melhor.
+
+## A virada: growth engineering na RD Station
+
+Depois do DeOnibus, fui para a RD Station Marketing — uma das maiores plataformas de automacao de marketing da America Latina. Era um mundo completamente diferente. Em vez de construir features de ponta a ponta, eu rodava experimentos de growth. Muitos deles.
+
+Deployei **30+ experimentos de produto** focados em retencao, engajamento e conversao. O mais impactante foi um redesign da pagina de precos que aumentou a conversao de planos em 7% e a taxa de upsell em 12%. Em uma plataforma SaaS nessa escala, essas porcentagens se traduzem em receita seria.
+
+Esse papel me ensinou algo importante: a melhor engenharia nao e sobre escrever codigo elegante. E sobre mover metricas. Entender o que medir, desenhar experimentos que realmente testam uma hipotese, e iterar rapido baseado em dados. Ainda carrego essa mentalidade hoje.
+
+## A surpresa: uma feature de IA que gerou 10.000 cadastros
+
+Depois veio o MINE, um app de moda high-ticket. O destaque foi uma feature de descoberta de estilo com IA que liderei do conceito a producao. Usuarios respondiam algumas perguntas, e a IA curava recomendacoes personalizadas de produtos.
+
+O lancamento nao foi suave — a API de IA tinha problemas de performance que fizeram a gente perder o deadline original. Escalei cedo, implementei cache, lazy loading e skeleton states para mascarar a latencia, e lancamos um pouco atrasados mas com um produto solido.
+
+O resultado? **10.000 cadastros e aproximadamente 990 pedidos no primeiro mes** — melhor que as projecoes originais. Foi uma licao sobre lidar com pressao de forma transparente e entregar algo que voce tem orgulho, mesmo quando o prazo muda.
+
+## Indo global: Planetary e as grandes marcas
+
+Em 2022, entrei na Planetary, uma agencia digital em Nova York. Foi aqui que as coisas escalaram significativamente. De repente eu estava construindo produtos para marcas que eu admirava de longe — California Pizza Kitchen, Din Tai Fung, The Wall Street Journal, e projetos envolvendo Google e Amazon.
+
+O trabalho aqui tem sido todo sobre performance, acessibilidade e arquitetura multi-regiao:
+
+- **CPK:** Reduzi o tempo de carregamento em 25% num app Next.js servindo 400k+ usuarios mensais, aumentei receita de catering em 10%, e elevei o Lighthouse de acessibilidade de 40 para 90+ em mais de 100 paginas
+- **Din Tai Fung:** Arquitetei sites multi-idioma e multi-regiao nos EUA, Canada e Europa com geo-redirects, Sanity CMS e features localizadas — com deadline apertado
+- **Infraestrutura:** Cortei custos em 35% com cache ISR e revalidacao via webhook, melhorando scores do Lighthouse em 30+ pontos
+
+Uma das partes mais gratificantes tem sido mentorar desenvolvedores juniores. Criei processos estruturados de code review, escrevi documentacao tecnica e criei templates de componentes que ajudaram o time a andar mais rapido mantendo qualidade.
+
+## O que 10 anos me ensinaram
+
+Olhando para tras, alguns padroes se destacam:
+
+**Performance e uma feature.** Todo papel que tive voltou para velocidade — tempo de carregamento, Core Web Vitals, scores do Lighthouse. Usuarios nao ligam para seu stack. Eles ligam se a pagina carrega rapido e funciona bem. Obsessao com performance tem sido a habilidade mais transferivel em todos os projetos.
+
+**Meca tudo.** O melhor codigo que ja escrevi nao foi o mais elegante — foi o codigo que moveu uma metrica. 7% de aumento na conversao de uma pagina de precos. 60% de reducao no tempo de carregamento. 30% de aumento em conversao de e-commerce. Numeros contam a historia.
+
+**Defenda a coisa certa, mesmo quando e mais lento.** No DeOnibus, eu pressionei para construir novas features em React em vez de remendar o codebase legado. Foi mais lento no curto prazo. O time alcancou o roadmap em meses, e o retorno a longo prazo foi enorme. Divida tecnica e real, e as vezes voce precisa argumentar para fazer as coisas direito.
+
+**Comunique cedo e frequentemente.** Todo deadline apertado que naveguei — o lancamento multi-regiao do Din Tai Fung, a feature de IA do MINE, gerenciar tres clientes simultaneamente — se resumiu a comunicacao transparente. Escale cedo. Apresente dados, nao opinioes. Gerencie expectativas antes que elas gerenciem voce.
+
+**Trabalho remoto e um superpoder se voce e disciplinado.** Trabalho remotamente do Brasil com times em Nova York, e funciona porque eu comunico demais, entrego consistentemente e assumo ownership de resultados — nao apenas de tarefas.
+
+## E agora?
+
+Continuo construindo. Continuo aprendendo. Recentemente lancei o [Circle Picks](/writing/building-circle-picks) — um projeto pessoal que me levou para React Native e desenvolvimento full-stack com IA como co-piloto. As ferramentas estao evoluindo rapido, e eu quero estar na vanguarda.
+
+Se voce esta construindo algo interessante e precisa de um engenheiro frontend que se importa com performance, acessibilidade e resultados de negocio — [vamos conversar](/contact).

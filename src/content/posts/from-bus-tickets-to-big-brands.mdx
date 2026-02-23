@@ -1,0 +1,86 @@
+---
+title: "From Bus Tickets to Big Brands: My Journey as a Frontend Engineer"
+description: "How I went from building a travel tech startup in northeast Brazil to leading frontend development for Google, Amazon, and The Wall Street Journal."
+excerpt: "A look back at 10+ years of frontend engineering — the projects that shaped me, the bets that paid off, and what I've learned along the way."
+coverImage: "/photo1.png"
+tags:
+  - Career
+  - Frontend
+  - Engineering
+publishedAt: "2026-02-20"
+featured: true
+---
+
+I've been building things for the web for over 10 years now. If you told me when I started that I'd end up leading frontend for brands like The Wall Street Journal, California Pizza Kitchen and DTF — from a home office in Brazil — I'd probably have laughed. But that's exactly what happened, and the path wasn't a straight line.
+
+This is the story of how I got here.
+
+## The early days: Lanlink, Mobills, and finding my path
+
+I started as an intern at Lanlink, writing automated tests and getting my first taste of web development. It was the kind of foundational work that doesn't make for exciting stories but teaches you how software actually gets built.
+
+From there I moved to Mobills — the second biggest financial app in Brazil. This was my first real product role. I built different features across the platform and worked on a social network for personal finances. Building something that millions of Brazilians used daily gave me a sense of scale early on.
+
+Then I went back to Lanlink, but this time for something different. They had created an innovation area focused on delivering B2B projects for clients. My first project there was a cloud provider built on Azure where users could pay as they go. It was a completely different challenge — enterprise clients, infrastructure, usage-based billing. It broadened my perspective beyond consumer apps.
+
+But the really big jump came next.
+
+## DeOnibus: where things got serious
+
+DeOnibus was a travel tech platform for bus tickets in Brazil. Not the most glamorous product, but an incredibly challenging one. We processed millions of orders per year across 100+ white-label domains. That's not a typo — over a hundred different storefronts, each with their own branding, all running on the same codebase.
+
+When I joined, the frontend was a legacy JavaScript app that took 10 seconds to load. Ten seconds. In e-commerce, that's an eternity. Users were bouncing, conversions were low, and the codebase was a maze of 80+ CSS files with no clear structure.
+
+I spent years on what became the biggest technical challenge of my career: a gradual migration to React with SSR, Webpack, lazy loading, Context API, and Redis caching. The catch? We couldn't break any of the 100+ white-label domains in the process. No downtime. No big bang rewrite. Just a steady, methodical migration while the business kept running.
+
+The result was a **60% reduction in page load time** (10s down to 4s) and a **30% increase in conversion rate** on a platform with millions of annual orders. Those numbers changed the trajectory of the company — and my career.
+
+I also got my first taste of backend work there, collaborating on a Node.js payment retry bot that recovered ~5% of lost orders. And I reduced fraud attempts by 14% by optimizing payment validation flows. It wasn't just about making things look good — it was about making the business work better.
+
+## The pivot: growth engineering at RD Station
+
+After DeOnibus, I moved to RD Station Marketing — one of the largest marketing automation platforms in Latin America. This was a completely different world. Instead of building features end-to-end, I was running growth experiments. Lots of them.
+
+I deployed **30+ product experiments** focused on retention, engagement, and conversion. The most impactful one was a pricing page redesign that increased plan conversion by 7% and upsell rate by 12%. In a SaaS platform at that scale, those percentages translate to serious revenue.
+
+This role taught me something important: the best engineering isn't about writing clever code. It's about moving metrics. Understanding what to measure, designing experiments that actually test a hypothesis, and iterating fast based on data. I still carry that mindset today.
+
+## The surprise: an AI feature that drove 10,000 signups
+
+Next came MINE, a high-ticket fashion app. The highlight was an AI-powered style-discovery feature that I led from concept to production. Users would answer a few questions, and the AI would curate personalized product recommendations.
+
+The launch didn't go smoothly — the AI API had performance issues that caused us to miss the original deadline. I escalated early, implemented caching, lazy loading, and skeleton states to mask latency, and we launched a bit late but with a solid product.
+
+The result? **10,000 user signups and roughly 990 orders in the first month** — better than the original projections. It was a lesson in handling pressure transparently and shipping something you're proud of, even when the timeline shifts.
+
+## Going global: Planetary and the big brands
+
+In 2022, I joined Planetary, a digital agency in New York. This is where things scaled up significantly. Suddenly I was building products for brands I'd admired from afar — California Pizza Kitchen, Din Tai Fung, The Wall Street Journal, and projects involving Google and Amazon.
+
+The work here has been all about performance, accessibility, and multi-region architecture:
+
+- **CPK:** Reduced page load by 25% on a Next.js app serving 400k+ monthly users, increased catering revenue by 10%, and boosted Lighthouse accessibility from 40 to 90+ across 100+ pages
+- **Din Tai Fung:** Architected multi-language, multi-region websites across the US, Canada, and Europe with geo-redirects, Sanity CMS, and localized features — under a tight deadline
+- **Infrastructure:** Cut costs by 35% with ISR caching and webhook-based revalidation, while improving Lighthouse scores by 30+ points
+
+One of the most rewarding parts has been mentoring junior developers. I built structured code review processes, wrote technical documentation, and created component templates that helped the team move faster while maintaining quality.
+
+## What 10 years taught me
+
+Looking back, a few patterns stand out:
+
+**Performance is a feature.** Every role I've had came back to speed — page load times, Core Web Vitals, Lighthouse scores. Users don't care about your tech stack. They care about whether the page loads fast and works well. Obsessing over performance has been the single most transferable skill across every project.
+
+**Measure everything.** The best code I've ever written wasn't the most elegant — it was the code that moved a metric. A 7% conversion increase on a pricing page. A 60% load time reduction. A 30% bump in e-commerce conversions. Numbers tell the story.
+
+**Advocate for the right thing, even when it's slower.** At DeOnibus, I pushed to build new features in React instead of patching the legacy codebase. It was slower in the short term. The team caught up to the roadmap within months, and the long-term payoff was enormous. Technical debt is real, and sometimes you need to make the case for doing things right.
+
+**Communicate early and often.** Every tight deadline I've navigated — the Din Tai Fung multi-region launch, the MINE AI feature, juggling three major clients simultaneously — came down to transparent communication. Escalate early. Present data, not opinions. Manage expectations before they manage you.
+
+**Remote work is a superpower if you're disciplined.** I've been working remotely from Brazil with teams in New York, and it works because I over-communicate, deliver consistently, and take ownership of outcomes — not just tasks.
+
+## What's next
+
+I'm still building. Still learning. I recently shipped [Circle Picks](/writing/building-circle-picks) — a side project that pushed me into React Native and full-stack development with AI as a co-pilot. The tools are evolving fast, and I want to stay at the edge.
+
+If you're building something interesting and need a frontend engineer who cares about performance, accessibility, and business results — [let's talk](/contact).

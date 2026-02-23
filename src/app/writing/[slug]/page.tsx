@@ -115,13 +115,13 @@ export default async function PostPage({ params }: PostPageProps) {
 
           {/* Cover image */}
           {post.coverImage && (
-            <div className="mt-12 overflow-hidden rounded-xl border border-border">
+            <div className="mx-auto mt-12 max-w-md overflow-hidden rounded-xl border border-border aspect-square">
               <Image
                 src={post.coverImage}
                 alt={post.title}
-                width={1200}
-                height={630}
-                className="w-full"
+                width={600}
+                height={600}
+                className="h-full w-full object-cover object-top"
                 priority
               />
             </div>
