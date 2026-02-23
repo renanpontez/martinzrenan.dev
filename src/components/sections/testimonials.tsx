@@ -38,8 +38,8 @@ const testimonials = [
   {
     id: "2",
     name: "Wolp Farias",
-    role: "Colleague",
-    company: "Agility",
+    role: "CX Analyst",
+    company: "Mobills Labs",
     content:
       "Do I recommend Renan? Of course! Focused on individual and collective goals, dedicated to always delivering the best results. There is no unreachable challenge or difficulty that Renan cannot see as a great opportunity. Working with him was a pleasure.",
   },
