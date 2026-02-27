@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Writing",
   description:
     "Thoughts on frontend development, performance, and engineering practices",
+  alternates: { canonical: "/writing" },
 };
 
 export default async function WritingPage() {

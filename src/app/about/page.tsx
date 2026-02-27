@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "About Me",
   description:
     "Senior Frontend Engineer with 10+ years of experience building scalable web applications",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {

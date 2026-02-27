@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Github, Linkedin } from "lucide-react";
 import { Container } from "./container";
 import { siteConfig } from "@/lib/site-config";
+import { useCookieConsent } from "@/components/cookie-consent-provider";
 
 const socialLinks = [
   {
@@ -27,6 +28,8 @@ const footerLinks = [
 ];
 
 export function Footer() {
+  const { openBanner } = useCookieConsent();
+
   return (
     <footer className="border-t border-border/40 bg-muted/30">
       <Container className="py-12">
@@ -71,10 +74,17 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 border-t border-border/40 pt-8 text-center">
+        <div className="mt-8 flex flex-col items-center gap-2 border-t border-border/40 pt-8">
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
           </p>
+          <button
+            type="button"
+            onClick={openBanner}
+            className="text-xs text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground"
+          >
+            Cookie Preferences
+          </button>
         </div>
       </Container>
     </footer>
