@@ -43,6 +43,21 @@ export interface Testimonial {
   linkedinUrl?: string;
 }
 
+export interface PersonalApp {
+  slug: string;
+  name: string;
+  tagline: string;
+  description: string;
+  platforms: readonly string[];
+  url: string;
+  brandColor: string;
+  logo: string;
+  technologies: readonly string[];
+  status: "MVP" | "Beta" | "Live" | "Coming Soon";
+  founders?: readonly { name: string; role: string }[];
+  pricing?: string;
+}
+
 export interface Skill {
   name: string;
   level: "expert" | "advanced" | "intermediate";

@@ -34,7 +34,7 @@ publishedAt: "2024-06-15"
 
 ## The Challenge
 
-DeOnibus was a travel tech e-commerce platform for bus tickets, operating as a multi-tenant system serving 100+ white-label domains for different bus companies across Brazil, processing millions of annual orders with real-time inventory management. The legacy JavaScript frontend had severe performance problems—page load times of around 10 seconds—and the codebase was extremely difficult to maintain with 80 separate CSS files with conflicting styles. Adding new features was becoming nearly impossible, and the slow performance was directly hurting conversion rates and driving users away.
+DeOnibus was a travel tech e-commerce platform for bus tickets, operating as a multi-tenant system serving 100+ white-label domains for different bus companies across Brazil, processing millions of annual orders with real-time inventory management. The legacy JavaScript frontend had severe performance problems -page load times of around 10 seconds -and the codebase was extremely difficult to maintain with 80 separate CSS files with conflicting styles. Adding new features was becoming nearly impossible, and the slow performance was directly hurting conversion rates and driving users away.
 
 ## My Role
 
@@ -51,7 +51,7 @@ As the Frontend Engineer leading this migration, I was responsible for:
 
 ### Gradual Migration Strategy
 
-A "big bang" migration was not an option—we couldn't afford downtime with millions of annual orders. I architected a page-by-page migration strategy using React with Webpack, SSR, lazy loading, and Context API.
+A "big bang" migration was not an option. We couldn't afford downtime with millions of annual orders. I architected a page-by-page migration strategy using React with Webpack, SSR, lazy loading, and Context API.
 
 Key architectural decisions included:
 
@@ -66,11 +66,11 @@ The legacy system had 80 separate CSS files with conflicting styles. I consolida
 
 ### Payment Recovery System
 
-During the migration, we identified that approximately 5% of orders were being lost to failed payment attempts—about 500 lost orders translating to significant revenue loss. I collaborated with the backend team to build a Node.js REST API and TypeScript bot for automatic payment retries, recovering those lost orders.
+During the migration, we identified that approximately 5% of orders were being lost to failed payment attempts, about 500 lost orders translating to significant revenue loss. I collaborated with the backend team to build a Node.js REST API and TypeScript bot for automatic payment retries, recovering those lost orders.
 
 ### Fraud Prevention
 
-I optimized the payment validation flow and Adyen integration, which decreased fraud attempts by 14%—approximately 2,800 fewer fraud attempts per year.
+I optimized the payment validation flow and Adyen integration, which decreased fraud attempts by 14%, approximately 2,800 fewer fraud attempts per year.
 
 ## Key Learnings
 
@@ -82,8 +82,8 @@ I optimized the payment validation flow and Adyen integration, which decreased f
 
 The migration delivered measurable business impact across all 100+ white-label clients:
 
-- **60% reduction in page load time** — from 10 seconds to 4 seconds
-- **30% increase in conversion rate** — from ~2% to ~2.6%, translating to significant revenue growth
+- **60% reduction in page load time** - from 10 seconds to 4 seconds
+- **30% increase in conversion rate** - from ~2% to ~2.6%, translating to significant revenue growth
 - **~500 lost orders recovered** via the automatic payment retry system
-- **14% decrease in fraud attempts** — ~2,800 fewer per year through optimized payment validation
-- **69% reduction in CSS files** — from 80 to 25, dramatically improving maintainability
+- **14% decrease in fraud attempts** - ~2,800 fewer per year through optimized payment validation
+- **69% reduction in CSS files** - from 80 to 25, dramatically improving maintainability

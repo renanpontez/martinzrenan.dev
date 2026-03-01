@@ -1,0 +1,67 @@
+## The Problem
+
+Shared households run on a fragile stack of workarounds. There's a group chat for urgent things, a notes app someone added a grocery list to three weeks ago, a mental note about the leaking faucet that was supposed to get fixed last month, and a spreadsheet nobody updates anymore.
+
+This is true for couples, roommates, and families alike. The problem isn't that people are disorganized. It's that the tools they use were never designed for shared household coordination. Group chats are reactive and ephemeral. Sticky notes are local. Spreadsheets require maintenance nobody wants to do.
+
+Things fall through the cracks. Bills get forgotten. Chores pile up with no clear ownership. Urgent repairs stay unreported because reporting them to the group chat means they'll scroll out of view in 12 hours.
+
+## The Solution
+
+myhouz gives every household a single, organized space. One place for everything that needs to be tracked, done, or fixed, with all household members on the same page.
+
+The product is organized around the types of things households actually need to manage: items to buy or fix, recurring routines, one-time reminders, and problems that are genuinely urgent. Each type has its own interface built around how that kind of thing actually works, not a generic list editor.
+
+## Key Features
+
+### Items Management
+
+Track anything that needs to be bought, repaired, or replaced. Each item can have a photo, a price estimate, a purchase link, and an assigned member. When you're at the store, you have the full context. When something needs fixing, it's assigned to someone instead of floating in a chat thread.
+
+### Routine Checklists
+
+Daily, weekly, and monthly tasks with streak tracking. The streak mechanic is intentional: it gives recurring chores a small amount of positive reinforcement and makes it visible when a routine has been slipping. Households can configure their own recurring tasks. There are no presets imposed on how you should organize your home.
+
+### Reminders
+
+One-time tasks with due dates. Filtered views for upcoming, overdue, and completed. Simple in concept, but the differentiation from routines matters: not everything recurs, and putting both in a single list creates noise.
+
+### Urgent Problems
+
+A dedicated category for things that can't wait. Flagging something as urgent sends an alert to all household members immediately. This exists because urgent issues need immediate visibility, not async discovery like a grocery item.
+
+### Household Management
+
+Invite members via email, with role-based access: Owner, Member, and Guest. An Owner can configure the household and manage members. A Guest can view but not edit. Some households want to include people like a relative or a property manager without giving them full edit rights.
+
+### Smart Dashboard
+
+An overview of what needs attention today: pending items, upcoming reminders, routines due. The dashboard is the entry point for daily use and is designed to answer one question quickly: "What do I need to deal with today?"
+
+## Technical Architecture
+
+myhouz is a monorepo built with Turbo, with shared packages for auth, database types, and UI components. The web app is Next.js; mobile is React Native with Expo. Both consume the same Supabase backend.
+
+A few decisions worth explaining:
+
+**Turbo monorepo with shared packages.** The web and mobile apps share auth logic, database types, and a set of UI primitives. This eliminates the drift that happens when you maintain two separate codebases that are supposed to behave identically. Changes to shared packages propagate to both apps automatically.
+
+**MVVM on mobile.** The React Native app uses a Model-View-ViewModel architecture. ViewModels handle business logic and state; Views are purely presentational. The separation makes the codebase easier to test and keeps feature complexity from leaking into component code.
+
+**Supabase RLS for multi-tenant isolation.** Each household's data is isolated at the database level. A member of household A cannot read household B's data. Not because of application-level guards, but because the RLS policies make it structurally impossible. This matters for a product where users are sharing sensitive household information.
+
+**Optimistic UI with React Query.** Most mutations update the UI immediately and sync to the backend in the background. Errors roll back the optimistic state. This makes the app feel fast without sacrificing consistency.
+
+**NativeWind for cross-platform styling.** Using Tailwind-compatible classes across web and mobile means the styling vocabulary is consistent. A developer working on both platforms doesn't need to context-switch between two styling systems.
+
+## Co-founding
+
+myhouz is the first thing I've built with a co-founder. Andressa Hora handles marketing and business: product positioning, go-to-market, user research, and the commercial side. I handle tech and product.
+
+The split matters because the product decisions I'd make in isolation as a developer aren't always the right ones for a B2C SaaS. Having a business-minded co-founder in the room when we're deciding what to build next has made the product more coherent. I'm convinced this is the right way to build something that needs to find real users, not just ship working software.
+
+## What's Next
+
+The web app is live in beta at [myhouz.app](https://myhouz.app) with a free tier (3 members, 50 items) and a Plus plan at $6/month. The mobile apps are in active development.
+
+The roadmap includes shopping list collaboration, bill splitting and shared expense tracking, and native push notifications for urgent problems. The foundation (the data model, the multi-tenant architecture, the shared package layer) is solid. The next phase is user acquisition and figuring out which features drive retention in the real households that are using it.

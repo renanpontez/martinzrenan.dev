@@ -2,6 +2,7 @@ import { Hero } from "@/components/sections/hero";
 import { Brands } from "@/components/sections/brands";
 import { PersonalSummary } from "@/components/sections/personal-summary";
 import { FeaturedProjects } from "@/components/sections/featured-projects";
+import { PersonalApps } from "@/components/sections/personal-apps";
 import { Skills } from "@/components/sections/skills";
 import { Testimonials } from "@/components/sections/testimonials";
 import { ContactCTA } from "@/components/sections/contact-cta";
@@ -46,6 +47,7 @@ export default async function HomePage() {
         {featuredProjects.length > 0 && (
           <FeaturedProjects projects={featuredProjects} />
         )}
+        <PersonalApps />
         <Skills />
       </div>
 

@@ -138,6 +138,54 @@ export const education = [
   },
 ] as const;
 
+export const personalApps = [
+  {
+    slug: "circle-picks",
+    name: "Circle Picks",
+    tagline: "Discover places through people you trust",
+    description:
+      "A social platform where you discover restaurants, cafes, and bars through friend recommendations. No fake reviews, just real picks from real people.",
+    platforms: ["iOS", "Android", "Web"],
+    url: "https://circlepicks.com",
+    brandColor: "#FD512E",
+    logo: "/apps/circle-picks.svg",
+    technologies: [
+      "React Native",
+      "Expo",
+      "Next.js",
+      "TypeScript",
+      "Supabase",
+      "Tailwind CSS",
+    ],
+    status: "Beta" as const,
+  },
+  {
+    slug: "myhouz",
+    name: "myhouz",
+    tagline: "Your Home, Finally Organized",
+    description:
+      "Household management SaaS that replaces group chats and sticky notes with a single place for items, routines, reminders, and urgent problems.",
+    platforms: ["Web", "iOS", "Android"],
+    url: "https://myhouz.app",
+    brandColor: "#4F46E5",
+    logo: "/apps/myhouz-logo.svg",
+    technologies: [
+      "Next.js",
+      "React Native",
+      "Expo",
+      "TypeScript",
+      "Supabase",
+      "Turbo",
+    ],
+    status: "Beta" as const,
+    founders: [
+      { name: "Renan Martins", role: "Tech & Product" },
+      { name: "Andressa Hora", role: "Marketing & Business" },
+    ],
+    pricing: "Free + $6/mo Plus",
+  },
+] as const;
+
 export const languages = [
   { name: "English", level: "Advanced / Fluent (C2)" },
   { name: "Portuguese", level: "Native" },

@@ -1,0 +1,59 @@
+![Circle Picks app preview](/apps/circle-picks-hero.png)
+
+## The Problem
+
+Finding a good restaurant has become harder than it should be. Review platforms are full of fake reviews, paid placements, and scores that tell you nothing useful. You end up with a list of places that paid to rank higher, rated by strangers with completely different tastes.
+
+The best recommendations already happen in group chats, over voice messages, at dinner. A friend tells you about a place, you screenshot it, and it gets buried under 300 unread messages three days later.
+
+People trust their friends more than any algorithm. The infrastructure just wasn't there to make that trust useful at scale.
+
+## How It Works
+
+Circle Picks is a social feed for places. You follow friends, they share picks, you discover places through people whose taste you already trust. No editorial curation, no sponsored posts, no recommendation engine trying to guess what you want.
+
+Adding a pick takes about 15 seconds: GPS detects your location, you search for the place, add a short take and optional photo, done. Longer descriptions, tags, and visibility settings are optional. They're there for people who want them, but they never block you from saving a place quickly.
+
+## Key Features
+
+### Social Feed
+
+The feed shows what the people you follow have been adding recently. No ranking, no engagement optimization, just chronological picks from your circle. Every pick shows the place, the person's take, and any tags they added.
+
+### Quick Add
+
+Adding a place is intentionally fast. GPS detects your location and surfaces nearby places from Google Places. You pick one, add a short note, choose visibility (public or friends-only), and save. The whole flow is designed around one constraint: it has to be faster than sending a message in a group chat.
+
+### Explore
+
+A discovery surface for when you want to look beyond your immediate circle. Shows picks trending in your city, filterable by category. It's how new users get value before they've built up a following.
+
+### Bookmarks
+
+Places you want to try but haven't yet. A personal save list separate from your published picks. Simple, but it's the missing piece in most apps where you discover something and have no good place to keep it.
+
+### GPS-Based Place Search
+
+Backed by Google Places, with a deduplication layer on top. When multiple users recommend the same restaurant, they all attach to the same place record. No duplicates inflating counts or fragmenting the social proof. The matching uses a cascade: exact Place ID, then name + city normalization, then coordinate proximity with name similarity.
+
+## Technical Decisions
+
+I built Circle Picks as a full-stack app with a shared API layer, so web and mobile clients talk to the same Next.js API routes. No separate backend to maintain.
+
+A few decisions I'm particularly happy with:
+
+**Supabase with Row Level Security.** Privacy controls are enforced at the database level, not just in application code. Friends-only picks are inaccessible to users who aren't following the author. That's guaranteed by RLS policies, not by a `where` clause I might forget to add somewhere.
+
+**Next.js API routes as the sole backend.** For an MVP, this was the right call. One codebase, one deployment, no infrastructure overhead. The mobile app calls the same endpoints as the web client.
+
+**Real-time updates via Supabase subscriptions.** The feed updates when people you follow add new picks, without polling.
+
+**Image compression on the client.** Before any upload happens, images are compressed in the browser. Keeps storage costs low and upload times fast without degrading quality noticeably.
+
+**i18n from day one.** The app runs in Portuguese (default) and English using next-intl. Shipping multilingual early is much less painful than retrofitting it later.
+
+I wrote about the development journey in more detail. [Read the full story](/writing/building-circle-picks).
+
+## What's Next
+
+The web app is live in beta at [circlepicks.app](https://www.circlepicks.app). The mobile apps (iOS and Android) are in development. The roadmap includes collections (curated lists of places), notifications for when people you follow add picks, and map-based discovery. The core product is stable, and the next phase is growing the social graph.

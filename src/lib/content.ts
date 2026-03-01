@@ -1,10 +1,12 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { Project, Post } from "@/types";
+import { Project, Post, PersonalApp } from "@/types";
+import { personalApps } from "@/lib/site-config";
 
 const projectsDirectory = path.join(process.cwd(), "src/content/projects");
 const postsDirectory = path.join(process.cwd(), "src/content/posts");
+const appsDirectory = path.join(process.cwd(), "src/content/apps");
 
 function ensureDirectory(dir: string) {
   if (!fs.existsSync(dir)) {
@@ -168,4 +170,22 @@ export async function getPostBySlug(
 export async function getFeaturedPosts(locale: string = "en"): Promise<Post[]> {
   const posts = await getPosts(locale);
   return posts.filter((post) => post.featured).slice(0, 3);
+}
+
+export async function getAppContent(
+  slug: string,
+  locale: string = "en"
+): Promise<{ app: PersonalApp; content: string } | null> {
+  const app = personalApps.find((a) => a.slug === slug);
+  if (!app) return null;
+
+  ensureDirectory(appsDirectory);
+
+  const { fullPath, exists } = getLocalizedFile(appsDirectory, slug, locale);
+  if (!exists) return null;
+
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+  const { content } = matter(fileContents);
+
+  return { app: app as PersonalApp, content };
 }

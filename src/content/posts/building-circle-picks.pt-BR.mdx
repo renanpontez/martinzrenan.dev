@@ -1,7 +1,7 @@
 ---
-title: "Como eu construi um app full-stack (Web + Mobile) em tempo recorde usando IA"
-description: "Um breakdown de como eu lancei o Circle Picks — uma plataforma social para compartilhar e descobrir lugares — usando IA como co-piloto na web e no mobile."
-excerpt: "Do planejamento a producao: como arquivos de contexto estruturados e desenvolvimento assistido por IA me ajudaram a entregar um app full-stack com clientes web e mobile."
+title: "Como eu construí um app full-stack (Web + Mobile) em tempo recorde usando IA"
+description: "Um breakdown de como eu lancei o Circle Picks, uma plataforma social para compartilhar e descobrir lugares, usando IA como co-piloto na web e no mobile."
+excerpt: "Do planejamento à produção: como arquivos de contexto estruturados e desenvolvimento assistido por IA me ajudaram a entregar um app full-stack com clientes web e mobile."
 coverImage: "/blog/circle-picks/hero.png"
 tags:
   - AI
@@ -13,125 +13,125 @@ publishedAt: "2026-02-23"
 featured: true
 ---
 
-Recentemente lancei o [Circle Picks](https://www.circlepicks.app) — uma plataforma social onde voce compartilha e descobre lugares atraves de pessoas em quem confia. Pense nele como o guia curado dos seus amigos para restaurantes, cafes, bares e hoteis. Sem reviews falsas, sem conteudo patrocinado. Apenas indicacoes reais de pessoas reais.
+Recentemente lancei o [Circle Picks](https://www.circlepicks.app), uma plataforma social onde você compartilha e descobre lugares através de pessoas em quem confia. Pense nele como o guia curado dos seus amigos para restaurantes, cafés, bares e hotéis. Sem reviews falsas, sem conteúdo patrocinado. Apenas indicações reais de pessoas reais.
 
-O app esta no ar na web, e a versao mobile esta em beta. Ele tem autenticacao, busca de lugares com GPS, upload de fotos, sistema de seguidores, salvos, feed de exploracao, i18n em dois idiomas e painel de moderacao para admin. E eu construi praticamente sozinho, com IA como meu co-piloto.
+O app está no ar na web, e a versão mobile está em beta. Ele tem autenticação, busca de lugares com GPS, upload de fotos, sistema de seguidores, salvos, feed de exploração, i18n em dois idiomas e painel de moderação para admin. E eu construí praticamente sozinho, com IA como meu co-piloto.
 
 Veja como eu fiz, dividido em quatro fases.
 
-## 1. Idealizacao, Planejamento e Organizacao
+## 1. Idealização, Planejamento e Organização
 
-Antes de escrever uma linha de codigo, investi tempo estruturando minhas ideias de uma forma que tanto eu quanto uma IA pudessemos entender.
+Antes de escrever uma linha de código, investi tempo estruturando minhas ideias de uma forma que tanto eu quanto uma IA pudéssemos entender.
 
-Criei um conjunto de arquivos de contexto — documentos JSON e Markdown que descrevem cada aspecto do projeto: a estrategia do produto, o stack tecnico, as specs de UX, o schema do banco, as rotas da API, os tokens de design. Tudo.
+Criei um conjunto de arquivos de contexto: documentos JSON e Markdown que descrevem cada aspecto do projeto. A estratégia do produto, o stack técnico, as specs de UX, o schema do banco, as rotas da API, os tokens de design. Tudo.
 
-Na pratica, esses arquivos sao assim:
+Na prática, esses arquivos são assim:
 
-- **front.strategy.json** — Objetivos do produto, casos de uso, escopo do MVP (o que entra, o que fica de fora), criterios de sucesso
-- **front.tech.json** — Stack completo com versoes, todos os modelos TypeScript, tabelas do banco, inventario de APIs, principios de arquitetura
-- **front.ux.json** — Modelo de navegacao, specs de cada tela, tokens de design (cores, tipografia, espacamento), regras de interacao
-- **front.setup-plan.json** — 18 fases de implementacao, SQL de migracao, principios criticos
-- **index.json** — Um hub de navegacao mestre com breadcrumbs e referencias cruzadas entre todos os docs
+- **front.strategy.json** - Objetivos do produto, casos de uso, escopo do MVP (o que entra, o que fica de fora), critérios de sucesso
+- **front.tech.json** - Stack completo com versões, todos os modelos TypeScript, tabelas do banco, inventário de APIs, princípios de arquitetura
+- **front.ux.json** - Modelo de navegação, specs de cada tela, tokens de design (cores, tipografia, espaçamento), regras de interação
+- **front.setup-plan.json** - 18 fases de implementação, SQL de migração, princípios críticos
+- **index.json** - Um hub de navegação mestre com breadcrumbs e referências cruzadas entre todos os docs
 
-Esses arquivos se tornaram a fonte unica de verdade do projeto inteiro. Quando eu comecava uma nova feature, nao precisava re-explicar o projeto do zero. A IA tinha o contexto completo — o que o app faz, como esta estruturado, por que certas decisoes foram tomadas.
+Esses arquivos se tornaram a fonte única de verdade do projeto inteiro. Quando eu começava uma nova feature, não precisava re-explicar o projeto do zero. A IA tinha o contexto completo: o que o app faz, como está estruturado, por que certas decisões foram tomadas.
 
-O insight principal foi esse: **o tempo que voce investe organizando suas ideias no comeco se paga exponencialmente quando voce esta construindo com IA.** Um arquivo de contexto bem estruturado vale mais que cem prompts.
+O insight principal foi esse: **o tempo que você investe organizando suas ideias no começo se paga exponencialmente quando você está construindo com IA.** Um arquivo de contexto bem estruturado vale mais que cem prompts.
 
-Eu tambem mantive um arquivo `CLAUDE.md` na raiz do projeto — um arquivo de instrucoes vivo que diz ao Claude Code como trabalhar com esse projeto especifico. Inclui o stack, estrutura do projeto, convencoes de nomenclatura, padroes de rotas, regras de estilo e convencoes de commit. Toda vez que o Claude abre o projeto, ele le esse arquivo primeiro e sabe exatamente como se comportar.
+Eu também mantive um arquivo `CLAUDE.md` na raiz do projeto, um arquivo de instruções vivo que diz ao Claude Code como trabalhar com esse projeto específico. Inclui o stack, estrutura do projeto, convenções de nomenclatura, padrões de rotas, regras de estilo e convenções de commit. Toda vez que o Claude abre o projeto, ele lê esse arquivo primeiro e sabe exatamente como se comportar.
 
-## 2. Implementacao
+## 2. Implementação
 
-Com o planejamento feito, a implementacao andou rapido. Muito rapido.
+Com o planejamento feito, a implementação andou rápido. Muito rápido.
 
-Usei o Claude Code como minha ferramenta principal de desenvolvimento. Nao como um autocomplete chique — como um parceiro de desenvolvimento de verdade. Eu descrevia o que queria, apontava para os arquivos de contexto certos, e ele escrevia codigo que seguia os padroes do projeto, usava os componentes corretos, respeitava as convencoes de rotas e ate lidava com i18n em portugues e ingles.
+Usei o Claude Code como minha ferramenta principal de desenvolvimento. Não como um autocomplete chique, mas como um parceiro de desenvolvimento de verdade. Eu descrevia o que queria, apontava para os arquivos de contexto certos, e ele escrevia código que seguia os padrões do projeto, usava os componentes corretos, respeitava as convenções de rotas e até lidava com i18n em português e inglês.
 
-O segredo eram os arquivos de instrucao. Cada projeto tem seu proprio `CLAUDE.md` com regras especificas:
+O segredo eram os arquivos de instrução. Cada projeto tem seu próprio `CLAUDE.md` com regras específicas:
 
-- Sempre usar `Link` de `@/i18n/routing`, nao de `next/link`
+- Sempre usar `Link` de `@/i18n/routing`, não de `next/link`
 - Usar `cn()` para merge condicional de classes
-- Seguir o sistema de rotas de tres camadas (`ROUTE_PATHS`, `routes`, `routePaths`)
+- Seguir o sistema de rotas de três camadas (`ROUTE_PATHS`, `routes`, `routePaths`)
 - Usar o client Supabase correto para cada contexto (server vs browser)
-- Commits convencionais, minusculos, mensagens curtas
+- Commits convencionais, minúsculos, mensagens curtas
 
-Isso significava que eu raramente precisava corrigir o output da IA. Simplesmente funcionava dentro das convencoes do projeto.
+Isso significava que eu raramente precisava corrigir o output da IA. Simplesmente funcionava dentro das convenções do projeto.
 
-Vale mencionar: meu amigo Hel Rabelo construiu uma ferramenta chamada [TokenCentric](https://www.tokencentric.app/) — um app feito para organizar suas instrucoes de IA por projeto e gerenciar seus arquivos `CLAUDE.md` em multiplos codebases. Tem sido muito util para manter tudo organizado, especialmente quando voce esta lidando com varios projetos com stacks e convencoes diferentes.
+Vale mencionar: meu amigo Hel Rabelo construiu uma ferramenta chamada [TokenCentric](https://www.tokencentric.app/), um app feito para organizar suas instruções de IA por projeto e gerenciar seus arquivos `CLAUDE.md` em múltiplos codebases. Tem sido muito útil para manter tudo organizado, especialmente quando você está lidando com vários projetos com stacks e convenções diferentes.
 
-### As decisoes tecnicas que tornaram isso possivel
+### As decisões técnicas que tornaram isso possível
 
-Escolhi um stack que mantivesse as coisas simples e rapidas para um MVP:
+Escolhi um stack que mantivesse as coisas simples e rápidas para um MVP:
 
 - **Next.js 16 com App Router** como framework full-stack
-- **Supabase** para autenticacao, banco PostgreSQL e storage de arquivos — sem precisar configurar nenhuma infraestrutura backend separada
-- **API Routes do Next.js** como REST API — essa foi grande. Em vez de manter um backend separado, usei as rotas de API dentro do proprio Next.js. Para um MVP, e perfeito. Um codebase, um deploy, nenhuma infra extra pra gerenciar
+- **Supabase** para autenticação, banco PostgreSQL e storage de arquivos, sem precisar configurar nenhuma infraestrutura backend separada
+- **API Routes do Next.js** como REST API. Essa foi grande. Em vez de manter um backend separado, usei as rotas de API dentro do próprio Next.js. Para um MVP, é perfeito. Um codebase, um deploy, nenhuma infra extra pra gerenciar
 - **React Query** para gerenciamento de estado do servidor
 - **Tailwind CSS** com design tokens customizados para estilo consistente
-- **next-intl** para internacionalizacao — o app roda em portugues (padrao) e ingles
+- **next-intl** para internacionalização. O app roda em português (padrão) e inglês
 
-Tambem fiz escolhas praticas que economizaram tempo: nenhuma biblioteca de icones (tudo SVG inline), nenhuma lib pesada de formularios exceto onde necessario, e compressao de imagens no client antes do upload.
+Também fiz escolhas práticas que economizaram tempo: nenhuma biblioteca de ícones (tudo SVG inline), nenhuma lib pesada de formulários exceto onde necessário, e compressão de imagens no client antes do upload.
 
-## 3. Testes, Validacao e Refinamento de UX
+## 3. Testes, Validação e Refinamento de UX
 
-Construir features e uma coisa. Fazer elas ficarem realmente boas e outra.
+Construir features é uma coisa. Fazer elas ficarem realmente boas é outra.
 
-Essa fase foi sobre testar cada fluxo de ponta a ponta, refinar a UX e garantir que o banco estivesse solido.
+Essa fase foi sobre testar cada fluxo de ponta a ponta, refinar a UX e garantir que o banco estivesse sólido.
 
-**Deduplicacao de lugares** foi um dos problemas mais complicados. Quando varios usuarios recomendam o mesmo restaurante, voce nao quer 5 entradas duplicadas. Construi um sistema de matching em multiplos niveis: match exato por Google Place ID, match case-insensitive por nome + cidade + pais, proximidade de coordenadas (~500m) com similaridade de nome, e ate normalizacao de nomes de paises (Brasil → Brazil). Quando voce adiciona um lugar que ja existe, o app mostra um modal com a contagem de recomendacoes e tags mais usadas, deixando confirmar que esta adicionando ao mesmo lugar.
+**Deduplicação de lugares** foi um dos problemas mais complicados. Quando vários usuários recomendam o mesmo restaurante, você não quer 5 entradas duplicadas. Construí um sistema de matching em múltiplos níveis: match exato por Google Place ID, match case-insensitive por nome + cidade + país, proximidade de coordenadas (~500m) com similaridade de nome, e até normalização de nomes de países (Brasil → Brazil). Quando você adiciona um lugar que já existe, o app mostra um modal com a contagem de recomendações e tags mais usadas, deixando confirmar que está adicionando ao mesmo lugar.
 
-O **fluxo de Quick Add** foi desenhado com um objetivo: salvar um lugar em ~15 segundos. GPS detecta sua localizacao, voce busca o lugar, escolhe faixa de preco, seleciona tags, e pronto. Campos opcionais como descricao e fotos estao la se quiser, mas nunca bloqueiam o fluxo principal.
+O **fluxo de Quick Add** foi desenhado com um objetivo: salvar um lugar em ~15 segundos. GPS detecta sua localização, você busca o lugar, escolhe faixa de preço, seleciona tags, e pronto. Campos opcionais como descrição e fotos estão lá se quiser, mas nunca bloqueiam o fluxo principal.
 
-**Controles de visibilidade** adicionaram uma camada social que torna o app mais voltado para comunidade. Cada experiencia pode ser publica ou so para amigos. O feed respeita isso: voce ve suas proprias independente, as publicas da comunidade, e as de amigos de quem voce segue. Isso e enforcado no nivel do banco com Row Level Security — nao so na interface.
+**Controles de visibilidade** adicionaram uma camada social que torna o app mais voltado para comunidade. Cada experiência pode ser pública ou só para amigos. O feed respeita isso: você vê suas próprias independente, as públicas da comunidade, e as de amigos de quem você segue. Isso é enforçado no nível do banco com Row Level Security, não só na interface.
 
-A feature **"Outros que indicaram"** acabou sendo uma das melhores adicoes. Quando voce ve uma experiencia, aparece quem mais recomendou o mesmo lugar. Cria aquela sensacao de validacao — "ah, 3 dos meus amigos tambem amam esse lugar" — e incentiva a descoberta por gosto compartilhado.
+A feature **"Outros que indicaram"** acabou sendo uma das melhores adições. Quando você vê uma experiência, aparece quem mais recomendou o mesmo lugar. Cria aquela sensação de validação ("ah, 3 dos meus amigos também amam esse lugar") e incentiva a descoberta por gosto compartilhado.
 
-Tambem construi um **painel de moderacao admin** para qualidade de conteudo. Experiencias podem ser desativadas com um motivo, e o usuario e notificado. Essencial para qualquer plataforma comunitaria, mesmo no estagio de MVP.
+Também construí um **painel de moderação admin** para qualidade de conteúdo. Experiências podem ser desativadas com um motivo, e o usuário é notificado. Essencial para qualquer plataforma comunitária, mesmo no estágio de MVP.
 
 ## 4. Desenvolvimento Mobile
 
-Essa foi a fase que mais me deixou apreensivo. React Native nao e meu stack principal. Sou engenheiro frontend focado em web.
+Essa foi a fase que mais me deixou apreensivo. React Native não é meu stack principal. Sou engenheiro frontend focado em web.
 
-Mas tinha duas coisas a meu favor: uma vantagem inicial de um amigo, e o mesmo workflow com IA que tornou o desenvolvimento web rapido.
+Mas tinha duas coisas a meu favor: uma vantagem inicial de um amigo, e o mesmo workflow com IA que tornou o desenvolvimento web rápido.
 
-Pedro, um amigo e desenvolvedor React Native, tinha construido um boilerplate que me deu um ponto de partida solido — setup de navegacao, estrutura do projeto, configuracoes basicas. Em vez de lutar com o setup inicial do React Native (que pode ser doloroso se voce nao esta acostumado), comecei de uma base funcionando.
+Pedro, um amigo e desenvolvedor React Native, tinha construído um boilerplate que me deu um ponto de partida sólido: setup de navegação, estrutura do projeto, configurações básicas. Em vez de lutar com o setup inicial do React Native (que pode ser doloroso se você não está acostumado), comecei de uma base funcionando.
 
-A partir dai, apliquei a mesma abordagem que usei na web:
+A partir daí, apliquei a mesma abordagem que usei na web:
 
-- Criei arquivos de contexto especificos para o projeto mobile
-- Configurei um `CLAUDE.md` com convencoes React Native
-- Usei Claude Code para construir features, aproveitando minha experiencia crescente com React Native e o contexto do projeto web
+- Criei arquivos de contexto específicos para o projeto mobile
+- Configurei um `CLAUDE.md` com convenções React Native
+- Usei Claude Code para construir features, aproveitando minha experiência crescente com React Native e o contexto do projeto web
 
-O app mobile precisava ter exatamente as mesmas features que o web. Mesma auth, mesmo feed, mesmo fluxo de adicionar, mesmo explorar, mesmos salvos, mesmo perfil. O fato de eu estar usando API Routes do Next.js como backend tornou isso direto — o app mobile simplesmente chama os mesmos endpoints REST. Nenhum backend separado para construir ou manter.
+O app mobile precisava ter exatamente as mesmas features que o web. Mesma auth, mesmo feed, mesmo fluxo de adicionar, mesmo explorar, mesmos salvos, mesmo perfil. O fato de eu estar usando API Routes do Next.js como backend tornou isso direto. O app mobile simplesmente chama os mesmos endpoints REST. Nenhum backend separado para construir ou manter.
 
 Supabase resolveu o trabalho pesado em ambas as plataformas:
 
-- **Autenticacao:** Email/senha com gerenciamento de sessao
-- **Banco:** PostgreSQL com politicas RLS garantindo seguranca independente de qual client faz a requisicao
-- **Storage:** Upload de imagens para fotos de experiencias e avatares
+- **Autenticação:** Email/senha com gerenciamento de sessão
+- **Banco:** PostgreSQL com políticas RLS garantindo segurança independente de qual client faz a requisição
+- **Storage:** Upload de imagens para fotos de experiências e avatares
 
 <div style={{display: 'flex', gap: '1.5rem', justifyContent: 'center', margin: '2rem 0'}}>
-  <img src="/blog/circle-picks/mobile-feed.png" alt="Circle Picks app mobile — Feed de sugestoes de amigos" style={{width: '48%', maxWidth: '300px', borderRadius: '0.75rem', border: '1px solid var(--border)'}} />
-  <img src="/blog/circle-picks/mobile-how-it-works.png" alt="Circle Picks app mobile — Como funciona" style={{width: '48%', maxWidth: '300px', borderRadius: '0.75rem', border: '1px solid var(--border)'}} />
+  <img src="/blog/circle-picks/mobile-feed.png" alt="Circle Picks app mobile - Feed de sugestões de amigos" style={{width: '48%', maxWidth: '300px', borderRadius: '0.75rem', border: '1px solid var(--border)'}} />
+  <img src="/blog/circle-picks/mobile-how-it-works.png" alt="Circle Picks app mobile - Como funciona" style={{width: '48%', maxWidth: '300px', borderRadius: '0.75rem', border: '1px solid var(--border)'}} />
 </div>
 
 Algumas coisas que me deixaram particularmente satisfeito no mobile:
 
-- Localizacao GPS funciona nativamente no Quick Add, com a mesma cascata (GPS → fallback por IP → selecao manual)
-- Compressao de imagens antes do upload, mantendo o app rapido e custos de storage baixos
-- Controles de visibilidade (publico vs so amigos) consistentes entre plataformas
-- A camada de API compartilhada eliminou problemas de paridade — os dois apps falam com o mesmo backend
+- Localização GPS funciona nativamente no Quick Add, com a mesma cascata (GPS → fallback por IP → seleção manual)
+- Compressão de imagens antes do upload, mantendo o app rápido e custos de storage baixos
+- Controles de visibilidade (público vs só amigos) consistentes entre plataformas
+- A camada de API compartilhada eliminou problemas de paridade. Os dois apps falam com o mesmo backend
 
 ## O que aprendi
 
 Construir o Circle Picks me ensinou algumas coisas:
 
-1. **IA funciona melhor quando voce da estrutura.** Arquivos de contexto, arquivos de instrucao e convencoes claras transformam a IA de um autocomplete de codigo em um parceiro de desenvolvimento real.
-2. **Voce nao precisa de um backend separado para um MVP.** API Routes do Next.js + Supabase me deram uma solucao full-stack completa com um unico deploy.
-3. **Comece pelo chato.** Autenticacao, schema do banco, convencoes de rotas — acertar isso cedo significou poder ir rapido depois sem refatorar.
-4. **A comunidade em torno de ferramentas de IA e real.** Ferramentas como [TokenCentric](https://www.tokencentric.app/) do Hel Rabelo, boilerplates do Pedro — o ecossistema de devs construindo ferramentas para melhorar desenvolvimento assistido por IA esta crescendo rapido.
-5. **React Native e acessivel se voce tem o suporte certo.** Um bom boilerplate, arquivos de contexto solidos e uma IA que entende seu projeto compensam muita falta de experiencia em um stack especifico.
+1. **IA funciona melhor quando você dá estrutura.** Arquivos de contexto, arquivos de instrução e convenções claras transformam a IA de um autocomplete de código em um parceiro de desenvolvimento real.
+2. **Você não precisa de um backend separado para um MVP.** API Routes do Next.js + Supabase me deram uma solução full-stack completa com um único deploy.
+3. **Comece pelo chato.** Autenticação, schema do banco, convenções de rotas. Acertar isso cedo significou poder ir rápido depois sem refatorar.
+4. **A comunidade em torno de ferramentas de IA é real.** Ferramentas como [TokenCentric](https://www.tokencentric.app/) do Hel Rabelo, boilerplates do Pedro. O ecossistema de devs construindo ferramentas para melhorar desenvolvimento assistido por IA está crescendo rápido.
+5. **React Native é acessível se você tem o suporte certo.** Um bom boilerplate, arquivos de contexto sólidos e uma IA que entende seu projeto compensam muita falta de experiência em um stack específico.
 
-O [Circle Picks](https://www.circlepicks.app) esta no ar na web, e o app mobile esta chegando em breve. Se voce quer saber como seus amigos descobrem otimos lugares, experimenta.
+O [Circle Picks](https://www.circlepicks.app) está no ar na web, e o app mobile está chegando em breve. Se você quer saber como seus amigos descobrem ótimos lugares, experimenta.
 
-E se voce esta construindo algo com IA — invista nos seus arquivos de contexto. E o multiplicador de produtividade mais subestimado que eu encontrei.
+E se você está construindo algo com IA, invista nos seus arquivos de contexto. É o multiplicador de produtividade mais subestimado que eu encontrei.
 
-*Construido com Next.js, React Native, Supabase e Claude Code.*
+*Construído com Next.js, React Native, Supabase e Claude Code.*

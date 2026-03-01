@@ -49,7 +49,7 @@ const testimonials = [
     role: "IT Business Analyst II",
     company: "Mobills Labs",
     content:
-      "I recommend Renan for his integrity, dedication, and leadership ability. He was fundamental to my professional and personal growth — one of the people who most inspired me. His long-term vision and relentless drive to solve any challenge stand out the most.",
+      "I recommend Renan for his integrity, dedication, and leadership ability. He was fundamental to my professional and personal growth, one of the people who most inspired me. His long-term vision and relentless drive to solve any challenge stand out the most.",
   },
 ];
 
