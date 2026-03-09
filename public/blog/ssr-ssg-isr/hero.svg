@@ -1,0 +1,158 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0A0A0A"/>
+
+  <!-- Subtle grid background -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+    </pattern>
+    <linearGradient id="fadeBottom" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0A0A0A" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0A0A0A" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="fadeTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0A0A0A" stop-opacity="1"/>
+      <stop offset="0.3" stop-color="#0A0A0A" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="ssrGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#818cf8"/>
+    </linearGradient>
+    <linearGradient id="ssgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#10b981"/>
+      <stop offset="1" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="isrGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f59e0b"/>
+      <stop offset="1" stop-color="#fbbf24"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="180" fill="url(#fadeTop)"/>
+  <rect y="480" width="1200" height="150" fill="url(#fadeBottom)"/>
+
+  <!-- SSR Box -->
+  <g transform="translate(100, 180)">
+    <rect x="0" y="0" width="280" height="260" rx="16" fill="#111111" stroke="#6366f1" stroke-width="1.5" opacity="0.9"/>
+    <rect x="0" y="0" width="280" height="56" rx="16" fill="url(#ssrGrad)" opacity="0.15"/>
+    <rect x="0" y="40" width="280" height="16" fill="#111111"/>
+    <text x="140" y="36" text-anchor="middle" fill="#818cf8" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700" letter-spacing="2">SSR</text>
+
+    <!-- Server icon -->
+    <rect x="32" y="80" width="36" height="28" rx="4" fill="none" stroke="#555" stroke-width="1.5"/>
+    <circle cx="42" cy="94" r="2.5" fill="#6366f1"/>
+    <line x1="50" y1="88" x2="58" y2="88" stroke="#444" stroke-width="1.5"/>
+    <line x1="50" y1="94" x2="56" y2="94" stroke="#444" stroke-width="1.5"/>
+    <line x1="50" y1="100" x2="54" y2="100" stroke="#444" stroke-width="1.5"/>
+
+    <!-- Arrow -->
+    <line x1="80" y1="94" x2="110" y2="94" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <polygon points="110,89 120,94 110,99" fill="#6366f1"/>
+
+    <!-- Browser icon -->
+    <rect x="124" y="80" width="36" height="28" rx="4" fill="none" stroke="#555" stroke-width="1.5"/>
+    <line x1="124" y1="90" x2="160" y2="90" stroke="#555" stroke-width="1"/>
+    <circle cx="130" cy="85" r="1.5" fill="#6366f1"/>
+    <circle cx="136" cy="85" r="1.5" fill="#444"/>
+
+    <text x="32" y="136" fill="#999" font-family="system-ui, -apple-system, sans-serif" font-size="12">Every request</text>
+    <text x="32" y="152" fill="#999" font-family="system-ui, -apple-system, sans-serif" font-size="12">renders on server</text>
+
+    <!-- Tags -->
+    <rect x="32" y="176" width="72" height="24" rx="12" fill="#6366f1" opacity="0.12"/>
+    <text x="68" y="192" text-anchor="middle" fill="#818cf8" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500">Dynamic</text>
+    <rect x="112" y="176" width="88" height="24" rx="12" fill="#6366f1" opacity="0.12"/>
+    <text x="156" y="192" text-anchor="middle" fill="#818cf8" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500">Personalized</text>
+
+    <!-- Use case -->
+    <text x="32" y="228" fill="#666" font-family="system-ui, -apple-system, sans-serif" font-size="11">Search results, dashboards,</text>
+    <text x="32" y="244" fill="#666" font-family="system-ui, -apple-system, sans-serif" font-size="11">real-time inventory</text>
+  </g>
+
+  <!-- SSG Box -->
+  <g transform="translate(460, 180)">
+    <rect x="0" y="0" width="280" height="260" rx="16" fill="#111111" stroke="#10b981" stroke-width="1.5" opacity="0.9"/>
+    <rect x="0" y="0" width="280" height="56" rx="16" fill="url(#ssgGrad)" opacity="0.15"/>
+    <rect x="0" y="40" width="280" height="16" fill="#111111"/>
+    <text x="140" y="36" text-anchor="middle" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700" letter-spacing="2">SSG</text>
+
+    <!-- Build icon -->
+    <rect x="32" y="80" width="36" height="28" rx="4" fill="none" stroke="#555" stroke-width="1.5"/>
+    <text x="50" y="98" text-anchor="middle" fill="#10b981" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">{}</text>
+
+    <!-- Arrow -->
+    <line x1="80" y1="94" x2="110" y2="94" stroke="#10b981" stroke-width="1.5"/>
+    <polygon points="110,89 120,94 110,99" fill="#10b981"/>
+
+    <!-- CDN icon -->
+    <rect x="124" y="80" width="36" height="28" rx="4" fill="none" stroke="#555" stroke-width="1.5"/>
+    <text x="142" y="98" text-anchor="middle" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600">CDN</text>
+
+    <text x="32" y="136" fill="#999" font-family="system-ui, -apple-system, sans-serif" font-size="12">Pre-built at</text>
+    <text x="32" y="152" fill="#999" font-family="system-ui, -apple-system, sans-serif" font-size="12">deploy time</text>
+
+    <!-- Tags -->
+    <rect x="32" y="176" width="56" height="24" rx="12" fill="#10b981" opacity="0.12"/>
+    <text x="60" y="192" text-anchor="middle" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500">Static</text>
+    <rect x="96" y="176" width="62" height="24" rx="12" fill="#10b981" opacity="0.12"/>
+    <text x="127" y="192" text-anchor="middle" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500">Fastest</text>
+
+    <!-- Use case -->
+    <text x="32" y="228" fill="#666" font-family="system-ui, -apple-system, sans-serif" font-size="11">Marketing sites, docs,</text>
+    <text x="32" y="244" fill="#666" font-family="system-ui, -apple-system, sans-serif" font-size="11">brand pages</text>
+  </g>
+
+  <!-- ISR Box -->
+  <g transform="translate(820, 180)">
+    <rect x="0" y="0" width="280" height="260" rx="16" fill="#111111" stroke="#f59e0b" stroke-width="1.5" opacity="0.9"/>
+    <rect x="0" y="0" width="280" height="56" rx="16" fill="url(#isrGrad)" opacity="0.15"/>
+    <rect x="0" y="40" width="280" height="16" fill="#111111"/>
+    <text x="140" y="36" text-anchor="middle" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700" letter-spacing="2">ISR</text>
+
+    <!-- Static + revalidate icon -->
+    <rect x="32" y="80" width="36" height="28" rx="4" fill="none" stroke="#555" stroke-width="1.5"/>
+    <text x="50" y="98" text-anchor="middle" fill="#f59e0b" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">{}</text>
+
+    <!-- Circular arrow (revalidation) -->
+    <path d="M 84 88 A 8 8 0 1 1 84 100" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+    <polygon points="82,100 88,100 85,106" fill="#f59e0b"/>
+
+    <!-- Arrow -->
+    <line x1="100" y1="94" x2="118" y2="94" stroke="#f59e0b" stroke-width="1.5"/>
+    <polygon points="118,89 128,94 118,99" fill="#f59e0b"/>
+
+    <!-- CDN icon -->
+    <rect x="132" y="80" width="36" height="28" rx="4" fill="none" stroke="#555" stroke-width="1.5"/>
+    <text x="150" y="98" text-anchor="middle" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600">CDN</text>
+
+    <text x="32" y="136" fill="#999" font-family="system-ui, -apple-system, sans-serif" font-size="12">Static + on-demand</text>
+    <text x="32" y="152" fill="#999" font-family="system-ui, -apple-system, sans-serif" font-size="12">revalidation</text>
+
+    <!-- Tags -->
+    <rect x="32" y="176" width="60" height="24" rx="12" fill="#f59e0b" opacity="0.12"/>
+    <text x="62" y="192" text-anchor="middle" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500">Hybrid</text>
+    <rect x="100" y="176" width="88" height="24" rx="12" fill="#f59e0b" opacity="0.12"/>
+    <text x="144" y="192" text-anchor="middle" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500">Webhook</text>
+
+    <!-- Use case -->
+    <text x="32" y="228" fill="#666" font-family="system-ui, -apple-system, sans-serif" font-size="11">CMS content, catalogs,</text>
+    <text x="32" y="244" fill="#666" font-family="system-ui, -apple-system, sans-serif" font-size="11">periodically updated pages</text>
+  </g>
+
+  <!-- Connecting lines between boxes (subtle) -->
+  <line x1="380" y1="310" x2="460" y2="310" stroke="#222" stroke-width="1" stroke-dasharray="6,4"/>
+  <line x1="740" y1="310" x2="820" y2="310" stroke="#222" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- Title area -->
+  <text x="600" y="100" text-anchor="middle" fill="#e5e5e5" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5">Rendering Strategies for High-Traffic Apps</text>
+  <text x="600" y="135" text-anchor="middle" fill="#666" font-family="system-ui, -apple-system, sans-serif" font-size="15">Choosing the right approach for your data, users, and scale</text>
+
+  <!-- Bottom accent -->
+  <text x="600" y="510" text-anchor="middle" fill="#333" font-family="ui-monospace, monospace" font-size="13">next.js  ·  sanity cms  ·  performance  ·  architecture</text>
+
+  <!-- Subtle glow effects -->
+  <circle cx="240" cy="310" r="120" fill="#6366f1" opacity="0.03"/>
+  <circle cx="600" cy="310" r="120" fill="#10b981" opacity="0.03"/>
+  <circle cx="960" cy="310" r="120" fill="#f59e0b" opacity="0.03"/>
+</svg>

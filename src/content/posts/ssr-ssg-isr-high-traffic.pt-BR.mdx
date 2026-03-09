@@ -1,0 +1,136 @@
+---
+title: "SSR, SSG e ISR: Escolhendo a Estratégia de Renderização Certa para Apps de Alto Tráfego"
+description: "Um guia prático sobre server-side rendering, geração estática e regeneração estática incremental, baseado em experiência real entregando apps para milhões de usuários."
+excerpt: "Essas não são escolhas teóricas. São decisões que tomei em projetos reais servindo milhões de usuários, de plataformas de passagens a redes de restaurantes."
+coverImage: "/blog/ssr-ssg-isr/hero.svg"
+tags:
+  - Next.js
+  - Performance
+  - Arquitetura
+  - Frontend
+publishedAt: "2026-03-04"
+featured: true
+---
+
+Estratégia de renderização é uma das decisões arquiteturais mais impactantes que você vai tomar em uma aplicação de alto tráfego. Acerte e suas páginas carregam rápido, seus custos de infraestrutura ficam baixos e seu time entrega com confiança. Erre e você vai brigar com problemas de performance, pagar por servidores que não precisa, ou servir conteúdo desatualizado para usuários frustrados.
+
+Para mim, essas não são escolhas teóricas. São decisões que tomei em projetos reais servindo milhões de usuários, de plataformas de passagens de ônibus a redes de restaurantes com 400k+ visitantes mensais. Aqui vai o que aprendi.
+
+## SSR: Quando Cada Requisição Precisa de Dados Frescos
+
+**Server-Side Rendering** gera HTML no servidor para cada requisição. O navegador recebe uma página completamente renderizada ao invés de uma casca vazia que precisa de JavaScript para preencher o conteúdo.
+
+Use SSR quando seu conteúdo é dinâmico, personalizado, ou muda a cada requisição. Pense em resultados de busca, dashboards de usuário, inventário em tempo real, ou páginas onde cada visitante vê algo diferente.
+
+### Onde eu usei: DeOnibus
+
+No DeOnibus, tínhamos uma plataforma de travel tech processando milhões de pedidos por ano em **mais de 100 domínios white-label**. Cada loja tinha marca, preços e disponibilidade de rotas únicos que precisavam ser renderizados no servidor a cada requisição. Nenhum usuário via a mesma página.
+
+O frontend era um app JavaScript legado que levava **10 segundos para carregar**. Liderei uma migração gradual para React com SSR, Webpack, lazy loading, Context API e cache Redis. O detalhe é que não podíamos quebrar nenhum dos 100+ domínios no processo. Zero downtime. Nenhuma reescrita big bang.
+
+O resultado: **redução de 60% no tempo de carregamento** (de 10s para 4s) e **aumento de 30% na taxa de conversão** em uma plataforma com milhões de pedidos anuais. Esses números mudaram a trajetória do negócio.
+
+Também usei SSR no MINE, um app de moda high-ticket onde páginas de produto precisavam de renderização no servidor para SEO, e recomendações curadas por IA variavam por usuário. A combinação de conteúdo personalizado e necessidade de SEO tornaram SSR a escolha clara.
+
+### Trade-offs
+
+SSR vem com custos reais. Cada requisição atinge seu servidor, o que significa mais gasto com infraestrutura e potencialmente maior latência no **Time to First Byte (TTFB)** sob carga. No DeOnibus, mitigamos isso com cache Redis para rotas e dados comuns. Sem essa camada de cache, os custos de servidor teriam sido dolorosos em escala.
+
+Se seu conteúdo não muda por requisição, você está pagando por computação que não precisa.
+
+## SSG: Quando Conteúdo é Rei
+
+**Static Site Generation** constrói suas páginas no momento do deploy. O HTML é pré-gerado e servido diretamente de um nó edge do CDN. Sem computação no servidor, sem queries no banco, apenas um arquivo servido o mais rápido possível.
+
+Use SSG quando seu conteúdo muda com pouca frequência. Sites de marketing, documentação, páginas de marca, landing pages, e qualquer coisa onde o mesmo conteúdo serve para todos os visitantes.
+
+### Onde eu usei: Din Tai Fung
+
+Na Planetary, arquitetei sites multi-idioma e multi-região para o Din Tai Fung nos EUA, Canadá e Europa. O conteúdo vivia no Sanity CMS e era pré-construído no momento do deploy. Páginas eram servidas de nós edge do CDN no mundo todo.
+
+Geo-redirects eram tratados no nível do middleware, mas as páginas de conteúdo em si eram estáticas. Localizações de restaurantes, cardápios, história da marca, materiais de imprensa. Nada disso muda a cada requisição. Construir de forma estática significou que usuários em Toronto tinham a mesma experiência rápida que usuários em Londres, com conteúdo servido do edge mais próximo.
+
+Apliquei a mesma abordagem para páginas de campanhas do WSJ e outros sites de marketing na Planetary. Quando conteúdo não muda entre requisições, geração estática te dá a melhor performance com o menor custo de infraestrutura.
+
+### Trade-offs
+
+Tempos de build crescem com a quantidade de páginas. Se você tem milhares de páginas, deploys podem levar minutos ou mais. E qualquer atualização de conteúdo exige um redeploy completo. Para um site de marketing que atualiza semanalmente, tudo bem. Para um catálogo com centenas de itens atualizados diariamente, vira um gargalo.
+
+É aí que entra o ISR.
+
+## ISR: O Melhor dos Dois Mundos
+
+**Incremental Static Regeneration** te dá performance estática com a capacidade de atualizar páginas individuais sem reconstruir o site inteiro. Páginas são geradas estaticamente, mas podem ser revalidadas sob demanda ou após um intervalo de tempo.
+
+Use ISR quando seu conteúdo muda periodicamente, mas não a cada requisição. Catálogos de e-commerce, páginas de marketing com experimentos frequentes, sites pesados em conteúdo com CMS, qualquer coisa onde editores atualizam conteúdo ao longo do dia e você precisa que essas mudanças apareçam sem um redeploy completo.
+
+### Onde eu usei: TradeZero
+
+[TradeZero](https://www.tradezero.com) é uma plataforma de corretagem online para negociação de ações e opções nos EUA, com operações nos Estados Unidos, Canadá, Bahamas e uma presença crescente na Europa através da Holanda. O site Next.js deles com Sanity CMS serve páginas de marketing, informações das plataformas, conteúdo educacional e experiências localizadas em múltiplas regiões e idiomas.
+
+Quando começamos a trabalhar no projeto, adicionar um novo idioma ou locale exigia mudanças no código e um deploy completo. O time de marketing estava constantemente atualizando páginas, rodando experimentos e adicionando novo conteúdo (dashboards, dados de performance, números promocionais), mas cada atualização significava esperar por um deploy. Era lento e travava o time.
+
+Implementamos uma combinação de **revalidação via webhook e baseada em tempo**. Para conteúdo gerenciado no Sanity, corrigimos e implementamos revalidação baseada em tags para que quando um editor publica uma mudança, um webhook dispara `revalidateTag()` para os schemas específicos que mudaram. Apenas as páginas afetadas são regeneradas. Para dados que atualizam em cadência regular (como conteúdo relacionado ao mercado), usamos revalidação baseada em tempo como fallback para manter as páginas atualizadas sem precisar de triggers explícitos.
+
+Também reestruturamos a arquitetura do CMS para tornar **i18n escalável**. Em vez de hardcodar suporte a locales, a nova estrutura permite que o time crie novos idiomas e regiões direto pelo CMS, sem tocar no código ou disparar rebuilds completos. Isso foi crítico conforme eles expandiam para a Europa.
+
+O impacto foi significativo: editores passaram de esperar por deploys para ver suas mudanças ao vivo em segundos, tempos de build caíram porque rebuilds completos não eram mais necessários para atualizações de conteúdo, e o time de marketing finalmente conseguiu rodar experimentos e iterar nas páginas de forma independente. O workflow melhorado permitiu diretamente atualizações de conteúdo mais frequentes, o que contribuiu para melhores taxas de conversão.
+
+### Como funciona a estratégia de revalidação
+
+O TradeZero usa ambas as abordagens de revalidação, cada uma para um propósito diferente:
+
+**Revalidação via webhook** (para conteúdo do CMS):
+1. Editor de conteúdo atualiza uma página no Sanity CMS
+2. Sanity dispara um webhook para o endpoint de API do Next.js
+3. O endpoint valida a assinatura do webhook e determina quais schemas foram afetados
+4. Chama `revalidateTag()` para as tags de conteúdo específicas
+5. O próximo visitante recebe a versão recém-gerada, que é então cacheada novamente
+
+**Revalidação baseada em tempo** (para dados periódicos):
+1. Páginas que exibem dados atualizados regularmente definem um intervalo de `revalidate`
+2. Após o intervalo expirar, a próxima requisição dispara uma regeneração em background
+3. A página desatualizada é servida imediatamente enquanto a versão nova é construída
+4. Visitantes subsequentes recebem a página atualizada
+
+Usar ambas as estratégias juntas te dá precisão onde importa (conteúdo do CMS atualiza instantaneamente) e uma rede de segurança para todo o resto (dados periódicos ficam razoavelmente frescos sem triggers manuais).
+
+### Trade-offs
+
+Existe uma breve janela de **stale-while-revalidate** onde um visitante pode ver a versão antiga da página enquanto a nova é gerada. Na prática, essa janela é de segundos para atualizações disparadas por webhook. Para revalidação baseada em tempo, a janela de desatualização é igual ao seu intervalo de revalidate, então escolher o valor certo importa. A lógica de revalidação também pode ficar complexa se seu conteúdo tem dependências (atualizar uma página de produto deveria também revalidar a homepage que destaca ele).
+
+## Como Escolher: Um Framework de Decisão
+
+Aqui está a árvore de decisão que eu uso:
+
+**O conteúdo é personalizado por usuário ou por requisição?** Use SSR. Dashboards, resultados de busca e páginas específicas por usuário precisam de renderização fresca no servidor.
+
+**O conteúdo raramente muda (menos que diariamente)?** Use SSG. Páginas de marketing, documentação e sites de marca são candidatos perfeitos.
+
+**O conteúdo muda periodicamente, mas não a cada requisição?** Use ISR. Conteúdo gerenciado por CMS, catálogos e cardápios que atualizam ao longo do dia se beneficiam de performance estática com revalidação sob demanda.
+
+**Ainda não tem certeza?** A maioria das aplicações reais usa uma abordagem híbrida. No TradeZero, páginas de marketing usam ISR com revalidação via webhook do Sanity, páginas com dados de mercado usam revalidação baseada em tempo, e qualquer feature específica do usuário (como dashboards de conta) usa renderização client-side com chamadas de API.
+
+O App Router do Next.js facilita misturar estratégias por rota. Você não precisa escolher uma para o app inteiro.
+
+## Dicas Práticas de Produção
+
+Depois de anos entregando aplicações de alto tráfego, esses são os padrões que consistentemente entregam resultados:
+
+**Cache agressivamente com SSR.** Se você está usando SSR, combine com uma camada de cache. Redis no DeOnibus foi a diferença entre custos gerenciáveis e gastos descontrolados de infraestrutura. Também configure headers de cache CDN adequados para respostas que podem ser cacheadas.
+
+**Use revalidação via webhook para conteúdo do CMS, baseada em tempo para dados periódicos.** No TradeZero, usamos ambos: webhooks para conteúdo do Sanity (editores veem mudanças em segundos) e revalidação baseada em tempo para dados que atualizam em cadência regular. ISR puramente baseado em tempo (`revalidate: 60`) para conteúdo do CMS significa que suas páginas estão sempre potencialmente desatualizadas. Webhooks te dão precisão.
+
+**Monitore Core Web Vitals por estratégia de renderização.** Estratégias diferentes afetam métricas diferentes. SSR impacta TTFB. Hidratação pesada no client impacta INP. Páginas estáticas podem ter conteúdo desatualizado. Acompanhe por rota, não apenas médias do site.
+
+**Considere edge runtime para SSR quando latência importa globalmente.** Se seu app SSR serve usuários no mundo todo, rodar suas funções de servidor no edge (mais perto dos usuários) pode reduzir significativamente o TTFB. Isso foi relevante para os sites multi-região que construí na Planetary.
+
+**Meça o que importa: taxa de conversão, não apenas scores do Lighthouse.** Uma melhoria de 30+ pontos no Lighthouse é ótimo, mas a métrica que mudou o negócio no DeOnibus foi o **aumento de 30% na conversão**. Melhorias de performance devem se conectar a resultados de negócio.
+
+## Considerações Finais
+
+A estratégia de renderização certa depende dos seus dados, dos seus usuários e da sua escala. Não use SSR por padrão porque parece seguro. Não use SSG para tudo porque é simples. Entenda seus padrões de atualização de conteúdo, meça o impacto em usuários reais, e otimize de acordo.
+
+As melhores aplicações de alto tráfego que construí usam uma combinação das três estratégias, cada uma aplicada onde faz mais sentido. Esse é o verdadeiro poder de frameworks modernos como Next.js: você não precisa escolher um. Você escolhe por rota, por página, por caso de uso.
+
+*Construído com Next.js e baseado em anos entregando aplicações de alto tráfego.*
