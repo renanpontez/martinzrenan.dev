@@ -1,0 +1,277 @@
+---
+title: "Migrando uma SPA React Legada do Node 16 para o Node 22: Um Relato de Guerra"
+description: "Como migramos uma SPA React em produção servindo tráfego real de restaurante do Node 16 para o Node 22 em 11 etapas, e tudo que quebrou no caminho."
+excerpt: "CRA 5, tipos Flow, remoção de polyfills do Webpack 5, 1.165 supressões de tipos, 161 arquivos Sass migrados, e uma biblioteca de estado abandonada quebrando silenciosamente no React 18."
+coverImage: "/blog/node16-to-node22/hero.svg"
+tags:
+  - React
+  - Node.js
+  - Migração
+  - Frontend
+publishedAt: "2026-03-09"
+featured: true
+---
+
+Nós mantemos o frontend de pedidos online de uma grande rede de restaurantes americana, uma aplicação React single-page servindo tráfego real de restaurante. A stack: Create React App 5, tipos Flow (não TypeScript), RxJS para chamadas de API, Dart Sass, React Router v5, e cerca de 30 singleton hooks gerenciando estado global. Não é um projeto greenfield. É um sistema em produção com anos de decisões acumuladas.
+
+Quando o Node 16 chegou ao EOL, precisávamos migrar. Aqui está como fomos do Node 16 ao Node 22 em 11 etapas, e o que quebrou pelo caminho.
+
+## A Estratégia
+
+Planejamos 10 etapas sequenciais. Uma 11ª nos encontrou.
+
+A ordem importava. React tinha que ir primeiro porque react-scripts 5 exigia React 17+. react-scripts precisava vir antes do Node 22 porque CRA 3 não compilava em versões mais novas do Node. Flow e Sass vieram depois que o tooling de build estava estável.
+
+| Etapa | O que |
+|-------|-------|
+| 1 | React 16 → 18 |
+| 2 | react-scripts 3.4 → 5.0 |
+| 3 | @testing-library/react 11 → 16 |
+| 4 | Remover Storybook (sem uso) |
+| 5 | Flow 0.115 → 0.202 |
+| 6 | Corrigir todos os warnings do ESLint |
+| 7 | Husky 4 → 9, lint-staged 9 → 15 |
+| 8 | Node 16 → 22 |
+| 9 | Corrigir warnings de depreciação do Sass |
+| 10 | Migração @import → @use/@forward |
+| 11 | Compatibilidade createRoot do React 18 (descoberta durante a migração) |
+
+Mantivemos cada etapa como um commit isolado. Se algo desse errado em produção, poderíamos reverter uma etapa sem desfazer toda a migração.
+
+## Webpack 5 e os Polyfills que Desapareceram
+
+react-scripts 5 trouxe o Webpack 5, que removeu polyfills automáticos do Node.js. Em uma codebase rodando Webpack 4 por anos, imports que você nem sabia que existiam de repente viraram erros de build.
+
+O módulo `path` era importado em um hook de redirect só para chamar `path.join()`:
+
+```js
+// Antes — quebra no Webpack 5
+import path from 'path';
+const url = path.join(base, restaurant, category);
+
+// Depois — sem polyfill necessário
+const url = [base, restaurant, category].join('/');
+```
+
+Também encontramos o erro `ajv/dist/compile/codegen`, um conflito de versão de dependência transitiva que exigiu adicionar `ajv@8` e `ajv-keywords@5` explicitamente. E nosso sistema de importação dinâmica de SVGs quebrou completamente porque o Webpack 5 mudou como expressões `import()` resolvem. Substituímos por um mapeamento estático de todos os 95 ícones, que é discutivelmente melhor: tree-shakeable e sem overhead em runtime.
+
+A situação do ESLint foi mais sutil. CRA 5 inclui sua própria configuração do ESLint internamente. Nossos pacotes explícitos de `eslint`, `babel-eslint` e meia dúzia de `eslint-plugin-*` agora conflitavam com as versões do CRA. A solução foi remover todos e reduzir o `.eslintrc.js` para estender apenas `react-app`.
+
+## Flow 0.115 → 0.202: 1.165 Supressões
+
+Flow 0.202 não é a versão mais recente, mas é suficiente para compatibilidade com Node 22. O salto do 0.115 ainda foi doloroso.
+
+Entre essas versões, Flow introduziu a arquitetura **"types-first"**, um modo onde toda função exportada precisa de uma anotação de tipo de retorno explícita. Nossa codebase, escrita para a inferência mais permissiva do 0.115, não tinha nenhuma.
+
+A contagem inicial de erros: **1.269 erros em 283 arquivos**.
+
+| Categoria de Erro | Quantidade |
+|---|---|
+| signature-verification-failure | 557 |
+| missing-local-annot | 317 |
+| prop-missing | 141 |
+| incompatible-type | 98 |
+| Todo o resto | 156 |
+
+Corrigir 874 erros de assinatura/anotação corretamente significaria adicionar tipos de retorno a cada export na codebase, essencialmente reescrevendo a camada de tipos. Isso é um projeto, não uma etapa. Suprimimos:
+
+```js
+// $FlowFixMe[signature-verification-failure]
+export const useCart = createTypedSingletonHook(useCartInner);
+```
+
+Toda supressão usa o formato `$FlowFixMe[error-code]`, tornando-as pesquisáveis e categorizáveis para limpeza futura. Também configuramos `exact_by_default=false` no `.flowconfig` para manter compatibilidade retroativa. Sem isso, outros 214 erros apareciam de objetos que antes aceitavam propriedades extras.
+
+Algumas coisas precisaram de correções manuais: `React$Node` virou `React.Node` (9 arquivos), um typo `SynthetictextareaEvent` foi encontrado, e as definições flow-typed do RxJS precisaram de 4 supressões.
+
+O resultado: **0 erros, 1.165 supressões**. Um item de dívida, não um bloqueio.
+
+## A Migração @import → @use: 161 Arquivos
+
+Dart Sass vem depreciando `@import` desde 2019. Node 22 combinado com versões mais novas do Sass tornaram os warnings impossíveis de ignorar. A saída do build estava inundada de ruído de depreciação.
+
+A migração tocou **161 arquivos**. Usamos `sass-migrator` para os 11 arquivos de estilo core:
+
+```bash
+npx sass-migrator module --migrate-deps --forward=all src/assets/styles/_common.scss
+```
+
+Isso converteu `_common.scss` de uma lista flat de `@import` para re-exports com `@forward`, e atualizou referências internas para acesso com namespace (`fc.rem()`, `media.$hidpi-width`).
+
+Os 148 arquivos de componentes restantes foram um find-and-replace em massa:
+
+```scss
+// Antes
+@import '~assets/styles/common';
+
+// Depois
+@use 'assets/styles/common' as *;
+```
+
+Usar `as *` manteve todas as referências não qualificadas funcionando. Sem necessidade de mudanças no código dos componentes.
+
+Os edge cases foram mais interessantes. Encontramos uma **dependência circular** entre `_helpers.scss` e `_media.scss`. Com `@import`, o Sass resolvia isso silenciosamente através de side effects da ordem de carregamento. Com `@use`, é um erro hard. A correção foi mover o mixin `respond-to` de helpers para media, que é onde ele semanticamente pertencia de qualquer forma.
+
+Também encontramos dois arquivos (`application.scss` e `_elements.scss`) que dependiam do vazamento de escopo do `@import`: variáveis definidas em um `@import` sendo visíveis nos subsequentes. Com `@use`, cada arquivo é um módulo isolado. Ambos precisaram de statements `@use` explícitos para suas dependências.
+
+Antes da migração completa para `@use`, também corrigimos três categorias de depreciação do Sass em 33 arquivos: declarações mistas (propriedades após regras aninhadas, 27 arquivos), divisão com `/` substituída por `math.div()` (5 arquivos), e `darken()` substituído por `color.adjust()` (1 arquivo).
+
+## A História do Hookleton: Quando o React 18 Quebra Seu Estado Silenciosamente
+
+Essa é a etapa que não planejamos.
+
+### O Sintoma
+
+Depois de trocar `src/index.js` de `ReactDOM.render` para `createRoot` (Etapa 1), o app compilou e rodou. A maioria das páginas funcionava. Mas a página `/account` ficava girando para sempre, o loading nunca resolvia. Estado do carrinho às vezes não propagava. Saldo de recompensas mostrava dados desatualizados.
+
+Os sintomas eram intermitentes e específicos por página, o que tornava difícil identificar. O app não crashava. Não havia erros no console. O estado simplesmente ficava... travado.
+
+### A Arquitetura
+
+O app usa ~30 singleton hooks para estado global: carrinho, usuário, recompensas, dados do CMS, amenidades, etc. Foram construídos com [hookleton](https://github.com/nicobrinkkemper/hookleton), uma biblioteca que implementa o padrão singleton hook. Um componente "host" roda a lógica real do hook, e todo outro componente que chama o hook se inscreve no estado do host.
+
+```js
+// É assim que todo hook global era definido
+import { createHook } from 'hookleton';
+
+const useCartInner = () => {
+  const [items, setItems] = useState([]);
+  // ... lógica do carrinho
+  return { items, setItems };
+};
+
+export const useCart = createHook(useCartInner);
+```
+
+O componente host chama `useCart.use()` (tipicamente montado alto na árvore via `GlobalContexts`), e todo outro componente chama `useCart()` para obter o estado compartilhado.
+
+### A Causa Raiz
+
+O mecanismo de notificação do hookleton usava `useMemo` para despachar chamadas `setState` para subscribers não-host durante o render:
+
+```js
+// Dentro do hookleton (simplificado) — o padrão problemático
+useMemo(() => {
+  // Chamado durante o render do componente HOST
+  subscribers.forEach(setState => setState(newOutput));
+}, [newOutput]);
+```
+
+Com `ReactDOM.render` (comportamento do React 17), chamar `setState` em outro componente durante o render era tolerado. React fazia batch e re-renderizava os subscribers.
+
+Com `createRoot` (comportamento do React 18), **React silenciosamente ignora chamadas `setState` direcionadas a outros componentes durante o render**. Não é um erro. Não é um warning. A chamada simplesmente não faz nada.
+
+Isso significa que o hook host atualizava seu estado, tentava notificar os subscribers, e a notificação desaparecia. Consumidores não-host continuavam renderizando com dados desatualizados para sempre.
+
+### Por Que Foi Difícil Encontrar
+
+1. **Sem erros, sem warnings.** React 18 não avisa que está ignorando as chamadas `setState`. Simplesmente descarta.
+2. **Nem todos os hooks foram afetados igualmente.** Hooks que eram lidos uma vez (como dados do CMS) pareciam funcionar porque o valor inicial propagava. Hooks que mudavam ao longo do tempo (carrinho, estado de auth) quebravam visivelmente.
+3. **A migração do createRoot foi na Etapa 1.** Quando estávamos testando a Etapa 8+ com tudo mais alterado, a superfície de debug era enorme.
+4. **Hookleton está abandonado.** Último commit em março de 2020, v0.4.9. Nenhuma issue sobre React 18 porque ninguém usando React 18 está usando hookleton.
+
+Foram necessárias múltiplas sessões de debug para isolar. A descoberta veio ao adicionar logging no source do hookleton. Conseguíamos ver o host chamando `setState` nos subscribers, mas os subscribers nunca re-renderizavam.
+
+### A Correção: 65 Linhas
+
+Consideramos migrar para `react-singleton-hook` (mantido ativamente, compatível com React 18), mas sua API é diferente o suficiente para que todos os 19 singleton hooks precisassem de reestruturação. Em vez disso, escrevemos um substituto drop-in:
+
+```js
+// src/hooks/createHook.js
+// @flow
+import { useEffect, useReducer } from 'react';
+
+const forceUpdate = (s: number): number => ~s;
+
+export function createHook<T>(
+  useHook: (...args: any[]) => T,
+  ...initialArgs: any[]
+): any {
+  let output: any = [];
+  let subscribers: Set<(v: any) => void> = new Set();
+  let hostArgs: any[] = initialArgs;
+  let initialized: boolean = false;
+
+  function useFn(): T {
+    const [, dispatch] = useReducer(forceUpdate, 0);
+
+    useEffect(() => {
+      subscribers.add(dispatch);
+      return () => {
+        subscribers.delete(dispatch);
+      };
+    }, []);
+
+    return output;
+  }
+
+  function useHost(): T {
+    if (!initialized) {
+      initialized = true;
+      if (initialArgs.length === 0 && arguments.length > 0) {
+        hostArgs = Array.from(arguments);
+      }
+    }
+
+    const result: T = useHook.apply(null, hostArgs);
+    output = result;
+
+    useEffect(() => {
+      subscribers.forEach(fn => fn(output));
+    });
+
+    return result;
+  }
+
+  useFn.use = useHost;
+  useFn.get = function(): T {
+    return output;
+  };
+
+  return useFn;
+}
+```
+
+A diferença chave: notificação acontece no `useEffect`, não no `useMemo`. `useEffect` roda depois que o render é commitado, quando React suporta totalmente chamadas `setState` cross-component. O host armazena seu output sincronamente em uma variável mutável (fora do sistema de estado do React), e após cada render, dispara `useEffect` para acionar dispatches de `useReducer` nos subscribers, forçando-os a re-ler o output mutável.
+
+A API é idêntica ao hookleton. A migração foi mudar caminhos de import em 11 arquivos:
+
+```js
+// Antes
+import { createHook } from 'hookleton';
+
+// Depois
+import { createHook } from 'hooks/createHook';
+```
+
+## Decisões e Trade-Offs
+
+**Por que manter CRA em vez de ejetar ou migrar para Vite/Next.js?** Escopo. O objetivo era compatibilidade com Node 22, não uma reformulação do sistema de build. CRA 5 funciona no Node 22. Ejetar nos daria acesso à config do Webpack para corrigir os warnings de depreciação do dev-server, mas também nos faria donos de toda futura atualização do Webpack. O trade-off não valia por dois warnings não-breaking.
+
+**Por que escrever nosso próprio createHook em vez de usar react-singleton-hook?** Superfície da API. `react-singleton-hook` tem uma API diferente. Requer um componente `SingletonHooksContainer` e hooks são criados com `singletonHook(defaultValue, useHookFn)`. Nossa codebase tinha 19 hooks usando o padrão `createHook(useHookFn)` do hookleton mais os métodos `.use()` / `.get()`. Um substituto drop-in significou mudar 11 caminhos de import. Uma migração de biblioteca significaria reescrever 19 definições de hooks e todo call site que usava `.use()` ou `.get()`.
+
+**Por que não React 19?** React 19 remove suporte a `propTypes` e `defaultProps` para componentes de função, que são usados extensivamente nessa codebase. Também muda o comportamento de refs (sem mais wrapper `forwardRef`), Context (usar `<Context>` diretamente em vez de `<Context.Provider>`), e várias outras APIs. Isso é um projeto separado.
+
+**Por que suprimir 1.165 erros do Flow em vez de corrigi-los?** Os erros types-first exigem adicionar anotações de tipo de retorno explícitas a toda função exportada. Em uma codebase de 400+ arquivos com tipos Flow escritos para um motor de inferência permissivo, "só adicionar anotações" significa fazer engenharia reversa do tipo que o Flow estava inferindo, e então verificar que a anotação não causa erros em cascata. Estimamos 2-3 semanas de trabalho dedicado com risco significativo de regressão. As supressões nos permitiram avançar mantendo os erros inventariados.
+
+## O Que Foi Adiado
+
+Três categorias de trabalho foram identificadas mas intencionalmente deixadas fora desta migração:
+
+- **Tratamento de erros do RxJS:** 9 chamadas `.subscribe()` e 3 chains `.then()` sem callbacks de erro. Pré-existente, não causado pela migração. Só se manifesta em erros de rede/servidor.
+- **Substituição do react-portal:** O componente Modal usa `react-portal` que ainda funciona mas dispara warnings no console no React 18. É usado em todo o app e precisa de teste de regressão isolado.
+- **Teste de regressão visual:** Verificamos builds e funcionalidade básica mas não temos regressão visual automatizada. QA manual em homepage, conta, cardápio e layouts mobile está pendente.
+
+## Os Números
+
+- **11 etapas** ao longo de 4 semanas
+- **161 arquivos** tocados só na migração Sass
+- **1.165 supressões Flow** adicionadas (pesquisáveis, categorizáveis)
+- **60 warnings ESLint** corrigidos para alcançar política de zero warnings
+- **9 Dockerfiles** atualizados (development, staging, prestaging, beta, production, uat, preview, mais um template de features)
+- **65 linhas** para substituir uma biblioteca abandonada que estava silenciosamente quebrando o gerenciamento de estado
+- **0 ejeções** do CRA
+
+A lição mais valiosa: o `createRoot` do React 18 não é apenas uma nova API para montar seu app. Ele muda o contrato de renderização de formas que expõem bugs em bibliotecas que nunca foram testadas contra ele, especialmente as abandonadas. Se você está migrando React e usando qualquer padrão de gerenciamento de estado de nicho, teste a propagação do seu estado, não apenas seus renders.
+
+*Construído com React, CRA e um respeito saudável por codebases legadas.*

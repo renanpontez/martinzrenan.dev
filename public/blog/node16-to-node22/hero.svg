@@ -1,0 +1,134 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0A0A0A"/>
+
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+    </pattern>
+    <linearGradient id="fadeBottom" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0A0A0A" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0A0A0A" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="fadeTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0A0A0A" stop-opacity="1"/>
+      <stop offset="0.3" stop-color="#0A0A0A" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="nodeGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ef4444"/>
+      <stop offset="0.5" stop-color="#f59e0b"/>
+      <stop offset="1" stop-color="#22c55e"/>
+    </linearGradient>
+    <linearGradient id="arrowGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ef4444" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#22c55e" stop-opacity="0.6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="160" fill="url(#fadeTop)"/>
+  <rect y="500" width="1200" height="130" fill="url(#fadeBottom)"/>
+
+  <!-- Title -->
+  <text x="600" y="88" text-anchor="middle" fill="#e5e5e5" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5">Upgrading a Legacy React SPA</text>
+  <text x="600" y="125" text-anchor="middle" fill="#e5e5e5" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5">from Node 16 to Node 22</text>
+
+  <!-- Node 16 box -->
+  <g transform="translate(120, 200)">
+    <rect width="180" height="80" rx="12" fill="#111" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="90" y="38" text-anchor="middle" fill="#ef4444" font-family="ui-monospace, monospace" font-size="13" font-weight="600">NODE 16</text>
+    <text x="90" y="58" text-anchor="middle" fill="#555" font-family="ui-monospace, monospace" font-size="11">EOL</text>
+  </g>
+
+  <!-- Arrow with steps -->
+  <line x1="320" y1="240" x2="880" y2="240" stroke="url(#arrowGrad)" stroke-width="2" stroke-dasharray="8,4"/>
+  <polygon points="875,233 890,240 875,247" fill="#22c55e" opacity="0.7"/>
+
+  <!-- Step markers along the arrow -->
+  <g transform="translate(355, 225)">
+    <circle r="4" fill="#ef4444" opacity="0.7"/>
+    <text x="0" y="22" text-anchor="middle" fill="#444" font-family="ui-monospace, monospace" font-size="8">1</text>
+  </g>
+  <g transform="translate(405, 225)">
+    <circle r="4" fill="#ef4444" opacity="0.6"/>
+    <text x="0" y="22" text-anchor="middle" fill="#444" font-family="ui-monospace, monospace" font-size="8">2</text>
+  </g>
+  <g transform="translate(455, 225)">
+    <circle r="4" fill="#f97316" opacity="0.6"/>
+    <text x="0" y="22" text-anchor="middle" fill="#444" font-family="ui-monospace, monospace" font-size="8">3</text>
+  </g>
+  <g transform="translate(505, 225)">
+    <circle r="4" fill="#f97316" opacity="0.5"/>
+    <text x="0" y="22" text-anchor="middle" fill="#444" font-family="ui-monospace, monospace" font-size="8">4</text>
+  </g>
+  <g transform="translate(555, 225)">
+    <circle r="4" fill="#f59e0b" opacity="0.5"/>
+    <text x="0" y="22" text-anchor="middle" fill="#444" font-family="ui-monospace, monospace" font-size="8">5</text>
+  </g>
+  <g transform="translate(605, 225)">
+    <circle r="4" fill="#f59e0b" opacity="0.5"/>
+    <text x="0" y="22" text-anchor="middle" fill="#444" font-family="ui-monospace, monospace" font-size="8">6</text>
+  </g>
+  <g transform="translate(655, 225)">
+    <circle r="4" fill="#eab308" opacity="0.5"/>
+    <text x="0" y="22" text-anchor="middle" fill="#444" font-family="ui-monospace, monospace" font-size="8">7</text>
+  </g>
+  <g transform="translate(705, 225)">
+    <circle r="5" fill="#22c55e" opacity="0.7"/>
+    <text x="0" y="22" text-anchor="middle" fill="#444" font-family="ui-monospace, monospace" font-size="8">8</text>
+  </g>
+  <g transform="translate(755, 225)">
+    <circle r="4" fill="#22c55e" opacity="0.5"/>
+    <text x="0" y="22" text-anchor="middle" fill="#444" font-family="ui-monospace, monospace" font-size="8">9</text>
+  </g>
+  <g transform="translate(805, 225)">
+    <circle r="4" fill="#22c55e" opacity="0.5"/>
+    <text x="0" y="22" text-anchor="middle" fill="#444" font-family="ui-monospace, monospace" font-size="8">10</text>
+  </g>
+  <g transform="translate(855, 225)">
+    <circle r="4" fill="#22c55e" opacity="0.6"/>
+    <text x="0" y="22" text-anchor="middle" fill="#444" font-family="ui-monospace, monospace" font-size="8">11</text>
+  </g>
+
+  <!-- Node 22 box -->
+  <g transform="translate(900, 200)">
+    <rect width="180" height="80" rx="12" fill="#111" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="90" y="38" text-anchor="middle" fill="#22c55e" font-family="ui-monospace, monospace" font-size="13" font-weight="600">NODE 22</text>
+    <text x="90" y="58" text-anchor="middle" fill="#555" font-family="ui-monospace, monospace" font-size="11">LTS</text>
+  </g>
+
+  <!-- Stats cards row -->
+  <g transform="translate(120, 340)">
+    <rect width="220" height="100" rx="12" fill="#111" stroke="#222" stroke-width="1"/>
+    <text x="110" y="36" text-anchor="middle" fill="#f59e0b" font-family="ui-monospace, monospace" font-size="28" font-weight="700">11</text>
+    <text x="110" y="56" text-anchor="middle" fill="#666" font-family="system-ui, -apple-system, sans-serif" font-size="12">sequential steps</text>
+    <text x="110" y="78" text-anchor="middle" fill="#333" font-family="system-ui, -apple-system, sans-serif" font-size="11">each an isolated commit</text>
+  </g>
+
+  <g transform="translate(370, 340)">
+    <rect width="220" height="100" rx="12" fill="#111" stroke="#222" stroke-width="1"/>
+    <text x="110" y="36" text-anchor="middle" fill="#ef4444" font-family="ui-monospace, monospace" font-size="28" font-weight="700">1,165</text>
+    <text x="110" y="56" text-anchor="middle" fill="#666" font-family="system-ui, -apple-system, sans-serif" font-size="12">Flow suppressions</text>
+    <text x="110" y="78" text-anchor="middle" fill="#333" font-family="system-ui, -apple-system, sans-serif" font-size="11">searchable debt, not blockers</text>
+  </g>
+
+  <g transform="translate(620, 340)">
+    <rect width="220" height="100" rx="12" fill="#111" stroke="#222" stroke-width="1"/>
+    <text x="110" y="36" text-anchor="middle" fill="#818cf8" font-family="ui-monospace, monospace" font-size="28" font-weight="700">161</text>
+    <text x="110" y="56" text-anchor="middle" fill="#666" font-family="system-ui, -apple-system, sans-serif" font-size="12">Sass files migrated</text>
+    <text x="110" y="78" text-anchor="middle" fill="#333" font-family="system-ui, -apple-system, sans-serif" font-size="11">@import → @use/@forward</text>
+  </g>
+
+  <g transform="translate(870, 340)">
+    <rect width="220" height="100" rx="12" fill="#111" stroke="#222" stroke-width="1"/>
+    <text x="110" y="36" text-anchor="middle" fill="#22c55e" font-family="ui-monospace, monospace" font-size="28" font-weight="700">65</text>
+    <text x="110" y="56" text-anchor="middle" fill="#666" font-family="system-ui, -apple-system, sans-serif" font-size="12">lines to fix state</text>
+    <text x="110" y="78" text-anchor="middle" fill="#333" font-family="system-ui, -apple-system, sans-serif" font-size="11">replaced abandoned library</text>
+  </g>
+
+  <!-- Bottom tech stack -->
+  <text x="600" y="510" text-anchor="middle" fill="#333" font-family="ui-monospace, monospace" font-size="13">react 18  ·  cra 5  ·  flow  ·  dart sass  ·  webpack 5</text>
+
+  <!-- Subtle glows -->
+  <circle cx="210" cy="240" r="80" fill="#ef4444" opacity="0.03"/>
+  <circle cx="990" cy="240" r="80" fill="#22c55e" opacity="0.03"/>
+</svg>
