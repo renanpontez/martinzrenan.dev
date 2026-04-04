@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { evaluate } from "@mdx-js/mdx";
 import * as runtime from "react/jsx-runtime";
+import remarkGfm from "remark-gfm";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -116,12 +117,12 @@ export default async function PostPage({ params }: PostPageProps) {
 
           {/* Cover image */}
           {post.coverImage && (
-            <div className="mx-auto mt-12 max-w-md overflow-hidden rounded-xl border border-border aspect-square">
+            <div className="mx-auto mt-12 max-w-3xl overflow-hidden rounded-xl border border-border aspect-[16/9]">
               <Image
                 src={post.coverImage}
                 alt={post.title}
-                width={600}
-                height={600}
+                width={1200}
+                height={630}
                 className="h-full w-full object-cover object-top"
                 priority
               />
@@ -130,7 +131,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
           {/* Content */}
           <article className="prose prose-neutral dark:prose-invert mx-auto mt-12 max-w-3xl">
-            {await evaluate(content, { ...runtime }).then(({ default: MDXContent }) => (
+            {await evaluate(content, { ...runtime, remarkPlugins: [remarkGfm] }).then(({ default: MDXContent }) => (
               <MDXContent components={mdxComponents} />
             ))}
           </article>

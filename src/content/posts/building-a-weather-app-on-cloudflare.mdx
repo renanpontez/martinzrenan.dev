@@ -1,0 +1,158 @@
+---
+title: "Building a Weather App on Cloudflare: Durable Objects, WebSockets, and Animated Skies"
+description: "How I built a real-time weather app with React, Hono, and Cloudflare Workers — from stale-while-revalidate caching to hibernation-safe WebSockets and CSS-only weather animations."
+excerpt: "A frontend assignment that turned into a deep dive into Cloudflare's edge runtime. Stale-while-revalidate caching, WebSocket hibernation bugs, animated weather backgrounds, and going from 7.1 to 9.0."
+coverImage: "/blog/weather-app/hero.svg"
+tags:
+  - React
+  - Cloudflare
+  - Architecture
+  - Frontend
+publishedAt: "2026-04-01"
+featured: true
+---
+
+The assignment was straightforward: build a weather app. Search for a city, see the forecast, track recent searches synced across clients in real time. Use Vite, React, and Cloudflare Durable Objects for caching.
+
+What I delivered: a full-stack app with animated weather backgrounds, stale-while-revalidate caching, WebSocket sync that survives Durable Object hibernation, and 61 unit tests plus 5 Playwright E2E tests. All deployed to Cloudflare's edge.
+
+[Live demo](https://weather-app-6v5.pages.dev) | [Source code](https://github.com/renanpontez/weather-app)
+
+## The Architecture
+
+The app is a pnpm monorepo with three packages: a React SPA (`web`), a Cloudflare Worker API (`api`), and shared TypeScript types (`shared`). Here's the data flow when someone searches for a city:
+
+```
+User types "Oslo"
+  → useCitySearch debounces (300ms) → React Query fires
+  → Worker: rate-limit check via DO → Open-Meteo Geocoding API
+  → User picks "Oslo, Norway"
+  → trackSearch() → POST /api/recent (server enriches with weather)
+  → useWeather fires → Worker checks DO cache:
+      ├─ Fresh cache: return immediately
+      ├─ Stale cache: return immediately + waitUntil(refresh)
+      └─ Cache miss: fetch Open-Meteo → store → return
+  → Frontend renders weather + animated background
+  → DO broadcasts WebSocket → other clients refetch
+```
+
+One thing I want to highlight: a single Durable Object class handles four concerns — weather caching, recent searches, rate limiting, and WebSocket connections. At first that felt wrong. Shouldn't each concern have its own DO? But the recent search POST handler needs the weather cache to enrich entries with temperature data. Splitting them would mean coordinating between two DO stubs on every search. One DO, one fetch, one binding. At this scale, serialization within a single DO isn't a bottleneck.
+
+## Stale-While-Revalidate with waitUntil()
+
+This was the most interesting caching pattern in the project. When a user requests weather data, the DO cache can be in three states: fresh, stale, or missing. The key insight is that stale data is still useful — weather doesn't change by the second.
+
+```typescript
+// In the Durable Object
+const entries = await this.ctx.storage.get([`cache:${key}`, `ts:${key}`]);
+const isStale = !timestamp || Date.now() - timestamp >= CACHE_TTL_MS;
+
+return new Response(cached, {
+  headers: { "X-Cache-Stale": isStale ? "true" : "false" },
+});
+```
+
+```typescript
+// In the route handler
+if (cacheResponse.ok) {
+  const isStale = cacheResponse.headers.get("X-Cache-Stale") === "true";
+  if (isStale) {
+    c.executionCtx.waitUntil(refreshCache(stub, key, lat, lon));
+  }
+  return c.json(result); // Return cached data immediately
+}
+```
+
+The user gets instant data, even if it's slightly old. `waitUntil()` runs the background refresh after the response is already sent — the user never waits for it. The next request gets fresh data. This pattern cut perceived latency significantly because most requests hit a warm cache.
+
+## The WebSocket Hibernation Bug
+
+Real-time sync sounded simple: when any client adds a recent search, broadcast to all connected clients so they refetch. I set up WebSocket connections through the DO and maintained a `Set<WebSocket>` to track them. It worked perfectly in development.
+
+Then in production, broadcasts silently stopped reaching clients. No errors. No crashes. Just silence.
+
+I ran `wrangler tail` to stream production logs and noticed something: the DO was waking from hibernation, and my `Set<WebSocket>` was empty. Cloudflare can hibernate a DO between requests to save resources. When it wakes, all in-memory state resets. My `Set` was gone, and with it, every connection reference.
+
+The fix was one line:
+
+```typescript
+// Before — dies on hibernation
+private sessions = new Set<WebSocket>();
+
+// After — survives hibernation
+const sockets = this.ctx.getWebSockets();
+```
+
+`ctx.getWebSockets()` returns connections managed by the Cloudflare runtime, not by my code. They survive hibernation. On the client side, `useLiveSync` handles reconnection with exponential backoff (1s, 2s, 4s, capped at 30s) in case the connection drops.
+
+This was one of those bugs where reading the docs more carefully upfront would have saved me time — but honestly, hitting it in production and debugging it with `wrangler tail` taught me more about how DOs work than any documentation could.
+
+## CSS-Only Animated Weather
+
+I wanted the app to feel alive. When you search for a rainy city, you should see rain. Clear skies should feel open. Snow should drift.
+
+The entire animation system is CSS-only. No canvas, no JavaScript animation loops. Each weather condition maps to a gradient and a particle effect:
+
+```typescript
+const GRADIENT_MAP: Record<string, string> = {
+  clear: "from-sky-clear-from via-sky-clear-via to-sky-clear-to",
+  rain: "from-sky-rain-from via-sky-rain-via to-sky-rain-to",
+  snow: "from-sky-snow-from via-sky-snow-via to-sky-snow-to",
+  // ...
+};
+```
+
+Rain particles fall at randomized speeds (1.5–2.5s), snowflakes drift slower (3–6s), fog layers scroll horizontally over 12 seconds, and stars twinkle on clear nights. These are all CSS `@keyframes` animations with Tailwind v4's `@theme` tokens for colors.
+
+One detail I'm proud of: the particles are precomputed at module scope, not during render. Each particle gets a random `left`, `delay`, `duration`, and `opacity` once, then the same values are reused across renders. This satisfies React's purity rules — no `Math.random()` during render — and avoids layout thrashing.
+
+And because some users have vestibular disorders or simply prefer less motion, every animation respects `prefers-reduced-motion: reduce` by dropping duration to effectively zero.
+
+## From In-Memory Rate Limiting to DO-Backed
+
+My first rate limiter was a `Map<string, { count: number; resetAt: number }>` in the Worker. It worked in development. In production, it was useless.
+
+Workers are stateless. Each request can hit a different V8 isolate. The Map resets per isolate, so an attacker could just keep sending requests and each one might land on a fresh isolate with a clean slate.
+
+Moving rate limiting into the Durable Object fixed this:
+
+```typescript
+const record = await this.ctx.storage.get<RateRecord>(key);
+if (!record || now > record.resetAt) {
+  await this.ctx.storage.put(key, { count: 1, resetAt: now + windowMs });
+} else {
+  record.count++;
+  if (record.count > max) return new Response(null, {
+    status: 429,
+    headers: { "Retry-After": String(retryAfter) },
+  });
+}
+```
+
+DO storage persists across requests. The trade-off is ~1ms of added latency per request for the storage read/write, but rate limiting without persistence isn't rate limiting.
+
+I also learned to drop `x-forwarded-for` as a fallback for IP detection. It's trivially spoofable — an attacker sends `X-Forwarded-For: 1.2.3.4` and their requests charge someone else's counter. On Cloudflare Workers, `cf-connecting-ip` is set by the edge and can't be faked.
+
+## Going from 7.1 to 9.0
+
+The first submission scored 7.1 out of 10. Fair. It worked, but lacked polish. I iterated through several rounds of improvements:
+
+**Security hardening:** Added Zod validation on all POST inputs (TypeScript types don't exist at runtime — `curl` doesn't care about your interfaces). Batch storage operations to halve DO latency on the hot path. Alarm-based cleanup to prevent unbounded storage growth from expired rate limit keys.
+
+**WebSocket security:** Origin checks so only the Pages domain can connect. Connection caps so a script can't open 10K sockets and exhaust DO resources.
+
+**Accessibility:** Full WAI-ARIA combobox pattern on the search bar with keyboard navigation, skip-to-content links, `aria-live` regions for weather updates, semantic HTML throughout.
+
+**Testing:** 61 unit tests covering format utilities, components (queried by ARIA roles, not CSS selectors), and hooks. 5 Playwright E2E tests for full user flows.
+
+Each improvement was targeted. I didn't rewrite anything — I identified the gaps and filled them. That iterative process, shipping something functional and then hardening it, felt more realistic than trying to get everything perfect on the first pass.
+
+## What I'd Do Differently
+
+**Shard the Durable Object.** Right now everything routes to a single DO instance (`idFromName("global")`). With 10K concurrent users, that serialization becomes a real bottleneck. I'd shard by region or user hash, and introduce Cloudflare Queues to decouple writes from WebSocket broadcasts.
+
+**Use Cloudflare's built-in Rate Limiting.** My DO-backed approach works, but Cloudflare's native rate limiting operates at the edge without even touching the Worker. Less code, better performance.
+
+**Add per-user recent searches.** The current implementation shares recent searches globally across all clients. With auth and `idFromName(userId)`, each user would get their own DO instance and their own search history.
+
+The assignment asked for a weather app. What I built was an exercise in understanding Cloudflare's edge runtime — how DOs persist state, how hibernation affects WebSockets, how `waitUntil()` enables background work without blocking responses. Every bug I hit taught me something the docs alone couldn't.
