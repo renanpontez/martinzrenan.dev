@@ -96,7 +96,7 @@ export const experience = [
     ],
   },
   {
-    title: "Senior Frontend Engineer",
+    title: "Growth Engineer (Full Stack)",
     company: "Agility Creative - Project: RD Station Marketing",
     location: "Fortaleza, CE - Brazil (Remote)",
     period: "07/2021 - 12/2021",
