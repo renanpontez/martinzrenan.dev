@@ -178,7 +178,7 @@ export default function PinkFilmsAppProposal() {
           <h1 className="max-w-4xl text-5xl font-extralight leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
             Transforme a{" "}
             <span className="italic font-light text-pink-500">Pink Films</span>{" "}
-            numa SaaS que fotógrafos{" "}
+            em um SaaS que fotógrafos{" "}
             <span className="italic font-light text-pink-500">amam</span>.
           </h1>
           <p className="mt-10 max-w-2xl text-lg font-light leading-relaxed text-muted-foreground">
