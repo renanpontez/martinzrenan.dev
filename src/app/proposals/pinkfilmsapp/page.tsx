@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
+import { ProposalNav } from "@/components/proposals/proposal-nav";
 
 export const metadata: Metadata = {
   title: "Proposta — PinkFilmsApp",
@@ -128,6 +129,19 @@ const Row = ({
 export default function PinkFilmsAppProposal() {
   return (
     <>
+      <ProposalNav
+        label="PinkFilmsApp"
+        items={[
+          { label: "Problema", href: "#problema" },
+          { label: "Mercado", href: "#oportunidade" },
+          { label: "Solução", href: "#solucao" },
+          { label: "Investimento", href: "#investimento" },
+          { label: "Financeiro", href: "#financeiro" },
+          { label: "Riscos", href: "#riscos" },
+        ]}
+        cta={{ label: "Agendar", href: "mailto:contato@agilitycreative.com" }}
+      />
+
       {/* HERO */}
       <section className="relative overflow-hidden pb-24 pt-24 sm:pb-32 sm:pt-32">
         <Container>
@@ -518,7 +532,10 @@ export default function PinkFilmsAppProposal() {
 
         <div className="mt-20 grid gap-8 lg:grid-cols-3">
           {/* Essencial */}
-          <div className="flex flex-col border border-border p-8">
+          <div className="relative flex flex-col border border-border p-8">
+            <div className="absolute -top-3 left-8 border border-pink-500 bg-background px-3 py-1 text-[10px] font-medium uppercase tracking-[0.25em] text-pink-500">
+              Mais barato e rápido
+            </div>
             <div className="text-[11px] font-medium uppercase tracking-[0.25em] text-muted-foreground">
               Plano 01
             </div>
@@ -564,7 +581,7 @@ export default function PinkFilmsAppProposal() {
           {/* Profissional */}
           <div className="relative flex flex-col border-2 border-pink-500 bg-muted/30 p-8">
             <div className="absolute -top-3 left-8 bg-pink-500 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.25em] text-white">
-              Recomendado
+              Mais customização
             </div>
             <div className="text-[11px] font-medium uppercase tracking-[0.25em] text-muted-foreground">
               Plano 02 · 12 meses
@@ -617,7 +634,10 @@ export default function PinkFilmsAppProposal() {
           </div>
 
           {/* Parceria */}
-          <div className="flex flex-col border border-border p-8">
+          <div className="relative flex flex-col border border-border p-8">
+            <div className="absolute -top-3 left-8 border border-pink-500 bg-background px-3 py-1 text-[10px] font-medium uppercase tracking-[0.25em] text-pink-500">
+              Parceria
+            </div>
             <div className="text-[11px] font-medium uppercase tracking-[0.25em] text-muted-foreground">
               Plano 03
             </div>

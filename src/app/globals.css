@@ -136,3 +136,11 @@
 @utility animate-scroll {
   animation: scroll 40s linear infinite;
 }
+
+/* Proposal pages: hide main header on scroll so the proposal subheader can take over */
+header.sticky {
+  transition: transform 300ms ease;
+}
+html.proposal-scrolled header.sticky {
+  transform: translateY(-100%);
+}
