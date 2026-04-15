@@ -97,6 +97,24 @@ const Feature = ({
   </div>
 );
 
+const SeverityBadge = ({ level }: { level: string }) => {
+  const normalized = level.toLowerCase();
+  const isHigh = normalized === "alta" || normalized === "alto";
+  const isMedium = normalized === "média" || normalized === "medio" || normalized === "médio";
+  const classes = isHigh
+    ? "bg-red-500/10 text-red-600 ring-1 ring-inset ring-red-500/20 dark:text-red-400"
+    : isMedium
+      ? "bg-orange-500/10 text-orange-600 ring-1 ring-inset ring-orange-500/20 dark:text-orange-400"
+      : "bg-gray-500/10 text-gray-600 ring-1 ring-inset ring-gray-500/20 dark:text-gray-400";
+  return (
+    <span
+      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${classes}`}
+    >
+      {level}
+    </span>
+  );
+};
+
 const Row = ({
   label,
   values,
@@ -613,7 +631,7 @@ export default function PinkFilmsAppProposal() {
               {[
                 "Produto completo (todas as features)",
                 "MVP em 2 meses · lançamento final em 4 meses",
-                "6 meses de monitoramento e evolução (40h/mês)",
+                "6 meses de monitoramento e evolução (50h/mês)",
                 "Importação de contratos + gestão de equipe",
                 "Design profissional (Figma)",
                 "SEO técnico e on-page otimizado",
@@ -817,12 +835,21 @@ export default function PinkFilmsAppProposal() {
         </div>
 
         <h3 className="mt-20 mb-2 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-          Retorno do investimento (Plano Profissional)
+          Retorno do investimento<sup className="text-pink-500">*</sup> (Plano
+          Profissional)
         </h3>
-        <p className="mb-6 max-w-3xl text-sm text-muted-foreground">
-          Projeção do fluxo de caixa ao longo de 18 meses. A coluna{" "}
+        <p className="mb-3 max-w-3xl text-sm text-muted-foreground">
+          Projeção do fluxo de caixa ao longo de 16 meses. A coluna{" "}
           <span className="text-foreground">Acumulado</span> considera tudo
           pago à Agility + infra desde o mês 1.
+        </p>
+        <p className="mb-6 max-w-3xl text-sm text-muted-foreground">
+          A projeção assume que o app <span className="text-foreground">não
+          recebe novas features após o lançamento</span> — evolução contínua
+          só está inclusa no plano <span className="text-foreground">Parceria</span>.
+          No plano Profissional, o escopo pós-launch é limitado a{" "}
+          <span className="text-foreground">50h/mês de desenvolvimento</span>,
+          pré-combinadas com o cliente em planning meetings quinzenais.
         </p>
         <div className="overflow-x-auto border border-border">
           <table className="w-full min-w-[800px] text-sm">
@@ -882,16 +909,35 @@ export default function PinkFilmsAppProposal() {
 
         <div className="mt-20 border-t border-foreground pt-10">
           <div className="text-[11px] font-medium uppercase tracking-[0.25em] text-muted-foreground">
-            O investimento se paga rápido
+            O investimento se paga rápido<sup className="text-pink-500">*</sup>
           </div>
           <h3 className="mt-4 max-w-3xl text-2xl font-light leading-snug tracking-tight sm:text-3xl">
-            Payback em 16 meses. ARR de ~6× em 24.
+            Payback em 16 meses<sup className="text-pink-500">*</sup>. ARR de
+            ~6× em 24<sup className="text-pink-500">*</sup>.
           </h3>
           <div className="mt-12 grid gap-10 md:grid-cols-3">
             <Stat value="R$ 60k" label="Investimento total" />
-            <Stat value="16 meses" label="Payback estimado" />
-            <Stat value="R$ 396k" label="ARR no mês 24 (~6× ROI)" />
+            <Stat
+              value="16 meses*"
+              label="Payback estimado"
+            />
+            <Stat
+              value="R$ 396k*"
+              label="ARR no mês 24 (~6× ROI)"
+            />
           </div>
+        </div>
+
+        <div className="mt-10 border-l-2 border-pink-500/50 bg-muted/30 px-6 py-5">
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            <sup className="mr-1 text-pink-500">*</sup>
+            Valores simulados e <span className="text-foreground">não
+            garantidos</span>. Os resultados dependem de execução de marketing,
+            performance de campanhas pagas, posicionamento de mercado e
+            fatores externos (sazonalidade, concorrência, conversão real).
+            Usamos benchmarks do setor e premissas conservadoras, mas o
+            retorno efetivo pode variar para mais ou para menos.
+          </p>
         </div>
       </Section>
 
@@ -975,11 +1021,11 @@ export default function PinkFilmsAppProposal() {
               ].map((row) => (
                 <tr key={row[0]} className="border-t border-border">
                   <td className="px-4 py-4 text-foreground/90">{row[0]}</td>
-                  <td className="px-4 py-4 text-center text-muted-foreground">
-                    {row[1]}
+                  <td className="px-4 py-4 text-center">
+                    <SeverityBadge level={row[1]} />
                   </td>
-                  <td className="px-4 py-4 text-center text-muted-foreground">
-                    {row[2]}
+                  <td className="px-4 py-4 text-center">
+                    <SeverityBadge level={row[2]} />
                   </td>
                   <td className="px-4 py-4 text-muted-foreground">{row[3]}</td>
                 </tr>
