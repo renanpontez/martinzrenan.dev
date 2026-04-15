@@ -20,6 +20,7 @@ import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { ProposalNav } from "@/components/proposals/proposal-nav";
 import { ProposalGate } from "@/components/proposals/proposal-gate";
+import { Reveal } from "@/components/proposals/reveal";
 
 export const metadata: Metadata = {
   title: "Proposta — PinkFilmsApp",
@@ -46,7 +47,9 @@ const Section = ({
   children: React.ReactNode;
 }) => (
   <section id={id} className="py-24 sm:py-32">
-    <Container>{children}</Container>
+    <Container>
+      <Reveal>{children}</Reveal>
+    </Container>
   </section>
 );
 

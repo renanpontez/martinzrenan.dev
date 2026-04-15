@@ -44,22 +44,32 @@ export function ProposalGate({
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-background p-6">
-      {/* decorative blurred backdrop */}
+    <>
+      {/* page peeks through behind the mask */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-40 top-0 h-[500px] w-[500px] rounded-full bg-pink-500/15 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-40 bottom-0 h-[400px] w-[400px] rounded-full bg-pink-500/10 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-background/60 backdrop-blur-md"
-      />
+        className="pointer-events-none select-none"
+      >
+        {children}
+      </div>
 
-      <form
+      <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden p-6">
+        {/* 80% mask */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-background/80 backdrop-blur-md"
+        />
+        {/* decorative blurred pink blobs */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-40 top-0 h-[500px] w-[500px] rounded-full bg-pink-500/15 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-40 bottom-0 h-[400px] w-[400px] rounded-full bg-pink-500/10 blur-3xl"
+        />
+
+        <form
         onSubmit={onSubmit}
         className="relative w-full max-w-sm border border-border bg-card p-8 shadow-2xl"
       >
@@ -110,6 +120,7 @@ export function ProposalGate({
           Entrar
         </button>
       </form>
-    </div>
+      </div>
+    </>
   );
 }
