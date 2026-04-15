@@ -621,9 +621,12 @@ export default function PinkFilmsAppProposal() {
             </p>
 
             <div className="my-8 border-t border-border pt-8">
-              <div className="text-4xl font-light tracking-tight">R$ 60k</div>
+              <div className="text-4xl font-light tracking-tight">
+                R$ 6k
+                <span className="text-xl text-muted-foreground">/mês</span>
+              </div>
               <div className="mt-2 text-sm text-muted-foreground">
-                12 meses · R$ 5k / mês
+                12 meses · Total R$ 72.000
               </div>
             </div>
 
@@ -659,16 +662,16 @@ export default function PinkFilmsAppProposal() {
             </div>
           </div>
 
-          {/* Parceria */}
+          {/* Sócios */}
           <div className="relative flex flex-col border border-border p-8">
             <div className="absolute -top-3 left-8 border border-pink-500 bg-background px-3 py-1 text-[10px] font-medium uppercase tracking-[0.25em] text-pink-500">
-              Parceria
+              Sócios
             </div>
             <div className="text-[11px] font-medium uppercase tracking-[0.25em] text-muted-foreground">
               Plano 03
             </div>
             <h3 className="mt-4 text-2xl font-light tracking-tight">
-              Parceria
+              Sócios
             </h3>
             <p className="mt-2 text-sm text-muted-foreground">
               Construímos juntos. Ganhamos juntos.
@@ -721,7 +724,7 @@ export default function PinkFilmsAppProposal() {
             <thead>
               <tr className="border-b border-border bg-muted/30">
                 <th className="px-4 py-4 text-left text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground"></th>
-                {["Essencial", "Profissional", "Parceria"].map((h) => (
+                {["Essencial", "Profissional", "Sócios"].map((h) => (
                   <th
                     key={h}
                     className="px-4 py-4 text-center text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground"
@@ -734,11 +737,11 @@ export default function PinkFilmsAppProposal() {
             <tbody>
               <Row
                 label="Investimento"
-                values={["R$ 25.000", "R$ 60.000", "Reduzido"]}
+                values={["R$ 25.000", "R$ 72.000", "Reduzido"]}
               />
               <Row
                 label="Formato"
-                values={["Único · parcelável", "R$ 5.000 / mês × 12", "Equity / Revenue"]}
+                values={["Único · parcelável", "R$ 6.000 / mês × 12", "Equity / Revenue"]}
               />
               <Row
                 label="Duração"
@@ -839,14 +842,14 @@ export default function PinkFilmsAppProposal() {
           Profissional)
         </h3>
         <p className="mb-3 max-w-3xl text-sm text-muted-foreground">
-          Projeção do fluxo de caixa ao longo de 16 meses. A coluna{" "}
+          Projeção do fluxo de caixa ao longo de 17 meses. A coluna{" "}
           <span className="text-foreground">Acumulado</span> considera tudo
           pago à Agility + infra desde o mês 1.
         </p>
         <p className="mb-6 max-w-3xl text-sm text-muted-foreground">
           A projeção assume que o app <span className="text-foreground">não
           recebe novas features após o lançamento</span> — evolução contínua
-          só está inclusa no plano <span className="text-foreground">Parceria</span>.
+          só está inclusa no plano <span className="text-foreground">Sócios</span>.
           No plano Profissional, o escopo pós-launch é limitado a{" "}
           <span className="text-foreground">50h/mês de desenvolvimento</span>,
           pré-combinadas com o cliente em planning meetings quinzenais.
@@ -874,11 +877,11 @@ export default function PinkFilmsAppProposal() {
             </thead>
             <tbody>
               {[
-                ["Mês 1–2 (MVP)", "—", "—", "R$ 5.000", "−R$ 5.000", "−R$ 10.000"],
-                ["Mês 4 (Lançamento final)", "20", "R$ 1.100", "R$ 5.210", "−R$ 4.110", "−R$ 23.220"],
-                ["Mês 7 (Monitoramento)", "80", "R$ 4.400", "R$ 5.240", "−R$ 840", "−R$ 35.000"],
-                ["Mês 10 (Fim do contrato)", "150", "R$ 8.250", "R$ 5.300", "+R$ 2.950", "−R$ 32.000"],
-                ["Mês 13 (Pós-handover)", "280", "R$ 15.400", "R$ 900", "+R$ 14.500", "+R$ 16.000"],
+                ["Mês 1–2 (MVP)", "—", "—", "R$ 6.000", "−R$ 6.000", "−R$ 12.000"],
+                ["Mês 4 (Lançamento final)", "20", "R$ 1.100", "R$ 6.210", "−R$ 5.110", "−R$ 28.220"],
+                ["Mês 7 (Monitoramento)", "80", "R$ 4.400", "R$ 6.240", "−R$ 1.840", "−R$ 43.000"],
+                ["Mês 10 (Fim do contrato)", "150", "R$ 8.250", "R$ 6.300", "+R$ 1.950", "−R$ 42.000"],
+                ["Mês 13 (Pós-handover)", "280", "R$ 15.400", "R$ 900", "+R$ 14.500", "−R$ 4.000"],
               ].map((row) => (
                 <tr key={row[0]} className="border-t border-border">
                   {row.map((c, i) => (
@@ -892,7 +895,7 @@ export default function PinkFilmsAppProposal() {
                 </tr>
               ))}
               <tr className="border-t border-foreground bg-muted/40">
-                {["Mês 16 (Payback)", "450", "R$ 24.750", "R$ 1.000", "+R$ 23.750", "+R$ 60.000"].map(
+                {["Mês 17 (Payback)", "450", "R$ 24.750", "R$ 1.000", "+R$ 23.750", "+R$ 60.000"].map(
                   (c, i) => (
                     <td
                       key={i}
@@ -912,18 +915,18 @@ export default function PinkFilmsAppProposal() {
             O investimento se paga rápido<sup className="text-pink-500">*</sup>
           </div>
           <h3 className="mt-4 max-w-3xl text-2xl font-light leading-snug tracking-tight sm:text-3xl">
-            Payback em 16 meses<sup className="text-pink-500">*</sup>. ARR de
-            ~6× em 24<sup className="text-pink-500">*</sup>.
+            Payback em 17 meses<sup className="text-pink-500">*</sup>. ARR de
+            ~5,5× em 24<sup className="text-pink-500">*</sup>.
           </h3>
           <div className="mt-12 grid gap-10 md:grid-cols-3">
-            <Stat value="R$ 60k" label="Investimento total" />
+            <Stat value="R$ 72k" label="Investimento total" />
             <Stat
-              value="16 meses*"
+              value="17 meses*"
               label="Payback estimado"
             />
             <Stat
               value="R$ 396k*"
-              label="ARR no mês 24 (~6× ROI)"
+              label="ARR no mês 24 (~5,5× ROI)"
             />
           </div>
         </div>
@@ -1118,11 +1121,11 @@ export default function PinkFilmsAppProposal() {
                   </div>
                 </td>
                 <td className="px-4 py-4 text-right font-medium tabular-nums">
-                  R$ 5.000 / mês
+                  R$ 6.000 / mês
                 </td>
                 <td className="px-4 py-4 text-right">
                   <div className="font-medium tabular-nums">
-                    R$ 60.000 + infra
+                    R$ 72.000 + infra
                   </div>
                   <div className="mt-1 text-xs text-muted-foreground">
                     Previsível. ROI positivo no mês 12–18.
