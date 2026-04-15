@@ -1,6 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Check, Minus } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  Minus,
+  FileText,
+  MessageCircle,
+  TrendingUp,
+  ImageIcon,
+  Users,
+  Calendar,
+  Code2,
+  Palette,
+  ClipboardList,
+  AlertTriangle,
+  type LucideIcon,
+} from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 
@@ -58,11 +73,20 @@ const Stat = ({
 const Feature = ({
   title,
   desc,
+  icon: Icon,
 }: {
   title: string;
   desc: string;
+  icon?: LucideIcon;
 }) => (
   <div className="border-t border-border pt-6">
+    {Icon ? (
+      <Icon
+        className="mb-5 h-5 w-5 text-pink-500"
+        strokeWidth={1.5}
+        aria-hidden
+      />
+    ) : null}
     <h3 className="text-lg font-medium tracking-tight">{title}</h3>
     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{desc}</p>
   </div>
@@ -372,26 +396,32 @@ export default function PinkFilmsAppProposal() {
 
         <div className="mt-20 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
           <Feature
+            icon={FileText}
             title="Contratos em minutos"
             desc="Wizard preenche dados do cliente e gera contrato profissional com parcelas automáticas."
           />
           <Feature
+            icon={MessageCircle}
             title="Cobrança sem constrangimento"
             desc="WhatsApp automático no dia do vencimento. Sem você precisar lembrar. Sem cliente esquecer."
           />
           <Feature
+            icon={TrendingUp}
             title="Lucro real por evento"
             desc="Custos fixos e variáveis por projeto. Finalmente saiba se o evento deu margem."
           />
           <Feature
+            icon={ImageIcon}
             title="Aprovação profissional"
             desc="Galeria online onde o cliente aprova ou pede ajustes. Adeus Google Drive."
           />
           <Feature
+            icon={Users}
             title="Equipe alinhada"
             desc="Tarefas por projeto com responsável e prazo. Todo mundo sabe o que fazer."
           />
           <Feature
+            icon={Calendar}
             title="Calendário unificado"
             desc="Gravações, prazos de entrega, vencimentos — tudo em um só lugar."
           />
@@ -457,14 +487,17 @@ export default function PinkFilmsAppProposal() {
         </h3>
         <div className="grid gap-10 md:grid-cols-3">
           <Feature
+            icon={Code2}
             title="Engenheiro Full-stack Sênior"
             desc="Arquitetura, frontend, backend, banco de dados, deploy e observabilidade."
           />
           <Feature
+            icon={Palette}
             title="Product Designer"
             desc="UX research, wireframes, design system, protótipos de alta fidelidade."
           />
           <Feature
+            icon={ClipboardList}
             title="Product Manager"
             desc="Roadmap, priorização, comunicação com cliente, gestão de escopo."
           />
@@ -831,10 +864,17 @@ export default function PinkFilmsAppProposal() {
       {/* RISCOS */}
       <Section id="riscos">
         <Eyebrow>Riscos e mitigações</Eyebrow>
-        <h2 className="max-w-3xl text-4xl font-extralight leading-[1.1] tracking-tight sm:text-5xl">
-          O que <span className="italic font-light">pode dar errado</span> — e
-          como evitamos.
-        </h2>
+        <div className="flex items-start gap-5">
+          <AlertTriangle
+            className="mt-3 h-7 w-7 flex-shrink-0 text-pink-500 sm:mt-4 sm:h-8 sm:w-8"
+            strokeWidth={1.5}
+            aria-hidden
+          />
+          <h2 className="max-w-3xl text-4xl font-extralight leading-[1.1] tracking-tight sm:text-5xl">
+            O que <span className="italic font-light">pode dar errado</span> —
+            e como evitamos.
+          </h2>
+        </div>
         <p className="mt-6 max-w-2xl text-lg font-light leading-relaxed text-muted-foreground">
           Transparência total sobre os riscos reais do projeto e as mitigações
           já previstas no plano.
