@@ -541,6 +541,8 @@ export default function PinkFilmsAppProposal() {
                 "MVP completo funcionando",
                 "Contratos, projetos, financeiro, calendário",
                 "WhatsApp reminders automáticos",
+                "Preview/Aprovação + Lucro real por projeto",
+                "Design profissional (Figma)",
                 "6–8 semanas de entrega",
                 "Deploy em produção",
               ].map((i) => (
@@ -702,11 +704,11 @@ export default function PinkFilmsAppProposal() {
               />
               <Row
                 label="Preview / Aprovação"
-                values={[false, true, true]}
+                values={[true, true, true]}
               />
               <Row
                 label="Lucro real por projeto"
-                values={[false, true, true]}
+                values={[true, true, true]}
               />
               <Row
                 label="Monitoramento pós-launch"
