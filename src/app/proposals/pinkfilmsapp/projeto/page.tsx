@@ -208,6 +208,10 @@ export default function ProjetoPage() {
             qualidade em cada entrega.
           </p>
 
+          <div className="mt-10">
+            <SimulatorButton />
+          </div>
+
           {/* Phase timeline overview */}
           <div className="mt-20 grid gap-px overflow-hidden bg-border sm:grid-cols-6">
             {[
