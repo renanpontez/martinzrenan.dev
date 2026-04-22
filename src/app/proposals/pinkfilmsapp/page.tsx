@@ -1198,6 +1198,22 @@ export default function PinkFilmsAppProposal() {
             desc="Sua equipe capacitada para continuar sozinha."
           />
         </div>
+
+        <div className="mt-16 border-t border-foreground pt-10">
+          <Link
+            href="/proposals/pinkfilmsapp/projeto"
+            className="group inline-flex items-center gap-3 text-sm font-medium text-foreground transition hover:text-pink-500"
+          >
+            Ver detalhamento tecnico do projeto
+            <ArrowRight
+              className="h-4 w-4 transition group-hover:translate-x-1"
+              strokeWidth={1.5}
+            />
+          </Link>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Tech stack, arquitetura, sprints, testes, timeline de lancamento.
+          </p>
+        </div>
       </Section>
 
       {/* CTA FINAL */}
