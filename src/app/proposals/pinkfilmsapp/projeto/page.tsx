@@ -21,6 +21,7 @@ import { Container } from "@/components/layout/container";
 import { ProposalNav } from "@/components/proposals/proposal-nav";
 import { ProposalGate } from "@/components/proposals/proposal-gate";
 import { Reveal } from "@/components/proposals/reveal";
+import { SimulatorButton } from "@/components/proposals/simulator-button";
 
 export const metadata: Metadata = {
   title: "Projeto Tecnico — PinkFilmsApp",
@@ -458,6 +459,14 @@ export default function ProjetoPage() {
               },
             ]}
           />
+        </div>
+
+        {/* Simulator CTA */}
+        <div className="mt-12">
+          <SimulatorButton />
+          <p className="mt-3 text-xs text-muted-foreground">
+            Simulacao interativa de custos reais de infraestrutura, storage, backup e app stack em diferentes escalas.
+          </p>
         </div>
 
         {/* Architecture */}
