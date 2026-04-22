@@ -97,7 +97,22 @@ function calculateInfra(photographers: number, scenario: any, selections: Record
   return { costs, total, revenue };
 }
 
-const fmt = (n: number) => { if (n >= 1000) return "$" + n.toLocaleString("en-US", { maximumFractionDigits: 0 }); if (n >= 10) return "$" + n.toFixed(0); if (n >= 1) return "$" + n.toFixed(2); if (n > 0) return "$" + n.toFixed(3); return "$0"; };
+const BRL_RATE = 4.99;
+type Currency = "USD" | "BRL";
+
+function makeFmt(currency: Currency) {
+  const rate = currency === "BRL" ? BRL_RATE : 1;
+  const prefix = currency === "BRL" ? "R$ " : "$";
+  return (n: number) => {
+    const v = n * rate;
+    if (v >= 1000) return prefix + v.toLocaleString(currency === "BRL" ? "pt-BR" : "en-US", { maximumFractionDigits: 0 });
+    if (v >= 10) return prefix + v.toFixed(0);
+    if (v >= 1) return prefix + v.toFixed(2);
+    if (v > 0) return prefix + v.toFixed(3);
+    return prefix + "0";
+  };
+}
+
 const fmtGB = (gb: number) => gb >= 1024 ? (gb / 1024).toFixed(1) + " TB" : gb.toFixed(1) + " GB";
 
 /* ================================================================
@@ -107,10 +122,10 @@ const fmtGB = (gb: number) => gb >= 1024 ? (gb / 1024).toFixed(1) + " TB" : gb.t
 export function InfraSimulatorModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-[200] overflow-y-auto bg-[#0f0b07]">
+    <div className="fixed inset-0 z-[200] overflow-y-auto bg-background">
       <button
         onClick={onClose}
-        className="fixed right-6 top-6 z-[210] flex h-10 w-10 items-center justify-center rounded-full border border-[#2a2218] bg-[#15100a] text-[#e8e3da] transition hover:border-[#d97757] hover:text-[#d97757]"
+        className="fixed right-6 top-6 z-[210] flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition hover:border-pink-500 hover:text-pink-500"
         aria-label="Close simulator"
       >
         <X className="h-5 w-5" strokeWidth={1.5} />
@@ -136,6 +151,8 @@ function Simulator() {
     cache: "upstash", imaging: "cloudflare_images", auth: "bundled",
     email: "resend", monitoring: "sentry_team", payments: "stripe", security: "cloudflare_pro",
   });
+  const [currency, setCurrency] = useState<Currency>("USD");
+  const fmt = useMemo(() => makeFmt(currency), [currency]);
 
   const handlePreset = (key: string) => { setPresetKey(key); setScenario(PRESETS[key]); };
   const setStackItem = (component: string, optionKey: string) => setStack({ ...stack, [component]: optionKey });
@@ -156,49 +173,67 @@ function Simulator() {
   }), [scenario, storageProvider, backupStrategy, backupTier, stack]);
 
   const cls = {
-    wrap: "mx-auto max-w-[1400px] px-6 py-10 font-sans text-[#e8e3da] sm:px-8 lg:px-10",
-    eyebrow: "font-mono text-[11px] uppercase tracking-[1.5px] text-[#d97757]/60",
-    h1: "mt-6 font-serif text-4xl font-light leading-[0.95] tracking-tight text-[#f5f0e8] sm:text-5xl lg:text-6xl",
-    subtitle: "mt-4 max-w-[700px] text-sm leading-relaxed text-[#e8e3da]/70",
-    card: "rounded border border-[#2a2218] bg-[#15100a] p-5",
-    label: "mb-4 font-mono text-[11px] uppercase tracking-[1.5px] text-[#e8e3da]/50",
-    sectionTitle: "mb-6 flex items-baseline gap-4 font-serif text-2xl font-normal text-[#f5f0e8]",
-    sectionNum: "font-mono text-[13px] text-[#d97757]/80",
-    tableHeader: "flex items-center border-b border-[#2a2218] bg-[#1a1510] px-5 py-3 font-mono text-[11px] uppercase tracking-[1px] text-[#e8e3da]/50",
-    tableRow: "flex items-center border-b border-[#1f1811] px-5 py-3 text-[13px] transition hover:bg-[#1a1510]",
+    wrap: "mx-auto max-w-[1400px] px-6 py-10 font-sans text-foreground sm:px-8 lg:px-10",
+    eyebrow: "font-mono text-[11px] uppercase tracking-[1.5px] text-pink-500/60",
+    h1: "mt-6 text-4xl font-extralight leading-[0.95] tracking-tight sm:text-5xl lg:text-6xl",
+    subtitle: "mt-4 max-w-[700px] text-sm leading-relaxed text-muted-foreground",
+    card: "rounded border border-border bg-card p-5",
+    label: "mb-4 font-mono text-[11px] uppercase tracking-[1.5px] text-muted-foreground/60",
+    sectionTitle: "mb-6 flex items-baseline gap-4 text-2xl font-extralight tracking-tight",
+    sectionNum: "font-mono text-[13px] text-pink-500/80",
+    tableHeader: "flex items-center border-b border-border bg-muted/30 px-5 py-3 font-mono text-[11px] uppercase tracking-[1px] text-muted-foreground/60",
+    tableRow: "flex items-center border-b border-border/50 px-5 py-3 text-[13px] transition hover:bg-muted/20",
     tableNum: "flex-1 text-right font-mono text-[13px]",
-    btn: "w-full cursor-pointer border border-[#2a2218] bg-transparent px-3.5 py-3 text-left text-[13px] text-[#e8e3da] transition-all",
-    btnActive: "border-[#d97757] bg-[#1e1710] text-[#f5f0e8]",
-    quickBtn: "cursor-pointer border border-[#2a2218] bg-transparent px-2.5 py-1 font-mono text-[11px] text-[#e8e3da]",
-    bigNum: "font-serif text-5xl font-light italic leading-none text-[#d97757]",
-    accent: "text-[#d97757]",
+    btn: "w-full cursor-pointer border border-border bg-transparent px-3.5 py-3 text-left text-[13px] text-foreground transition-all",
+    btnActive: "border-pink-500 bg-pink-500/10 text-foreground",
+    quickBtn: "cursor-pointer border border-border bg-transparent px-2.5 py-1 font-mono text-[11px] text-foreground",
+    bigNum: "text-5xl font-extralight italic leading-none text-pink-500",
+    accent: "text-pink-500",
   };
 
   return (
     <div className={cls.wrap}>
       {/* Header */}
-      <div className="border-b border-[#2a2218] pb-10">
-        <div className="flex justify-between">
+      <div className="border-b border-border pb-10">
+        <div className="flex items-center justify-between">
           <span className={cls.eyebrow}>Production Infrastructure · Full Stack · Apr 2026</span>
-          <span className="font-mono text-[11px] text-[#e8e3da]/40">v2.0</span>
+          <div className="flex items-center gap-1 rounded-full border border-border p-0.5">
+            <button
+              onClick={() => setCurrency("USD")}
+              className={`rounded-full px-3 py-1 font-mono text-[11px] font-medium transition ${currency === "USD" ? "bg-pink-500 text-white" : "text-muted-foreground hover:text-foreground"}`}
+            >
+              USD
+            </button>
+            <button
+              onClick={() => setCurrency("BRL")}
+              className={`rounded-full px-3 py-1 font-mono text-[11px] font-medium transition ${currency === "BRL" ? "bg-pink-500 text-white" : "text-muted-foreground hover:text-foreground"}`}
+            >
+              BRL
+            </button>
+          </div>
         </div>
         <h1 className={cls.h1}>
-          Photo Platform <em className="italic text-[#d97757]">Total Cost</em>
+          Photo Platform <em className="italic text-pink-500">Total Cost</em>
         </h1>
         <p className={cls.subtitle}>
           Complete production infrastructure modeling: storage, backup, frontend, API, database, image processing, auth, monitoring, payments, and security.
         </p>
+        {currency === "BRL" && (
+          <p className="mt-2 font-mono text-[11px] text-muted-foreground/50">
+            Valores convertidos a R$ {BRL_RATE.toFixed(2)} por dolar
+          </p>
+        )}
       </div>
 
       {/* Hero stats */}
-      <div className="mt-8 rounded border border-[#2a2218] bg-gradient-to-br from-[#15100a] to-[#1a1410] p-8">
+      <div className="mt-8 rounded border border-border bg-gradient-to-br from-card to-muted/20 p-8">
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           <HeroStat label="Monthly total" value={fmt(totalCost)} accent big />
           <HeroStat label="Storage + backup" value={fmt(storage.totalStorage)} />
           <HeroStat label="App stack" value={fmt(infra.total)} />
           <HeroStat label="Per photographer" value={fmt(costPerPg) + "/mo"} />
           <HeroStat label="MRR" value={fmt(revenue)} />
-          <HeroStat label="Gross margin" value={marginPct >= 0 ? marginPct.toFixed(0) + "%" : "LOSS"} color={margin >= 0 ? "#6b9e5e" : "#d9574d"} />
+          <HeroStat label="Gross margin" value={marginPct >= 0 ? marginPct.toFixed(0) + "%" : "LOSS"} color={margin >= 0 ? "#22c55e" : "#ef4444"} />
         </div>
       </div>
 
@@ -221,7 +256,7 @@ function Simulator() {
         <div className={cls.card}>
           <div className={cls.label}>02 · Photographers</div>
           <div className={cls.bigNum}>{photographers.toLocaleString()}</div>
-          <input type="range" min="10" max="2000" step="10" value={photographers} onChange={(e) => setPhotographers(Number(e.target.value))} className="mt-4 w-full accent-[#d97757]" />
+          <input type="range" min="10" max="2000" step="10" value={photographers} onChange={(e) => setPhotographers(Number(e.target.value))} className="mt-4 w-full accent-pink-500" />
           <div className="mt-1 flex justify-between font-mono text-[11px] opacity-40"><span>10</span><span>2,000</span></div>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {[50, 100, 200, 500, 1000].map((n) => <button key={n} onClick={() => setPhotographers(n)} className={cls.quickBtn}>{n}</button>)}
@@ -283,18 +318,18 @@ function Simulator() {
           )}
         </div>
         {/* Storage table */}
-        <div className="mt-4 overflow-hidden rounded border border-[#2a2218] bg-[#15100a]">
+        <div className="mt-4 overflow-hidden rounded border border-border bg-card">
           <div className={cls.tableHeader}><div className="flex-[3]">Storage breakdown</div><div className={cls.tableNum}>Monthly</div></div>
-          <SRow label="Primary storage" detail={`${fmtGB(storage.totalStorageGB)} @ ${STORAGE_PROVIDERS[storageProvider].name}`} amount={storage.primaryStorageCost} />
-          <SRow label="Egress (CDN)" detail={`${fmtGB(storage.totalEgressGB)}/mo`} amount={storage.egressCost} />
-          <SRow label="API requests" detail="PUT/GET ops" amount={storage.requestCost} />
+          <SRow fmt={fmt} label="Primary storage" detail={`${fmtGB(storage.totalStorageGB)} @ ${STORAGE_PROVIDERS[storageProvider].name}`} amount={storage.primaryStorageCost} />
+          <SRow fmt={fmt} label="Egress (CDN)" detail={`${fmtGB(storage.totalEgressGB)}/mo`} amount={storage.egressCost} />
+          <SRow fmt={fmt} label="API requests" detail="PUT/GET ops" amount={storage.requestCost} />
           {backupStrategy !== "none" && <>
-            <SRow label="Backup storage" detail={BACKUP_STRATEGIES[backupStrategy].useBackupTier ? `${fmtGB(storage.totalStorageGB)} @ ${BACKUP_OPTIONS[backupTier]?.name}` : "Cross-region"} amount={storage.backupStorageCost} />
-            <SRow label="Replication traffic" detail="Daily sync" amount={storage.backupTransferCost} />
+            <SRow fmt={fmt} label="Backup storage" detail={BACKUP_STRATEGIES[backupStrategy].useBackupTier ? `${fmtGB(storage.totalStorageGB)} @ ${BACKUP_OPTIONS[backupTier]?.name}` : "Cross-region"} amount={storage.backupStorageCost} />
+            <SRow fmt={fmt} label="Replication traffic" detail="Daily sync" amount={storage.backupTransferCost} />
           </>}
-          <div className="flex items-center bg-[#1a1510] px-5 py-3 font-semibold">
+          <div className="flex items-center bg-muted/30 px-5 py-3 font-semibold">
             <div className="flex-[3] font-serif">Storage subtotal</div>
-            <div className="flex-1 text-right font-mono text-base text-[#d97757]">{fmt(storage.totalStorage)}</div>
+            <div className="flex-1 text-right font-mono text-base text-pink-500">{fmt(storage.totalStorage)}</div>
           </div>
         </div>
       </div>
@@ -315,11 +350,11 @@ function Simulator() {
                     <div className="font-serif text-lg">{selectedOpt?.label}</div>
                     <div className="mt-1 text-[11px] opacity-50">{selectedOpt?.note}</div>
                   </div>
-                  <div className="font-mono font-semibold text-[#d97757]">{fmt(cost)}</div>
+                  <div className="font-mono font-semibold text-pink-500">{fmt(cost)}</div>
                 </div>
                 <div className="mt-3 flex flex-wrap gap-1">
                   {Object.entries(def.options).map(([optKey, opt]: [string, any]) => (
-                    <button key={optKey} onClick={() => setStackItem(component, optKey)} className={`cursor-pointer border px-2.5 py-1 text-[11px] transition ${selected === optKey ? "border-[#d97757] bg-[#d97757] font-semibold text-[#0f0b07]" : "border-[#2a2218] bg-transparent text-[#e8e3da]"}`}>
+                    <button key={optKey} onClick={() => setStackItem(component, optKey)} className={`cursor-pointer border px-2.5 py-1 text-[11px] transition ${selected === optKey ? "border-pink-500 bg-pink-500 font-semibold text-background" : "border-border bg-transparent text-foreground"}`}>
                       {opt.label.split(" ")[0]}
                     </button>
                   ))}
@@ -328,31 +363,31 @@ function Simulator() {
             );
           })}
         </div>
-        <div className="mt-4 flex items-center rounded border border-[#2a2218] bg-[#1a1510] px-5 py-4 font-semibold">
+        <div className="mt-4 flex items-center rounded border border-border bg-muted/30 px-5 py-4 font-semibold">
           <div className="flex-[3] font-serif">App stack subtotal</div>
-          <div className="flex-1 text-right font-mono text-lg text-[#d97757]">{fmt(infra.total)}</div>
+          <div className="flex-1 text-right font-mono text-lg text-pink-500">{fmt(infra.total)}</div>
         </div>
       </div>
 
       {/* Scale projection */}
       <div className="mt-12">
         <h2 className={cls.sectionTitle}><span className={cls.sectionNum}>06</span>Scale &amp; unit economics</h2>
-        <div className="overflow-x-auto rounded border border-[#2a2218] bg-[#15100a]">
+        <div className="overflow-x-auto rounded border border-border bg-card">
           <div className="min-w-[700px]">
             <div className={cls.tableHeader}>
               <div className="flex-1">Photographers</div>
               {["Storage", "App", "Total", "Per pg", "MRR", "Margin", "%"].map((h) => <div key={h} className={cls.tableNum}>{h}</div>)}
             </div>
             {scaleRows.map((r) => (
-              <div key={r.photographers} className={`${cls.tableRow} ${r.photographers === photographers ? "border-l-2 border-l-[#d97757] bg-[#d97757]/[0.06]" : ""}`}>
+              <div key={r.photographers} className={`${cls.tableRow} ${r.photographers === photographers ? "border-l-2 border-l-pink-500 bg-pink-500/[0.06]" : ""}`}>
                 <div className="flex-1 font-serif font-semibold">{r.photographers.toLocaleString()}</div>
                 <div className={cls.tableNum}>{fmt(r.storage)}</div>
                 <div className={cls.tableNum}>{fmt(r.infra)}</div>
                 <div className={`${cls.tableNum} font-semibold`}>{fmt(r.total)}</div>
                 <div className={cls.tableNum}>{fmt(r.perPg)}</div>
                 <div className={`${cls.tableNum} opacity-60`}>{fmt(r.revenue)}</div>
-                <div className={cls.tableNum} style={{ color: r.margin >= 0 ? "#6b9e5e" : "#d9574d" }}>{r.margin >= 0 ? fmt(r.margin) : "-" + fmt(-r.margin)}</div>
-                <div className={cls.tableNum} style={{ color: r.marginPct >= 60 ? "#6b9e5e" : r.marginPct >= 0 ? "#d97757" : "#d9574d", fontWeight: 700 }}>{r.revenue > 0 ? r.marginPct.toFixed(0) + "%" : "—"}</div>
+                <div className={cls.tableNum} style={{ color: r.margin >= 0 ? "#22c55e" : "#ef4444" }}>{r.margin >= 0 ? fmt(r.margin) : "-" + fmt(-r.margin)}</div>
+                <div className={cls.tableNum} style={{ color: r.marginPct >= 60 ? "#22c55e" : r.marginPct >= 0 ? "#ec4899" : "#ef4444", fontWeight: 700 }}>{r.revenue > 0 ? r.marginPct.toFixed(0) + "%" : "—"}</div>
               </div>
             ))}
           </div>
@@ -363,7 +398,7 @@ function Simulator() {
       </div>
 
       {/* Footer */}
-      <div className="mt-16 flex justify-between border-t border-[#2a2218] pt-6 font-mono text-[11px] uppercase tracking-[1px] opacity-40">
+      <div className="mt-16 flex justify-between border-t border-border pt-6 font-mono text-[11px] uppercase tracking-[1px] opacity-40">
         <span>Photo Platform Total Cost · Full-stack simulation</span>
         <span>Apr 2026 · v2.0</span>
       </div>
@@ -379,16 +414,16 @@ function HeroStat({ label, value, accent, big, color }: { label: string; value: 
   return (
     <div>
       <div className="mb-2 font-mono text-[11px] uppercase tracking-[1.5px] opacity-40">{label}</div>
-      <div className="font-serif leading-none" style={{ fontSize: big ? 42 : 24, fontWeight: big ? 300 : 400, color: color || (accent ? "#d97757" : "#f5f0e8"), fontStyle: accent ? "italic" : "normal" }}>{value}</div>
+      <div className={`leading-none ${accent ? "italic text-pink-500" : "text-foreground"}`} style={{ fontSize: big ? 42 : 24, fontWeight: big ? 300 : 400, ...(color ? { color } : {}), fontStyle: accent ? "italic" : "normal" }}>{value}</div>
     </div>
   );
 }
 
-function SRow({ label, detail, amount }: { label: string; detail: string; amount: number }) {
+function SRow({ label, detail, amount, fmt: f }: { label: string; detail: string; amount: number; fmt: (n: number) => string }) {
   return (
-    <div className="flex items-center border-b border-[#1f1811] px-5 py-3 transition hover:bg-[#1a1510]">
+    <div className="flex items-center border-b border-border/50 px-5 py-3 transition hover:bg-muted/30">
       <div className="flex-[3]"><div className="font-medium">{label}</div><div className="mt-0.5 text-[11px] opacity-50">{detail}</div></div>
-      <div className="flex-1 text-right font-mono text-[13px]">{fmt(amount)}</div>
+      <div className="flex-1 text-right font-mono text-[13px]">{f(amount)}</div>
     </div>
   );
 }
@@ -397,7 +432,7 @@ function Tuner({ label, value, unit, onChange, min, max, step }: { label: string
   return (
     <div className="mt-3.5">
       <div className="flex justify-between text-[12px]"><span className="opacity-60">{label}</span><span className="font-mono font-semibold">{value % 1 !== 0 ? value.toFixed(1) : value}{unit}</span></div>
-      <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))} className="mt-1 w-full accent-[#d97757]" />
+      <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))} className="mt-1 w-full accent-pink-500" />
     </div>
   );
 }
